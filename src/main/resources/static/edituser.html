@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改用户</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/layout.css" media="screen" />
+    <!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
+    <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
+    <!--Jquery UI CSS-->
+    <link href="css/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN: load jquery -->
+    <script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery-ui/jquery.ui.core.min.js"></script>
+    <!-- END: load jquery -->
+    <!--jQuery Date Picker-->
+    <script src="js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui/jquery.ui.datepicker.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui/jquery.ui.progressbar.min.js" type="text/javascript"></script>
+    <!--Fancy Button-->
+    <script src="js/setup.js" type="text/javascript"></script>
+    <!-- Load TinyMCE -->
+    <script src="js/tiny-mce/jquery.tinymce.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setupTinyMCE();
+            setupProgressbar('progress-bar');
+            setDatePicker('date-picker');
+            setupDialogBox('dialog', 'opener');
+            $('input[type="checkbox"]').fancybutton();
+            $('input[type="radio"]').fancybutton();
+        });
+    </script>
+
+</head>
+<body>
+<div class="info">
+    <div class="info1">
+        <form>
+            <table class="form">
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize">
+                            账号</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            用户名</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1">
+                        <label class="labelsize">
+                            性别</label>
+                    </td>
+                    <td class="col2 tdcss2" style="padding-left: 30px;">
+                        <input type="radio" name="rd1" style="font-size: 14px;"/>
+                        男
+                        <input type="radio" name="rd1" style="font-size: 14px;" />
+                        女
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1">
+                        <label class="labelsize">
+                            部门</label>
+                    </td>
+                    <td class="col2 tdcss2" style="padding-left: 30px;">
+                        <select id="select" name="select">
+                            <option value="1">广东广州</option>
+                            <option value="2">Value 2</option>
+                            <option value="3">Value 3</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1">
+                        <label class="labelsize">
+                            角色</label>
+                    </td>
+                    <td class="col2 tdcss2" style="padding-left: 30px;">
+                        <select id="select" name="select">
+                            <option value="1">管理员</option>
+                            <option value="2">总经理</option>
+                            <option value="3">总工办</option>
+                            <option value="1">部门经理</option>
+                            <option value="2">环评经理</option>
+                            <option value="3">合同管理员</option>
+                            <option value="1">市场人员</option>
+                            <option value="2">档案管理员</option>
+                            <option value="3">资质管理员</option>
+                            <option value="3">财务人员</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            密码</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="password" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            确认密码</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="password" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1">
+                        <label class="labelsize">
+                            入职时间</label>
+                    </td>
+                    <td class="col2 tdcss2" style="padding-left: 30px;">
+                        <input type="text" id="date-picker" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            联系方式</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            微信</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            公司邮箱</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            办公地点</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" class="large"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            上传照片</label>
+                    </td>
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="file" class="large" />
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+        <div class="btnnew" >
+            <input type="submit" class="btn btn-primary" value="修改" onclick="testnewpassword()" >
+            </input>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <img class="personalimg" src="未标题-3.png">
+    </div>
+</div>
+</body>
+</html>

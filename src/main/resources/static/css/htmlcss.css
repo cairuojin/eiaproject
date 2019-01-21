@@ -1,0 +1,76 @@
+.form-control{
+    margin-left: 20%;
+    width:80%;
+}
+.spancss{
+    display: block;
+    float: left;
+    width:20%;
+    text-align: right;
+    height:45px;
+    line-height: 45px;
+    font-family:"微软雅黑";
+    font-size: 22px;
+    font-weight: bolder;
+}
+.help-block{
+    margin-left: 20%;
+}
+/*.contact-box{
+    margin-top: 10%;
+}*/
+/*验证滑块样式*/
+.tooltip-drag {
+    /*margin: 100px auto;*/
+    width: 90%;
+    height: 40px;
+    position: relative;
+    margin-bottom: 40px;
+    left:60px;
+    border-radius: 20px;
+    background-color: #dae2d0;
+    overflow: hidden;
+    text-align: center;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.tooltip-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color:#31b0d5;
+    z-index: 1;
+}
+
+.tooltip-label {
+    width: 46px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 40px;
+    line-height: 38px;
+    border: 1px solid #cccccc;
+    background: #fff;
+    z-index: 3;
+    /*border-radius: 21px 0px 0px 21px;*/
+    cursor: move;
+    color:#337ab7;
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.tooltip-tips {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    font-family: 'Microsoft Yahei', serif;
+    color: #787878;
+    line-height: 38px;
+    text-align: center;
+    z-index: 2;
+}
