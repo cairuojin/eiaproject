@@ -1,0 +1,81 @@
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+*{
+  padding: 0;
+    margin: 0;
+}
+body,html{
+    height: 100%;
+}
+.topmenu{
+    width:100%;
+    border: solid 6px rgba(144,144,144,.3);
+    border-bottom: none;
+    font-size: 14px;
+    color: white;
+    border-radius:4px;
+    background-color:grey ;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.9;
+    height:40px;
+    line-height: 32px;
+}
+.topmenu:hover,.firmmenu2 a:hover{
+    opacity: 1;
+}
+
+.firmmenu{
+    width:25%;
+    position: fixed;
+    height: 98%;
+    border: solid 5px rgba(144,144,144,.3);
+    border-radius:4px;
+    font-size: 12px;
+    color: black;
+    float:left;
+}
+.firmmenu1{
+    width: 99.8%;
+    height:93%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+.firminfo{
+    width:74%;
+    margin-left: 26%;
+}
+
+.firmmenu2 a{
+    background-image: url(../img/bg-lite.png);
+    background-color:grey;
+    opacity: 0.9;
+    border-color:gray;
+    color: #FFF;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    width: 140px;
+    margin-top: 5px;
+    height:40px;
+    line-height: 40px;
+    border-radius: 10px 10px 2px 2px;
+    text-align: center;
+
+}
+.firmmenu2{
+    border-bottom: grey 2px solid;
+    margin-bottom: 5px;
+}
+.firminfo_2{
+    height: 520px;
+    overflow-y:hidden
+}
+.firminfo_3{
+    height: 550px;
+    overflow-y:hidden
+}
