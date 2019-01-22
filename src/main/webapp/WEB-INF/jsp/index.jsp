@@ -1,6 +1,6 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html>
 <head>
     <title>环评管理系统</title>
     <link rel="stylesheet" href="css/drag.css">
@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/line-icons.min.css">
     <link rel="stylesheet" href="css/htmlcss.css">
+
+    <link rel="stylesheet" href="css/index.css">
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -450,25 +452,21 @@
             </div>
             <div class="col-md-8  wow fadeInRight">
                 <div class="contact-box">
-                    <form id="contactForm" data-toggle="validator" method="get" action="form-process.php">
+                    <form id="contactForm">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <span class="spancss">用&nbsp;户&nbsp;名&nbsp;&nbsp;</span>
-                                <input type="text" name="name" class="form-control" placeholder="请输入用户名" required
-                                       data-error="您未输入用户名">
-                                <div class="help-block with-errors"></div>
+                                <input type="text" name="username" id="username" class="form-control" placeholder="请输入用户名">
                             </div>
                         </div>
-
+                        <div class="clearfix" style="height: 110px"></div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <span class="spancss">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;&nbsp;</span>
-                                <input type="password" name="subject" id="subject" class="form-control"
-                                       placeholder="请输入密码" required data-error="您未输入密码">
-                                <div class="help-block with-errors"></div>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="请输入密码">
                             </div>
                         </div>
-
+                        <div class="clearfix" style="height: 110px"></div>
                         <div id="register-slider" class="tooltip-drag">
                             <div id="slider-bg" class="tooltip-bg"></div>
                             <span id="slider-label" class="tooltip-label">>></span>
@@ -476,10 +474,9 @@
                         </div>
 
 
-                <div class="col-md-12  text-right wow fadeInUp text-center">
-                    <button class="btn btn-black " id="submit" type="submit" value="Submit">登录</button>
-
-                </div>
+                        <div class="col-md-12  text-right wow fadeInUp text-center">
+                            <button class="btn btn-black " onclick="loginUser()" type="button">登录</button>
+                        </div>
                 </form>
             </div>
         </div>
@@ -497,13 +494,11 @@
 
     </div>
 </section>
-<!--  Footer end  -->
 
 
 <script src="assets/js/bootstrap.min.js"></script>
 <!-- form validation -->
 <script type="text/javascript" src="js/validator.min.js"></script>
-<script type="text/javascript" src="js/form-scripts.js"></script>
 <!-- Plugin JavaScript -->
 <script src="js/jquery.easing.min.js"></script>
 <!-- isotope -->
@@ -513,7 +508,34 @@
 <!-- Wow Animation -->
 <script type="text/javascript" src="js/wow.min.js"></script>
 <script src="js/theme.js"></script>
-
+<script>
+    $(function () {
+        validateSucceed = false;    //判断登录是否得到验证
+    })
+</script>
+<script>
+    function loginUser() {
+        if(validateSucceed == false){
+            $("#labelTip").css("color","rgb(173, 40, 40)").html("您还没有验证");
+        } else {
+            $.ajax({
+                "async": false,  //同步
+                "url": "/api/open/person/login",	//传输路径
+                "data": {"username": $('#username').val(),"password": $('#password').val()},             //传入后台的值 json对象
+                "type": "POST",
+                "success": function (data) {
+                    if (data) {     //登录成功，重定向
+                        window.location.href = "/api/admin/"
+                    } else {
+                        initregisterSlider()
+                        showTips("username", false, msgs.PASSWORD_NOT_RIGHT);
+                        showTips("password", false, msgs.PASSWORD_NOT_RIGHT);
+                    }
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>
                                                                                                                                                                                                                                                                                                                                                                                                                               

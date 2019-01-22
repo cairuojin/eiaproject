@@ -19,11 +19,11 @@ spring:
     profiles:
        active: dev
 
-#    datasource:     # 数据库地址
-#        url: jdbc:mysql://localhost:3306/eiaproject?useSSL=false
-#        username: root
-#        password: pass
-#        driver-class-name: com.mysql.jdbc.Driver
+    datasource:     # 数据库地址
+        url: jdbc:mysql://localhost:3306/eiaproject?useSSL=false
+        username: root
+        password: 44052100
+        driver-class-name: com.mysql.jdbc.Driver
 
 
     redis:
@@ -39,10 +39,10 @@ spring:
             prefix: /WEB-INF/jsp/
             suffix: .jsp
 
-    servlet:
-        multipart:
-            max-request-size: 100Mb
-            max-file-size: 10Mb
+#    servlet:
+#        multipart:
+#            max-request-size: 100Mb
+#            max-file-size: 10Mb
 
 #    rabbitmq:
 #        host: localhost
@@ -70,3 +70,6 @@ mybatis:
 
 ##是否为本地环境,0否 1是
 #Local: 0
+
+open: /api/open
+authentication: /api/admin

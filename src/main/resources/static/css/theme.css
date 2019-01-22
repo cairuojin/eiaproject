@@ -823,6 +823,7 @@ h6 {
 }
 
 #contactForm .form-group {
+	text-align: center;
 	margin-bottom: 30px;
 }
 

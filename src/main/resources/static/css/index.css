@@ -1,0 +1,13 @@
+/* 输入框CSS*/
+input.error {
+    border: 1px solid red !important;
+}
+form input.error{
+    color:#F00;
+    border: 1px solid #CE7979;
+    background:#FFF7FA;
+}
+form label.error{
+    color:#F00;
+}
+
