@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="department" jdbcType="INTEGER" property="department" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+    <result column="hiredate" jdbcType="TIMESTAMP" property="hiredate" />
+    <result column="contactway" jdbcType="VARCHAR" property="contactway" />
+    <result column="WeChat" jdbcType="VARCHAR" property="wechat" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="officelocation" jdbcType="VARCHAR" property="officelocation" />
+    <result column="imgUrl" jdbcType="VARCHAR" property="imgurl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, name, sex, department, role, hiredate, contactway, WeChat, 
+    email, officelocation, imgUrl
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.User">
+    insert into user (id, username, password, 
+      name, sex, department, 
+      role, hiredate, contactway, 
+      WeChat, email, officelocation, 
+      imgUrl)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{department,jdbcType=INTEGER}, 
+      #{role,jdbcType=INTEGER}, #{hiredate,jdbcType=TIMESTAMP}, #{contactway,jdbcType=VARCHAR}, 
+      #{wechat,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{officelocation,jdbcType=VARCHAR}, 
+      #{imgurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="hiredate != null">
+        hiredate,
+      </if>
+      <if test="contactway != null">
+        contactway,
+      </if>
+      <if test="wechat != null">
+        WeChat,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="officelocation != null">
+        officelocation,
+      </if>
+      <if test="imgurl != null">
+        imgUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=INTEGER},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="hiredate != null">
+        #{hiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactway != null">
+        #{contactway,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="officelocation != null">
+        #{officelocation,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null">
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=INTEGER},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="hiredate != null">
+        hiredate = #{hiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactway != null">
+        contactway = #{contactway,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        WeChat = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="officelocation != null">
+        officelocation = #{officelocation,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null">
+        imgUrl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      department = #{department,jdbcType=INTEGER},
+      role = #{role,jdbcType=INTEGER},
+      hiredate = #{hiredate,jdbcType=TIMESTAMP},
+      contactway = #{contactway,jdbcType=VARCHAR},
+      WeChat = #{wechat,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      officelocation = #{officelocation,jdbcType=VARCHAR},
+      imgUrl = #{imgurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="countByUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT count(id)
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+</mapper>
