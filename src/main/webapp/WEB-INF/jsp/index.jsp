@@ -519,7 +519,6 @@
             $("#labelTip").css("color","rgb(173, 40, 40)").html("您还没有验证");
         } else {
             $.ajax({
-                "async": false,  //同步
                 "url": "/api/open/person/login",	//传输路径
                 "data": {"username": $('#username').val(),"password": $('#password').val()},             //传入后台的值 json对象
                 "type": "POST",
