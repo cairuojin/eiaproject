@@ -191,3 +191,7 @@ white-space: nowrap;
 }
 
 li.dd span:after{content: '';}
+
+.main-active{
+	color: white;
+}

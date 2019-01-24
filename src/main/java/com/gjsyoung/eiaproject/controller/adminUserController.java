@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class adminUserController {
 
 
-    @RequestMapping("/usernameExist")
-    public Boolean usernameExist(){
-        return true;//存在返回true  不存在false
-    }
+
 
 }
