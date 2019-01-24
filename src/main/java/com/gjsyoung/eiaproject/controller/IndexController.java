@@ -57,4 +57,11 @@ public class IndexController {
             return false;
         }
     }
+
+    @RequestMapping("/${open}/person/logout")
+    @ResponseBody
+    public String logout(HttpSession session){
+        session.removeAttribute("user");
+        return "OK";
+    }
 }

@@ -6,6 +6,8 @@ import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.CategoryMapper;
 import com.gjsyoung.eiaproject.service.CategoryService;
 import com.gjsyoung.eiaproject.service.RoleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     public static final String parent = "_PARENT_";
 
+    private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
+
     @Autowired
     CategoryMapper categoryMapper;
 
@@ -35,6 +39,9 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public void loadCategory() {
+        long l1 = System.currentTimeMillis();
+        logger.info("开始加载导航");
+
         List<Category> categoryList = categoryMapper.selectAllByStatus(0);  //查询启用的全部导航
 
         Map<String, Object> roleMap = new HashMap<>();
@@ -93,7 +100,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         //todo 递归删除无儿子的节点 现在前端删除
 
-
+        logger.info("加载导航完毕  ms : " + (System.currentTimeMillis() - l1));
 
         this.roleCategory = finalCategory;
 

@@ -16,8 +16,7 @@ function showRegisterModal() {
     })
 
     $('#register-data input[name = getCode]').trigger("click");
-    showTips("username", true, "");
-    showTips("password", true, "");
+
     validateSucceed = true;
 }
 
@@ -29,18 +28,22 @@ function initregisterSlider() {
 }
 
 
-// 校验注册数据
+// 校验数据
 function validateRegister(successCallback, errorCallback) {
     var username = $("#contactForm input[name=username]").val();
     var password = $("#contactForm input[name=password]").val();
     var validate = true;
-    if (username.length < 6 || username.length >= 12) {
+    if (username.length < 6 || username.length >= 30) {
         showTips("username", false, msgs.USERNAME_INVALID_FORMAT);
         validate = false;
+    } else {
+        showTips("username", true, "");
     }
     if (password.length < 6 || password.length >= 30) {
         showTips("password", false, msgs.PASSWORD_INVALID_FORMAT);
         validate = false;
+    } else {
+        showTips("password", true, "");
     }
 
     // 校验用户名是否存在
@@ -65,7 +68,7 @@ function validateRegister(successCallback, errorCallback) {
 
 const msgs = {
     "USERNAME_EXISTENT": "用户名不存在，请重新确认",
-    "USERNAME_INVALID_FORMAT": "用户名必须长度6-12位",
+    "USERNAME_INVALID_FORMAT": "用户名必须长度6-30位",
     "PASSWORD_INVALID_FORMAT": "密码必须长度6-30位",
     "PASSWORD_NOT_RIGHT": "用户名和密码不匹配，请您重新确认"
 }
