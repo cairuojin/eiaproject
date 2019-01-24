@@ -7,6 +7,8 @@ import com.gjsyoung.eiaproject.service.CategoryService;
 import com.gjsyoung.eiaproject.service.Impl.CategoryServiceImpl;
 import com.gjsyoung.eiaproject.service.Impl.RoleServiceImpl;
 import com.gjsyoung.eiaproject.service.RoleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +26,8 @@ import java.util.*;
  */
 @Component
 public class ServerStartConfig implements CommandLineRunner {
+
+    private static final Logger logger = LoggerFactory.getLogger(ServerStartConfig.class);
 
     @Autowired
     CategoryService categoryService;

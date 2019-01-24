@@ -113,12 +113,13 @@
         $('#category > li').children().stop().slideUp(300);
     }
 </script>
+<!-- 页面加载函数 -->
 <script type="text/javascript">
     $(function(){
         changePage(1)
         $('#category > li').children().stop().slideUp(300);
 
-        setTimeout(function(){
+        setTimeout(function(){  //扩充页面到100%
             var height = $(document).height();
             $('.grid_12').each(function () {
                 height -= $(this).outerHeight();
@@ -132,6 +133,18 @@
 
     function iframePage(name) {
         alert(name);
+    }
+</script>
+<script type="text/javascript">
+    function logout() {
+        $.ajax({
+            "async": false,  //同步
+            "url": "/api/open/person/logout",	//传输路径
+            "success": function (data) {
+                if(data == "OK")
+                    window.location.href = "/"
+            }
+        });
     }
 </script>
 </body>

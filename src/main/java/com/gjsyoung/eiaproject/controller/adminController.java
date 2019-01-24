@@ -40,20 +40,10 @@ public class adminController {
         Object userObj = session.getAttribute("user");
         User user = null;
         if (userObj == null) {
-            //throw new Exception("用户未登录");
+            throw new Exception("用户未登录");
         } else {
             user = (User)userObj;
         }
-
-        //todo 用户填充
-        user = new User();
-        user.setRole(3);
-        if (headerPage.equals("2")){
-            user.setRole(2);
-        } else if(headerPage.equals("3")){
-            user.setRole(4);
-        }
-        headerPage = "1";
 
         List<Category> categoryByUser = categoryService.getCategoryByUser(headerPage , user);
         String jsonCategory = JSON.toJSONString(categoryByUser);
