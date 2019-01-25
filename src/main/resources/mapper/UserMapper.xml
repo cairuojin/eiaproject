@@ -11,14 +11,16 @@
     <result column="role" jdbcType="INTEGER" property="role" />
     <result column="hiredate" jdbcType="TIMESTAMP" property="hiredate" />
     <result column="contactway" jdbcType="VARCHAR" property="contactway" />
-    <result column="WeChat" jdbcType="VARCHAR" property="wechat" />
+    <result column="weChat" jdbcType="VARCHAR" property="wechat" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="officelocation" jdbcType="VARCHAR" property="officelocation" />
     <result column="imgUrl" jdbcType="VARCHAR" property="imgurl" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, password, name, sex, department, role, hiredate, contactway, WeChat, 
-    email, officelocation, imgUrl
+    id, username, password, name, sex, department, role, hiredate, contactway, weChat, 
+    email, officelocation, imgUrl, createTime, updateTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -34,13 +36,15 @@
     insert into user (id, username, password, 
       name, sex, department, 
       role, hiredate, contactway, 
-      WeChat, email, officelocation, 
-      imgUrl)
+      weChat, email, officelocation, 
+      imgUrl, createTime, updateTime
+      )
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{department,jdbcType=INTEGER}, 
       #{role,jdbcType=INTEGER}, #{hiredate,jdbcType=TIMESTAMP}, #{contactway,jdbcType=VARCHAR}, 
       #{wechat,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{officelocation,jdbcType=VARCHAR}, 
-      #{imgurl,jdbcType=VARCHAR})
+      #{imgurl,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.User">
     insert into user
@@ -73,7 +77,7 @@
         contactway,
       </if>
       <if test="wechat != null">
-        WeChat,
+        weChat,
       </if>
       <if test="email != null">
         email,
@@ -83,6 +87,12 @@
       </if>
       <if test="imgurl != null">
         imgUrl,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -125,6 +135,12 @@
       <if test="imgurl != null">
         #{imgurl,jdbcType=VARCHAR},
       </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.User">
@@ -155,7 +171,7 @@
         contactway = #{contactway,jdbcType=VARCHAR},
       </if>
       <if test="wechat != null">
-        WeChat = #{wechat,jdbcType=VARCHAR},
+        weChat = #{wechat,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
@@ -165,6 +181,12 @@
       </if>
       <if test="imgurl != null">
         imgUrl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -179,10 +201,12 @@
       role = #{role,jdbcType=INTEGER},
       hiredate = #{hiredate,jdbcType=TIMESTAMP},
       contactway = #{contactway,jdbcType=VARCHAR},
-      WeChat = #{wechat,jdbcType=VARCHAR},
+      weChat = #{wechat,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       officelocation = #{officelocation,jdbcType=VARCHAR},
-      imgUrl = #{imgurl,jdbcType=VARCHAR}
+      imgUrl = #{imgurl,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

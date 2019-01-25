@@ -57,7 +57,9 @@
             <h2>Buttons</h2><!--绑定标题-->
             <div class="block" style="height:600px;">
 
-                <iframe id="menuIframe" class="menu-iframe" frameborder="0" src="/user.html" width="100%" height="99%"  ></iframe>
+
+                <%--src="/user.html"--%>
+                <iframe src ="/api/admin/iframe/personalInfo" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>
 
 
 
@@ -130,15 +132,26 @@
             $('.sidemenu').css('height', height);
         },100);
     })
-
-    function iframePage(name) {
-        alert(name);
-    }
 </script>
+
+<%--<!-- 点击按钮iframe -->--%>
+<%--<script type="text/javascript">--%>
+    <%--function iframePage(name) {--%>
+        <%--name = "/personalInfo";--%>
+        <%--$.ajax({--%>
+            <%--"async": false,  //同步--%>
+            <%--"url": "/api/admin/user" + name,	//传输路径--%>
+            <%--"success": function (data) {--%>
+                <%--$('#menuIframe').attr('src',data);--%>
+            <%--}--%>
+        <%--});--%>
+    <%--}--%>
+<%--</script>--%>
+
+<!-- 登出 -->
 <script type="text/javascript">
     function logout() {
         $.ajax({
-            "async": false,  //同步
             "url": "/api/open/person/logout",	//传输路径
             "success": function (data) {
                 if(data == "OK")

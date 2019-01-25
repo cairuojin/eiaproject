@@ -22,7 +22,7 @@ spring:
     datasource:     # 数据库地址
         url: jdbc:mysql://localhost:3306/eiaproject?useSSL=false
         username: root
-        password: 44052100
+        password: ch595200
         driver-class-name: com.mysql.jdbc.Driver
 
 
@@ -58,7 +58,7 @@ mybatis:
       map-underscore-to-camel-case: true  #开启驼峰命名映射，当resultType填写为实体类，而不是BaseResultMap的时候，不会导致有下划线的字段无法映射到对应的属性
 
 #文件上传地址
-UploadPath: 'C:\sofeware\eiaproject\WEB-INF\classes\static\'
+UploadPath: 'E:\YYYY\eiaproject\out\production\resources\static\'
 
 ##上传的最大大小
 server.max-http-header-size: 10000000

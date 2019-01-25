@@ -436,7 +436,7 @@ function setDatePicker(containerElement) {
     var datePicker = $('#' + containerElement);
     datePicker.datepicker({
         showOn: "button",
-        buttonImage: "img/calendar.gif",
+        buttonImage: "/img/calendar.gif",
         buttonImageOnly: true
     });
 }
