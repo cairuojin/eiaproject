@@ -29,6 +29,10 @@ public class User {
 
     private String imgurl;
 
+    private Date createtime;
+
+    private Date updatetime;
+
     public Integer getId() {
         return id;
     }
@@ -131,5 +135,21 @@ public class User {
 
     public void setImgurl(String imgurl) {
         this.imgurl = imgurl == null ? null : imgurl.trim();
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Date getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 }

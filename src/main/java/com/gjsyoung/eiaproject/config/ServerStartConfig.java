@@ -29,6 +29,9 @@ public class ServerStartConfig implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerStartConfig.class);
 
+    private static Map roleMap = new HashMap(); //身份导航内容<id, role>
+    private static List roleList = null;
+
     @Autowired
     CategoryService categoryService;
 
@@ -42,7 +45,22 @@ public class ServerStartConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
         categoryService.loadCategory(); //加载导航
         roleService.loadRole();         //加载角色表
+    }
 
 
+    public static Map getRoleMap() {
+        return roleMap;
+    }
+
+    public static void setRoleMap(Map roleMap) {
+        ServerStartConfig.roleMap = roleMap;
+    }
+
+    public static List getRoleList() {
+        return roleList;
+    }
+
+    public static void setRoleList(List roleList) {
+        ServerStartConfig.roleList = roleList;
     }
 }

@@ -2,7 +2,6 @@ package com.gjsyoung.eiaproject.mapper;
 
 import com.gjsyoung.eiaproject.domain.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository

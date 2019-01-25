@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.service.Impl;
 
+import com.gjsyoung.eiaproject.config.ServerStartConfig;
+import com.gjsyoung.eiaproject.domain.Category;
 import com.gjsyoung.eiaproject.domain.Role;
 import com.gjsyoung.eiaproject.mapper.RoleMapper;
 import com.gjsyoung.eiaproject.service.RoleService;
@@ -8,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,6 @@ import java.util.Map;
  */
 @Service
 public class RoleServiceImpl implements RoleService {
-
-    private Map roleMap = new HashMap(); //身份导航内容
 
     private static final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
@@ -33,11 +32,12 @@ public class RoleServiceImpl implements RoleService {
         long l1 = System.currentTimeMillis();
         logger.info("开始加载角色");
         List<Role> roleList = roleMapper.selectAll();
+        ServerStartConfig.setRoleList(roleList);
+        Map roleMap = ServerStartConfig.getRoleMap();
         roleList.forEach(role ->{
-            this.roleMap.put(role.getId(),role);
+            roleMap.put(role.getId(),role);
         });
         logger.info("加载角色完毕  ms : " + (System.currentTimeMillis() - l1));
-
     }
 
     /**
@@ -47,10 +47,19 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public Role selectByRoleID(Integer id) {
-        Role role = (Role) this.roleMap.get(id);
+        Map roleMap = ServerStartConfig.getRoleMap();
+        Role role = (Role) roleMap.get(id);
         return role;
     }
 
+    /**
+     * 获得RoleList
+     * @return
+     */
+    @Override
+    public List<Category> getList() {
+        return ServerStartConfig.getRoleList();
+    }
 
 
 
