@@ -208,7 +208,6 @@
             "success":function(data){
                 if(data == "OK"){
                     alert("更新成功");
-                    parent.location.reload();
                 }
             },
             "error":function (data) {

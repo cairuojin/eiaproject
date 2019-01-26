@@ -36,5 +36,10 @@ public class adminIframeController {
         mav.addObject("roleList",list );
         return mav;
     }
+    @RequestMapping("/changepassword")
+    public ModelAndView changepassword(HttpSession session){
+        ModelAndView mav = new ModelAndView(USER + "changepassword");
+        return mav;
+    }
 
 }

@@ -54,12 +54,12 @@
 
     <div class="grid_10">
         <div class="box round first" >
-            <h2>Buttons</h2><!--绑定标题-->
+            <h2 id="iframeTitle">Buttons</h2><!--绑定标题-->
             <div class="block" style="height:600px;">
 
 
-                <%--src="/user.html"--%>
-                <iframe src ="/api/admin/iframe/personalInfo" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>
+                <%--src ="/api/admin/iframe/personalInfo"--%>
+                <iframe src ="/api/admin/iframe/changepassword" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
 
 
 
@@ -76,7 +76,7 @@
 </div>
 
 
-
+<!-- 切换横向导航时获取竖向导航 -->
 <script>
     function changePage(headerPage) {
 
@@ -88,18 +88,18 @@
             "success": function (data) {
                 var array = JSON.parse(data);
                 $.each(array,function(index, item) {
-                    if(array[index].isParent != 0){
-                        if(array[index].isParent == 1){
+                    if(array[index].isParent != 0){ //isParent == 0为横向导航
+                        if(array[index].isParent == 1){ //父级
 
                             $('#category').append("<li class='li01'>" + array[index].name + "<ul class='submenu' id=category_P" + array[index].id  +"> </ul> </li>");
-                        } else {
-                            $('#category_P' + array[index].parentId).append("<li class='li-01' onclick=iframePage('" + array[index].name + "')>" + array[index].name + "</li>");
+                        } else {    //子级
+                            $('#category_P' + array[index].parentId).append("<li class='li-01' onclick=iframePage('" + array[index].engname + "','" + array[index].name + "')>" + array[index].name + "</li>");
                         }
                     }
                 });
             }
         });
-        //清楚无儿子的ul
+        //清楚无儿子的ul      todo 默认跳转到第一个
         $("#category  li ul").each(function (index, item) {
             if ($(item).find('li').length == 0) {
                 $(item).parent().remove();
@@ -115,10 +115,11 @@
         $('#category > li').children().stop().slideUp(300);
     }
 </script>
+
 <!-- 页面加载函数 -->
 <script type="text/javascript">
     $(function(){
-        changePage(1)
+        changePage(1);  //默认获得第一个页面的下拉条
         $('#category > li').children().stop().slideUp(300);
 
         setTimeout(function(){  //扩充页面到100%
@@ -134,19 +135,18 @@
     })
 </script>
 
-<%--<!-- 点击按钮iframe -->--%>
-<%--<script type="text/javascript">--%>
-    <%--function iframePage(name) {--%>
-        <%--name = "/personalInfo";--%>
-        <%--$.ajax({--%>
-            <%--"async": false,  //同步--%>
-            <%--"url": "/api/admin/user" + name,	//传输路径--%>
-            <%--"success": function (data) {--%>
-                <%--$('#menuIframe').attr('src',data);--%>
-            <%--}--%>
-        <%--});--%>
-    <%--}--%>
-<%--</script>--%>
+<!-- 点击按钮iframe -->
+<script type="text/javascript">
+    function iframePage(engname, name) {
+        $.ajax({
+            "async": false,  //同步
+            "success": function (data) {
+                $('#menuIframe').attr('src','/api/admin/iframe/'+engname);
+                $('#iframeTitle').text(name);
+            }
+        });
+    }
+</script>
 
 <!-- 登出 -->
 <script type="text/javascript">
