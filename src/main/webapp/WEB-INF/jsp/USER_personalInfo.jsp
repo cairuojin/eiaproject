@@ -216,9 +216,4 @@
         })
     }
 </script>
-<script>
-    function updateImage(image){
-
-    }
-</script>
 </html>

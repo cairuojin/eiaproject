@@ -59,7 +59,7 @@
 
 
                 <%--src ="/api/admin/iframe/personalInfo"--%>
-                <iframe src ="/api/admin/iframe/changepassword" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
+                <iframe src ="/api/admin/iframe/department" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
 
 
 
@@ -80,9 +80,9 @@
 <script>
     function changePage(headerPage) {
 
-        $("#category").empty(); //清楚旧的
+        $("#category").empty(); //清除旧的导航
 
-        $.ajax({
+        $.ajax({                //获得导航
             "async": false,  //同步
             "url": "/api/admin/getCategory?headerPage=" + headerPage,	//传输路径
             "success": function (data) {
@@ -99,10 +99,15 @@
                 });
             }
         });
-        //清楚无儿子的ul      todo 默认跳转到第一个
+
+        //清除无儿子的ul
+        var firstPage = false;
         $("#category  li ul").each(function (index, item) {
-            if ($(item).find('li').length == 0) {
+            if ($(item).find('li').length == 0) {   //没有儿子的删除
                 $(item).parent().remove();
+            } else if(firstPage == false){          //todo 默认展示第一个
+                //$(item).children(':first').click();
+                firstPage = true;
             }
         });
 
