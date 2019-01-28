@@ -59,7 +59,7 @@
 
 
                 <%--src ="/api/admin/iframe/personalInfo"--%>
-                <iframe src ="/api/admin/iframe/department" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
+                <iframe src ="/api/admin/iframe/userList" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
 
 
 
@@ -165,5 +165,17 @@
         });
     }
 </script>
+
+
+
+<!-- 临时父页面变量 -->
+<script type="text/javascript">
+    var userQueryName = null;
+    var userQueryDepartment = null;
+    var userQueryRole = null;
+</script>
+
+
+
 </body>
 </html>

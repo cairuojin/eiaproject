@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.domain;
 
+import org.springframework.data.annotation.Transient;
+
 import java.util.Date;
 
 public class User {
@@ -32,6 +34,12 @@ public class User {
     private Date createtime;
 
     private Date updatetime;
+
+    @Transient
+    String departmentName;
+
+    @Transient
+    String roleName;
 
     public Integer getId() {
         return id;
@@ -151,5 +159,21 @@ public class User {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

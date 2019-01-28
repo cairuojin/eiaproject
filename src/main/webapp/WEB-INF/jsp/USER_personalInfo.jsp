@@ -100,9 +100,14 @@
                     </td>
                     <td class="col2 tdcss2" style="padding-left: 30px;">
                         <select id="department">
-                            <option value="1">广东广州</option> <!-- todo 加载部门表 -->
-                            <option value="2">Value 2</option>
-                            <option value="3">Value 3</option>
+                            <c:forEach items="${departments}" var="department">
+                                <c:if test="${user.department == department.id}">
+                                    <option value="${department.id}" selected="selected">${department.parentName} - ${department.name}</option>
+                                </c:if>
+                                <c:if test="${user.department != department.id}">
+                                    <option value="${department.id}">${department.parentName} - ${department.name}</option>
+                                </c:if>
+                            </c:forEach>
                         </select>
                     </td>
                 </tr>

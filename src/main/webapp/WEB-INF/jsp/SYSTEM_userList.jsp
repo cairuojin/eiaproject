@@ -26,32 +26,27 @@
         </thead>
         <tbody>
         <tr class="gradeX odd1">
-            <td><label class="labelsize">
-                用户名</label> <input type="text" id="grumble"/>
-                &nbsp;&nbsp;&nbsp;
-                <label class="labelsize">
-                    部门</label> <input type="text" id="grumble"/>
-                &nbsp;&nbsp;&nbsp;
-                <label class="labelsize">
-                    角色</label> <select id="select" name="select">
-                    <option value="1">管理员</option>
-                    <option value="2">总经理</option>
-                    <option value="3">总工办</option>
-                    <option value="1">部门经理</option>
-                    <option value="2">环评经理</option>
-                    <option value="3">合同管理员</option>
-                    <option value="1">市场人员</option>
-                    <option value="2">档案管理员</option>
-                    <option value="3">资质管理员</option>
-                    <option value="3">财务人员</option>
+            <td>
+                <label class="labelsize">姓名</label>
+                <input type="text" id="name"/>&nbsp;&nbsp;&nbsp;
+
+                <label class="labelsize">部门</label>
+                <input type="text" id="department"/>&nbsp;&nbsp;&nbsp;
+
+                <label class="labelsize">角色</label>
+                <select id="role" name="role">
+                    <c:forEach items="${roleList}" var="role">
+                        <option value="${role.id}">${role.rolename}</option>
+                    </c:forEach>
                 </select>
                 &nbsp;&nbsp;&nbsp;
+
             </td>
 
         </tr>
         <tr class=" gradeX odd2">
             <td style="text-align: right;">
-                <input type="submit" class="btn btn-primary" value="查询">&nbsp;&nbsp;&nbsp;
+                <input type="submit" class="btn btn-primary" value="查询" onclick="queryUsers()">&nbsp;&nbsp;&nbsp;
                 <a href="adduser.html" class="btn btn-primary"
                    style="margin-top:2px; height: 30px; line-height: 30px; ">添加用户</a>
                 &nbsp;&nbsp;&nbsp;
@@ -70,27 +65,38 @@
             <th class="sorting" style="width: 5%;"></th>
             <th class="sorting" style="width: 5%;">序号</th>
             <th class="sorting" style="width: 15%;">用户名</th>
+            <th class="sorting" style="width: 10%;">姓名</th>
             <th class="sorting" style="width: 10%;">性别</th>
             <th class="sorting" style="width: 20%;">部门</th>
             <th class="sorting" style="width: 20%;">角色</th>
-            <th class="sorting" style="width: 25%;">操作</th>
+            <th class="sorting" style="width: 15%;">操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr class="odd gradeX">
-            <td><input type="checkbox" class="inputcss"></td>
-            <td>1</td>
-            <td>黄晓欣</td>
-            <td class="center"> 女</td>
-            <td class="center">广东广州</td>
-            <td class="center"> 管理员</td>
-            <td class="center">
-                <a href="">修改资料</a>&nbsp;&nbsp;
-                <a href="">删除</a>
-            </td>
-        </tr>
-
-
+            <c:forEach items="${userList}"  var="user">
+                <tr class="odd gradeX">
+                    <td><input type="checkbox" class="inputcss"></td>
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.name}</td>
+                    <c:if test="${user.sex == 0 || user.sex == null}">
+                    <td class="center"> 未知</td>
+                    </c:if>
+                    <c:if test="${user.sex == 1}">
+                    <td class="center"> 男</td>
+                    </c:if>
+                    <c:if test="${user.sex == 2}">
+                    <td class="center"> 女</td>
+                    </c:if>
+                    <td class="center">${user.departmentName}</td>
+                    <td class="center"> ${user.roleName}</td>
+                    <td class="center">
+                        <a href="">修改资料</a>&nbsp;&nbsp;
+                        <a href="">删除</a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
     </table>
     <div class="block"></div>
 
@@ -99,6 +105,23 @@
 <div class="clear">
 </div>
 </div>
-
+<script type="text/javascript">
+    $(function () {
+        $('#name').val(parent.userQueryName);
+        $('#department').val(parent.userQueryDepartment);
+        $('#role').val(parent.userQueryRole);
+    });
+</script>
+<script type="text/javascript">
+    function queryUsers() {
+        parent.userQueryName = ($('#name').val());
+        parent.userQueryDepartment = ($('#department').val());
+        parent.userQueryRole= $('#role').val();
+        if(parent.userQueryRole == null){
+            parent.userQueryRole = -1;
+        }
+        window.location.href = '/api/admin/iframe/userList?name=' + parent.userQueryName + '&departmentString=' + parent.userQueryDepartment + '&roleId=' + parent.userQueryRole;
+    }
+</script>
 </body>
 </html>

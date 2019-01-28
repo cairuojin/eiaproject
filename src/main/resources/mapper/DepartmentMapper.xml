@@ -232,6 +232,12 @@
     <foreach collection="orderBy" item="order" separator=",">
       ${order}
     </foreach>
+  </select>
 
+  <select id="selectSortOrderByParentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select
+    IFNULL(max(sort_order) , 0) + 1
+    from department
+    where parent_id = #{parentId,jdbcType=INTEGER}
   </select>
 </mapper>

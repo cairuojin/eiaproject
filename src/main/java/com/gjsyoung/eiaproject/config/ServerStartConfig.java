@@ -1,6 +1,7 @@
 package com.gjsyoung.eiaproject.config;
 
 import com.gjsyoung.eiaproject.domain.Category;
+import com.gjsyoung.eiaproject.domain.Role;
 import com.gjsyoung.eiaproject.mapper.CategoryMapper;
 import com.gjsyoung.eiaproject.mapper.RoleMapper;
 import com.gjsyoung.eiaproject.service.CategoryService;
@@ -30,7 +31,7 @@ public class ServerStartConfig implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(ServerStartConfig.class);
 
     private static Map roleMap = new HashMap(); //身份导航内容<id, role>
-    private static List roleList = null;
+    private static List<Role> roleList = null;
 
     @Autowired
     CategoryService categoryService;

@@ -215,10 +215,31 @@
     from user
     where username = #{username,jdbcType=VARCHAR}
   </select>
+
   <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
     from user
     where username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAllLikeAndOrderBy" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    WHERE
+    <if test="roleId != null">
+      role = #{roleId,jdbcType=INTEGER} AND
+    </if>
+    <if test="name != null">
+      name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')  AND
+    </if>
+    <if test="department != null">
+      department like CONCAT('%',#{department,jdbcType=VARCHAR},'%')  AND
+    </if>
+    1 = 1
+    <if test="orderString != null">
+      ORDER BY ${orderString}
+    </if>
   </select>
 </mapper>

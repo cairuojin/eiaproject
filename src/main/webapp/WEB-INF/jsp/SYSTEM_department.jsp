@@ -60,10 +60,12 @@
         });
     });
 
-    var selectDepartment = 1  //当前选择的页面
+    var selectDepartment = 1;  //当前选择的id
+    var selectDepartmentName = -1;
     <!-- 点击导航加载相应部门页面 -->
     $('#jstree').on("changed.jstree", function (e, data) {
         selectDepartment = data.selected;
+        selectDepartmentName = data.instance.get_node(data.selected[0]).text;
         $('#menuIframe').attr('src','/api/admin/iframe/department/info?id='+ selectDepartment);
     });
 

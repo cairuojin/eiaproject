@@ -57,7 +57,7 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public List<Category> getList() {
+    public List<Role> getList() {
         return ServerStartConfig.getRoleList();
     }
 

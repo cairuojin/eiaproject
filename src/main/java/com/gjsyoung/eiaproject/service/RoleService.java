@@ -14,5 +14,5 @@ public interface RoleService {
 
     public Role selectByRoleID(Integer id);
 
-    public List<Category> getList();
+    public List<Role> getList();
 }
