@@ -1,6 +1,5 @@
 package com.gjsyoung.eiaproject.domain;
 
-
 import java.util.Date;
 
 public class Category implements Comparable<Category>{
@@ -17,6 +16,8 @@ public class Category implements Comparable<Category>{
     private Integer isParent;
 
     private String role;
+
+    private String engname;
 
     private Date createtime;
 
@@ -76,6 +77,14 @@ public class Category implements Comparable<Category>{
 
     public void setRole(String role) {
         this.role = role == null ? null : role.trim();
+    }
+
+    public String getEngname() {
+        return engname;
+    }
+
+    public void setEngname(String engname) {
+        this.engname = engname == null ? null : engname.trim();
     }
 
     public Date getCreatetime() {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 
@@ -28,7 +29,15 @@ public class adminUserController {
     @Value("${UploadPath}")
     String UploadPath;
 
-
+    /**
+     * 更新个人信息
+     * @param file
+     * @param request
+     * @param user
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
     @RequestMapping("/updatePersonalInfo")
     @ResponseBody
     public String updatePersonalInfo(MultipartFile file, HttpServletRequest request,User user) throws BaseException, IOException {
@@ -65,4 +74,31 @@ public class adminUserController {
         request.getSession().setAttribute("user",user); //更新数据
         return "OK";
     }
+
+
+    /**
+     * 修改密码
+     * @param session
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/changePassword")
+    @ResponseBody
+    public String changePassword(HttpSession session , String oldPassword, String newPassword) throws BaseException {
+        Object obj = session.getAttribute("user");
+        if(obj == null)
+            throw BaseException.FAILED(500,"您还没有登录哦！" );
+        User user = (User) obj;
+        if(!user.getPassword().equals(oldPassword)){
+            return "您输入的密码有误！";
+        }
+        user.setPassword(newPassword);
+        userMapper.updateByPrimaryKeySelective(user);
+        session.removeAttribute("user");
+        return "OK" ;
+    }
+
+
 }
