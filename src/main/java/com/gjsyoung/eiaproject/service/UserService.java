@@ -1,6 +1,7 @@
 package com.gjsyoung.eiaproject.service;
 
 import com.gjsyoung.eiaproject.domain.User;
+import com.gjsyoung.eiaproject.vo.UserListVo;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    public List<User> selectAndQueryOtherName(String orderString, String name, String departmentString, Integer roleId);
+    public UserListVo selectAndQueryOtherName(UserListVo userListVo);
 
 
 

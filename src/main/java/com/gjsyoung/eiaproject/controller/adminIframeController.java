@@ -10,8 +10,10 @@ import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.utils.RedisCache;
+import com.gjsyoung.eiaproject.vo.UserListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,17 +56,11 @@ public class adminIframeController {
      * @return
      */
     @RequestMapping("/userList")
-    public ModelAndView userList(String orderString, String name, String departmentString, Integer roleId){
+    public ModelAndView userList(UserListVo userListVo,BindingResult result){
         ModelAndView mav = new ModelAndView(SYSTEM + "userList");
-        if (roleId == null || roleId == -1)
-            roleId = null;
-        if(name == null || name.trim().equals(""))
-            name = null;
-        if(departmentString == null || departmentString.trim().equals(""))
-            departmentString = null;
-        List<User> userList = userService.selectAndQueryOtherName(orderString,name,departmentString,roleId);    //用户列表
+        userListVo = userService.selectAndQueryOtherName(userListVo);//用户列表
         List<Role> roleList = roleService.getList();    //角色列表
-        mav.addObject("userList",userList);
+        mav.addObject("userListVo",userListVo);
         mav.addObject("roleList",roleList);
         return mav;
     }

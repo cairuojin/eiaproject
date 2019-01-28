@@ -31,10 +31,11 @@
                 <input type="text" id="name"/>&nbsp;&nbsp;&nbsp;
 
                 <label class="labelsize">部门</label>
-                <input type="text" id="department"/>&nbsp;&nbsp;&nbsp;
+                <input type="text" id="departmentString"/>&nbsp;&nbsp;&nbsp;
 
                 <label class="labelsize">角色</label>
-                <select id="role" name="role">
+                <select id="roleId" name="role">
+                    <option value="-1" selected="selected">任意角色</option>
                     <c:forEach items="${roleList}" var="role">
                         <option value="${role.id}">${role.rolename}</option>
                     </c:forEach>
@@ -73,7 +74,7 @@
         </tr>
         </thead>
         <tbody>
-            <c:forEach items="${userList}"  var="user">
+            <c:forEach items="${userListVo.users}"  var="user">
                 <tr class="odd gradeX">
                     <td><input type="checkbox" class="inputcss"></td>
                     <td>${user.id}</td>
@@ -98,7 +99,11 @@
             </c:forEach>
         </tbody>
     </table>
-    <div class="block"></div>
+    <div class="block">
+        <c:forEach begin="1" end="${userListVo.pageTotal}" var="index">
+            <a href="/"> ${index}</a>
+        </c:forEach>
+    </div>
 
 
 </div>
@@ -107,20 +112,32 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        $('#name').val(parent.userQueryName);
-        $('#department').val(parent.userQueryDepartment);
-        $('#role').val(parent.userQueryRole);
+        $('#name').val("${userListVo.name}");           //数据回显
+        $('#departmentString').val("${userListVo.departmentString}");
+        if('${userListVo.roleId}' != '')
+            $('#roleId').val("${userListVo.roleId}");
     });
 </script>
 <script type="text/javascript">
     function queryUsers() {
-        parent.userQueryName = ($('#name').val());
-        parent.userQueryDepartment = ($('#department').val());
-        parent.userQueryRole= $('#role').val();
-        if(parent.userQueryRole == null){
-            parent.userQueryRole = -1;
-        }
-        window.location.href = '/api/admin/iframe/userList?name=' + parent.userQueryName + '&departmentString=' + parent.userQueryDepartment + '&roleId=' + parent.userQueryRole;
+        var name = $('#name').val();
+        var departmentString = $('#departmentString').val();
+        var roleId = $('#roleId').val();
+        var orderString = "${userListVo.orderString}";
+
+        var pageNow = "${userListVo.pageNow}";
+        // alert(name);
+        // alert(departmentString);
+        // alert(roleId);
+        // alert(orderString);
+        // alert(pageNow);
+
+        window.location.href = '/api/admin/iframe/userList?' +
+            'name=' + name +
+            '&departmentString=' + departmentString +
+            '&roleId=' + roleId +
+            '&orderString=' + orderString +
+            '&pageNow=' + pageNow
     }
 </script>
 </body>

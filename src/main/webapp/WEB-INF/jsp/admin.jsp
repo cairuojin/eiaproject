@@ -168,14 +168,5 @@
 
 
 
-<!-- 临时父页面变量 -->
-<script type="text/javascript">
-    var userQueryName = null;
-    var userQueryDepartment = null;
-    var userQueryRole = null;
-</script>
-
-
-
 </body>
 </html>
