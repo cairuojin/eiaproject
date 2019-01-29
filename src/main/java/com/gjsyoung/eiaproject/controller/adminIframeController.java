@@ -56,7 +56,7 @@ public class adminIframeController {
      * @return
      */
     @RequestMapping("/userList")
-    public ModelAndView userList(UserListVo userListVo,BindingResult result){
+    public ModelAndView userList(UserListVo userListVo){
         ModelAndView mav = new ModelAndView(SYSTEM + "userList");
         userListVo = userService.selectAndQueryOtherName(userListVo);//用户列表
         List<Role> roleList = roleService.getList();    //角色列表

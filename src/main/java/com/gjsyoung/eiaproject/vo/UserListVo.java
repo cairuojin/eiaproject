@@ -21,7 +21,7 @@ public class UserListVo {
     private Integer pageSize = 10;   //单页显示多个
     private Integer pageNow = 1;    //当前第几页
     private Integer pageTotal = 0;  //总页码
-    private Integer sizeTotal = 0;  //总个数
+    private Long sizeTotal = 0L;  //总个数
 
     private List<User> users;   //结果
 
@@ -81,11 +81,11 @@ public class UserListVo {
         this.pageTotal = pageTotal;
     }
 
-    public Integer getSizeTotal() {
+    public Long getSizeTotal() {
         return sizeTotal;
     }
 
-    public void setSizeTotal(Integer sizeTotal) {
+    public void setSizeTotal(Long sizeTotal) {
         this.sizeTotal = sizeTotal;
     }
 

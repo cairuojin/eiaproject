@@ -235,7 +235,7 @@
       name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')  AND
     </if>
     <if test="department != null">
-      department like CONCAT('%',#{department,jdbcType=VARCHAR},'%')  AND
+      user.department in (select id from department where name like CONCAT('%',#{department,jdbcType=VARCHAR},'%') ) AND
     </if>
     1 = 1
     <if test="orderString != null">

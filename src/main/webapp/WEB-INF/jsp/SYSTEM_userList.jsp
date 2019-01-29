@@ -52,8 +52,8 @@
                    style="margin-top:2px; height: 30px; line-height: 30px; ">添加用户</a>
                 &nbsp;&nbsp;&nbsp;
                 <input type="submit" class="btn btn-primary" value="批量删除">&nbsp;&nbsp;&nbsp;
-                <input type="submit" class="btn btn-primary" value="按部门排序">&nbsp;&nbsp;&nbsp;
-                <input type="submit" class="btn btn-primary" value="按角色排序">&nbsp;&nbsp;&nbsp;
+                <input type="submit" class="btn btn-primary" value="按部门排序" onclick="orderby('department')">&nbsp;&nbsp;&nbsp;
+                <input type="submit" class="btn btn-primary" value="按角色排序" onclick="orderby('role')">&nbsp;&nbsp;&nbsp;
                 </input>
             </td>
         </tr>
@@ -99,9 +99,14 @@
             </c:forEach>
         </tbody>
     </table>
-    <div class="block">
+    <div class="block" style="text-align: center">
         <c:forEach begin="1" end="${userListVo.pageTotal}" var="index">
-            <a href="/"> ${index}</a>
+            <c:if test="${index == userListVo.pageNow}">
+                <a href="javascript:0" onclick="page(${index})" style="color: red"> ${index}</a>
+            </c:if>
+            <c:if test="${index != userListVo.pageNow}">
+                <a href="javascript:0" onclick="page(${index})"> ${index}</a>
+            </c:if>
         </c:forEach>
     </div>
 
@@ -110,7 +115,12 @@
 <div class="clear">
 </div>
 </div>
+<!-- 数据回显与赋值 -->
 <script type="text/javascript">
+    //数据回显赋值
+    var orderString = "${userListVo.orderString}";      //后端返回来的排序回顾
+    var pageNow = "${userListVo.pageNow}";              //后端返回来的当前页回顾
+
     $(function () {
         $('#name').val("${userListVo.name}");           //数据回显
         $('#departmentString').val("${userListVo.departmentString}");
@@ -118,27 +128,53 @@
             $('#roleId').val("${userListVo.roleId}");
     });
 </script>
+
+<!-- 点击查询按钮 -->
 <script type="text/javascript">
     function queryUsers() {
-        var name = $('#name').val();
-        var departmentString = $('#departmentString').val();
-        var roleId = $('#roleId').val();
-        var orderString = "${userListVo.orderString}";
-
-        var pageNow = "${userListVo.pageNow}";
-        // alert(name);
-        // alert(departmentString);
-        // alert(roleId);
-        // alert(orderString);
-        // alert(pageNow);
+        queryname = $('#name').val();
+        departmentString = $('#departmentString').val();
+        roleId = $('#roleId').val();    //获得当前页面值（刷新）
 
         window.location.href = '/api/admin/iframe/userList?' +
-            'name=' + name +
+            'name=' + queryname +
             '&departmentString=' + departmentString +
             '&roleId=' + roleId +
             '&orderString=' + orderString +
             '&pageNow=' + pageNow
     }
 </script>
+<!-- 点击排序按钮 -->
+<script type="text/javascript">
+    function orderby(string) {
+        queryname = $('#name').val();
+        departmentString = $('#departmentString').val();
+        roleId = $('#roleId').val();    //获得当前页面值（刷新）
+
+        if(orderString == string)       //第二次点击置空
+            string = null;
+
+        window.location.href = '/api/admin/iframe/userList?' +
+            'name=' + queryname +
+            '&departmentString=' + departmentString +
+            '&roleId=' + roleId +
+            '&orderString=' + string +          //修改排序字段
+            '&pageNow=' + pageNow
+    }
+</script>
+<script type="text/javascript">
+    function page(pageNow) {
+        queryname = $('#name').val();
+        departmentString = $('#departmentString').val();
+        roleId = $('#roleId').val();    //获得当前页面值（刷新）
+        window.location.href = '/api/admin/iframe/userList?' +
+            'name=' + queryname +
+            '&departmentString=' + departmentString +
+            '&roleId=' + roleId +
+            '&orderString=' + orderString +
+            '&pageNow=' + pageNow       //修改排序字段
+    }
+</script>
+
 </body>
 </html>

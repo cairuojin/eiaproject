@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
         userListVo.setUsers(users);
         userListVo.setPageTotal(pageInfo.getPages());
-        userListVo.setSizeTotal(pageInfo.getSize());
+        userListVo.setSizeTotal(pageInfo.getTotal());
         return userListVo;
     }
 }
