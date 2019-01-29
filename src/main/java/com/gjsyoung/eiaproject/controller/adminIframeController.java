@@ -2,11 +2,18 @@ package com.gjsyoung.eiaproject.controller;
 
 import com.gjsyoung.eiaproject.domain.Category;
 import com.gjsyoung.eiaproject.domain.Department;
+import com.gjsyoung.eiaproject.domain.Role;
+import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.DepartmentMapper;
+import com.gjsyoung.eiaproject.mapper.UserMapper;
+import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.RoleService;
+import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.utils.RedisCache;
+import com.gjsyoung.eiaproject.vo.UserListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,18 +41,27 @@ public class adminIframeController {
     DepartmentMapper departmentMapper;
 
     @Autowired
-    RedisCache redisCache;
+    DepartmentService departmentService;
+
+    @Autowired
+    UserMapper userMapper;
+
+    @Autowired
+    UserService userService;
 
     /* 3、系统管理 */
 
     /**
      * 用户信息
-     * @param session
      * @return
      */
     @RequestMapping("/userList")
-    public ModelAndView userList(HttpSession session){
+    public ModelAndView userList(UserListVo userListVo){
         ModelAndView mav = new ModelAndView(SYSTEM + "userList");
+        userListVo = userService.selectAndQueryOtherName(userListVo);//用户列表
+        List<Role> roleList = roleService.getList();    //角色列表
+        mav.addObject("userListVo",userListVo);
+        mav.addObject("roleList",roleList);
         return mav;
     }
 
@@ -57,17 +73,7 @@ public class adminIframeController {
     @RequestMapping("/department")
     public ModelAndView department(){
         ModelAndView mav = new ModelAndView(SYSTEM + "department");
-
-        List<Department> departments = null;
-
-        Object departmentsObj = redisCache.getObject("departments");
-        if(departmentsObj != null)
-            departments = (List<Department>) departmentsObj;
-        else {
-            String[] arr = {"is_parent", "parent_id", "sort_order"};
-            departments = departmentMapper.selectAllByStatusAndOrder(0, arr);  //排序字段
-            redisCache.putObject("departments", departments);
-        }
+        List<Department> departments = departmentService.getDepartments();  //获得部门列表
         mav.addObject("departments", departments);
         return mav;
     }
@@ -80,14 +86,7 @@ public class adminIframeController {
     @RequestMapping("/department/info")
     public ModelAndView departmentInfo(@RequestParam(defaultValue = "1") Integer id){
         ModelAndView mav = new ModelAndView(SYSTEM + "department_info");
-        Department department = null;
-        Object departmentObj = redisCache.getObject("department_" + id);
-        if(departmentObj != null)
-            department = (Department) departmentObj;
-        else{
-            department = departmentMapper.selectByPrimaryKey(id);
-            redisCache.putObject("department_" + id, department);
-        }
+        Department department = departmentService.getDepartmentById(id);
         mav.addObject("department", department);
         return mav;
     }
@@ -114,8 +113,11 @@ public class adminIframeController {
     @RequestMapping("/personalInfo")
     public ModelAndView personalInfo(HttpSession session){
         ModelAndView mav = new ModelAndView(USER + "personalInfo");
-        List<Category> list = roleService.getList();
+        List<Role> list = roleService.getList();
+        List<Department> departments = departmentService.getDepartments();
+        departmentService.queryParentName(departments);   //需要展示父name
         mav.addObject("roleList",list );
+        mav.addObject("departments",departments);
         return mav;
     }
     @RequestMapping("/changepassword")

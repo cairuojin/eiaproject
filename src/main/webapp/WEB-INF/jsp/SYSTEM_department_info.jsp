@@ -12,7 +12,7 @@
 <body>
 <div class="firminfo_2" id="abc">
     <div class="firmmenu2">
-        <a href="javascript:0" id="departmentInfo">本部门信息</a>
+        <a href="javascript:0" id="departmentInfo" style="color: #ff9278">本部门信息</a>
         <a id="departmentAdd" style="background-color:lightslategray;  ">新增下级部门</a>
     </div>
     <div class="firminfo_1">
@@ -55,7 +55,7 @@
                             </td>
 
                             <td class="col2 tdcss2" style="padding-left: 30px;" >
-                                <input type="text" id="sortOrder" name="sortOrder"  value="${department.sortOrder}"/>
+                                <input type="text" id="sortNum" name="sortNum"  value="${department.sortNum}"/>
                             </td>
                         </tr>
                         <tr>
@@ -131,11 +131,24 @@
             rules:{
                 name:{
                     required:true
+                },
+
+                sortNum:{
+                    digits:true
+                },
+                type:{
+                    required:true
                 }
             },
             messages:{
                 name:{
                     required:"部门名称不能为空"
+                },
+                sortNum:{
+                    digits:"顺序号必须为数字"
+                },
+                type:{
+                    required:"机构类型为必选"
                 }
             }
         });
@@ -154,8 +167,8 @@
                 var data = {
                     "id":Number(parent.selectDepartment),
                     "name":$('#name').val(),
-                    "type":$('#type').val(),
-                    "sortOrder":$('#sortOrder').val(),
+                    "type":$('input:radio[name="type"]:checked').val(),
+                    "sortNum":$('#sortNum').val(),
                     "phonenum":$('#phonenum').val(),
                     "fax":$('#fax').val(),
                     "email":$('#email').val(),

@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.domain;
 
+import org.springframework.data.annotation.Transient;
+
 import java.io.Serializable;
 
 public class Department implements Serializable{
@@ -30,6 +32,9 @@ public class Department implements Serializable{
     private String website;
 
     private String remarks;
+
+    @Transient
+    private String parentName;  //非数据库字段
 
     public Integer getId() {
         return id;
@@ -141,5 +146,13 @@ public class Department implements Serializable{
 
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 }
