@@ -3,6 +3,7 @@ package com.gjsyoung.eiaproject.controller;
 import com.alibaba.fastjson.JSON;
 import com.gjsyoung.eiaproject.domain.Category;
 import com.gjsyoung.eiaproject.domain.User;
+import com.gjsyoung.eiaproject.mapper.UserMapper;
 import com.gjsyoung.eiaproject.service.CategoryService;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class adminController {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    UserMapper userMapper;
 
     /**
      * 重定向到管理页面
@@ -47,9 +51,8 @@ public class adminController {
         Object userObj = session.getAttribute("user");
         User user = null;
         if (userObj == null) {
-            user = new User();
-            user.setUsername("临时");
-            user.setRole(0);    //todo 临时身份
+            user = userMapper.selectByUsername("cairuojin");
+            session.setAttribute("user",user);
             //throw BaseException.FAILED(400,"用户未登录");
         } else {
             user = (User)userObj;

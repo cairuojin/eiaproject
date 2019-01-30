@@ -55,7 +55,10 @@ public class UserServiceImpl implements UserService {
             Role role = roleService.selectByRoleID(user.getRole());
             user.setRoleName(role == null ? "未设定" : role.getRolename());
             Department department = departmentService.getDepartmentById(user.getDepartment());
-            user.setDepartmentName(department == null ? "未设定" : department.getName());
+            String parentDepartmentName = "";
+            if(department.getParentId() != -1)
+                parentDepartmentName = departmentService.getDepartmentById(department.getParentId()).getName() + " - ";
+            user.setDepartmentName(department == null ? "未设定" : parentDepartmentName + department.getName());
         }
 
         userListVo.setUsers(users);

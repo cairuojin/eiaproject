@@ -53,7 +53,7 @@ function validateRegister(successCallback, errorCallback) {
         "data": {"username": username},             //传入后台的值 json对象
         "type": "POST",
         "success": function (data) {
-            if (!data) {   //校验用户名是否存在,返回false为不存在，校验失败
+            if (data) {   //校验用户名是否存在,返回true为不存在，校验失败
                 showTips("username", false, msgs.USERNAME_EXISTENT);
                 validate = false;
             }

@@ -16,12 +16,12 @@ logging:
 
 
 spring:
-    profiles:
-       active: dev
+#    profiles:
+#       active: dev
 
     datasource:     # 数据库地址
-        url: jdbc:mysql://localhost:3306/eiaproject?useSSL=false
-        username: root
+        url: jdbc:mysql://111.230.196.33:3306/eiaproject?useSSL=false
+        username: cairuojin
         password: 44052100
         driver-class-name: com.mysql.jdbc.Driver
 
@@ -30,7 +30,7 @@ spring:
       database: 0 # Redis数据库索引（默认为0）
       host: localhost
       port: 6379
-      password:
+      password: 44052100
 
     mvc:
         static:
@@ -58,7 +58,7 @@ mybatis:
       map-underscore-to-camel-case: true  #开启驼峰命名映射，当resultType填写为实体类，而不是BaseResultMap的时候，不会导致有下划线的字段无法映射到对应的属性
 
 #文件上传地址
-UploadPath: 'C:\sofeware\eiaproject\WEB-INF\classes\static\'
+UploadPath: '/root/tomcat2/webapps/ROOT/WEB-INF/classes/static/'
 
 ##上传的最大大小
 server.max-http-header-size: 10000000
