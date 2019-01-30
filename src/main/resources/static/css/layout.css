@@ -1,4 +1,4 @@
-/*
+﻿/*
 -----------------------------------------------
 Grey Box Method - Layout CSS
 ----------------------------------------------- */
@@ -1243,4 +1243,10 @@ table th{
 .tr1{
 	height: 10px;
 	border: none;
+}
+.col11{
+	width:30%;
+}
+.speciallabel1{
+	color: red;
 }

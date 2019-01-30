@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/layout.css" media="screen" />
+    <style>
+        .map{
+            background-color:grey;
+            border-color:gray;
+            color: #FFF;
+            padding: 0;
+        }
+    </style>
+
+    <script type="text/javascript">
+      /*  var html = "<input type='file' id='grumble' /><input type=\"button\" class=\"btn btn-primary map\" id=\"deletebtn\" value=\"删除\"><br>";
+        $(document).ready(function() {
+
+            $("#insertbtn").bind("click", function () {
+                $("#td").append(html);
+            });
+            $("#deletebtn").bind("click", function () {
+                alert("1");
+                $("#grumble").remove();
+            });
+        })*/
+    </script>
+</head>
+<body>
+<div class="info" >
+    <div  >
+        <form>
+            <table class="form">
+                <tr>
+                    <td class="col11 tdcss1"  >
+                        <label class="labelsize">
+                           踏勘人员</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <label class="labelsize" style="font-weight: normal;">
+                            绑定当前用户</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1"  style="vertical-align: middle;" >
+                        <label class="labelsize"  >
+                           收集资料清单</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <textarea cols="20" rows="20" style="width:80%;height: 60px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1"  style="vertical-align: middle;" >
+                        <label class="labelsize"  >
+                            现场踏勘情况</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <textarea cols="20" rows="20" style="width:80%;height: 60px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1"  style="vertical-align: middle;" >
+                        <label class="labelsize"  >
+                            踏勘存在问题</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <textarea cols="20" rows="20" style="width:80%;height: 60px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            上传踏勘附件</label>
+                    </td>
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="file" class="large" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            坐标</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" placeholder="经度" />
+                        <input type="text" id="grumble"  placeholder="纬度"/>
+                        <input type="button" class="btn btn-primary map" value="在地图中选择">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1 tdcss1" >
+                        <label class="labelsize" >
+                            现场踏勘照片</label><br>
+                        <label class="labelsize speciallabel1"  >
+                            (请上传5张，包括周边关系图、4周厂界图，上传时对图片名进行描述修改，如“东厂界.jpg”)   </label>
+
+                    </td>
+                    <td class="col2 tdcss2 tt" id="td" style="padding-left: 30px;" >
+                        <input type="file" id="grumble" /> <br>
+                        <input type="file" id="grumble" /><br>
+                        <input type="file" id="grumble" /><br>
+                        <input type="file" id="grumble" /><br>
+                        <input type="file" id="grumble" />  <br>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="btnnew" >
+            <input type="submit" class="btn btn-primary" value="保存"  >
+            </input>&nbsp;&nbsp;&nbsp;&nbsp;
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
