@@ -59,7 +59,7 @@
 
 
                 <%--src ="/api/admin/iframe/personalInfo"--%>
-                <iframe id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
+                <iframe src ="/api/admin/iframe/projectInfo_add" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
 
 
 
@@ -106,7 +106,7 @@
             if ($(item).find('li').length == 0) {   //没有儿子的删除
                 $(item).parent().remove();
             } else if(firstPage == false){          //todo 默认展示第一个
-                $(item).children(':first').click();
+                //$(item).children(':first').click();
                 firstPage = true;
             }
         });

@@ -1,0 +1,208 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
+</head>
+<body>
+<div class="info" >
+    <div  >
+        <form>
+            <table class="form">
+                <tr>
+                    <td class="col11 tdcss1"  >
+                        <label class="labelsize">
+                            项目编号</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <label class="labelsize" style="font-weight: normal;">
+                            系统自动生成</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            项目名称</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            建设方</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            所在区域</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <select id="select5" name="select" >
+                            <option value="0">全部</option>
+                            <option value="0">广东省</option>
+                        </select>
+                        <select id="select6" name="select" >
+                            <option value="0">——</option>
+                            <option value="0">广州市</option>
+                        </select>
+                        <select id="select7" name="select" >
+                            <option value="0">——</option>
+                            <option value="0">白云区</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            审批/备案部门</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            建设地点</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" id="grumble" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            文件类型</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <select id="select" name="select">
+
+                            <option value="1">建设项目环境影响报告书</option>
+                            <option value="2">建设项目环境影响报告表</option>
+                            <option value="3">建设项目环境影响报告表-专项</option>
+                            <option value="4">规划类环境影响报告书</option>
+                            <option value="5">地下水评价</option>
+                            <option value="6">排污许可技术报告</option>
+                            <option value="7">应急预案</option>
+                            <option value="8">验收报告</option>
+                            <option value="9">变更补充报告</option>
+                            <option value="10">现状评估报告</option>
+                            <option value="11">建设项目安全预评价</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            评价范围类别</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <select id="select" name="select">
+                            <option value="0">————</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            项目联系人</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" class="grumble"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            建设方联系电话</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" class="grumble"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            建设方联系电话</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" class="grumble"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            项目承接人</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <select id="select8" name="select">
+                            <option value="0">---</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            所属部门</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <select id="select9" name="select">
+                            <option value="0">---</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            预估合同款(万元)</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <input type="text" class="grumble"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col11 tdcss1" >
+                        <label class="labelsize" >
+                            备注</label>
+                    </td>
+
+                    <td class="col2 tdcss2" style="padding-left: 30px;" >
+                        <textarea   name="txt" clos="500" rows="6"  width="500px" style="width:100%;"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="btnnew" >
+            <input type="submit" class="btn btn-primary" value="添加"  >
+            </input>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="btn btn-primary" href="projectinfo.html">返回</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
