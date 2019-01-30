@@ -21,15 +21,7 @@ public class EiaprojectApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		for(int i = 0; i < 40; i++){
-			User user = new User();
-			user.setUsername("ABC" + i);
-			user.setRole(i%10);
-			user.setName("CCC"+i);
-			user.setSex(0);
-			user.setDepartment(i % 12);
-			userMapper.insert(user);
-		}
+		redisCache.clear();
 	}
 
 }

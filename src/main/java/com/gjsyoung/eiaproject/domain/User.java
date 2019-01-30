@@ -31,6 +31,8 @@ public class User {
 
     private String imgurl;
 
+    private Integer status;
+
     private Date createtime;
 
     private Date updatetime;
@@ -143,6 +145,14 @@ public class User {
 
     public void setImgurl(String imgurl) {
         this.imgurl = imgurl == null ? null : imgurl.trim();
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Date getCreatetime() {

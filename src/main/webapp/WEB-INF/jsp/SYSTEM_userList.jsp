@@ -48,10 +48,9 @@
         <tr class=" gradeX odd2">
             <td style="text-align: right;">
                 <input type="submit" class="btn btn-primary" value="查询" onclick="queryUsers()">&nbsp;&nbsp;&nbsp;
-                <a href="adduser.html" class="btn btn-primary"
-                   style="margin-top:2px; height: 30px; line-height: 30px; ">添加用户</a>
+                <a href="/api/admin/system/addUserView" class="btn btn-primary" style="margin-top:2px; height: 30px; line-height: 30px; ">添加用户</a>
                 &nbsp;&nbsp;&nbsp;
-                <input type="submit" class="btn btn-primary" value="批量删除">&nbsp;&nbsp;&nbsp;
+                <input type="submit" class="btn btn-primary" value="批量删除" onclick="deleteUsers()">&nbsp;&nbsp;&nbsp;
                 <input type="submit" class="btn btn-primary" value="按部门排序" onclick="orderby('department')">&nbsp;&nbsp;&nbsp;
                 <input type="submit" class="btn btn-primary" value="按角色排序" onclick="orderby('role')">&nbsp;&nbsp;&nbsp;
                 </input>
@@ -76,7 +75,7 @@
         <tbody>
             <c:forEach items="${userListVo.users}"  var="user">
                 <tr class="odd gradeX">
-                    <td><input type="checkbox" class="inputcss"></td>
+                    <td><input type="checkbox" class="inputcss" name="checkbox" value="${user.id}"></td>
                     <td>${user.id}</td>
                     <td>${user.username}</td>
                     <td>${user.name}</td>
@@ -92,8 +91,8 @@
                     <td class="center">${user.departmentName}</td>
                     <td class="center"> ${user.roleName}</td>
                     <td class="center">
-                        <a href="">修改资料</a>&nbsp;&nbsp;
-                        <a href="">删除</a>
+                        <a href="/api/admin/system/editUser?id=${user.id}">修改资料</a>&nbsp;&nbsp;
+                        <a href="javascript:0" onclick="deleteOne(${user.id}) ">删除</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -144,6 +143,7 @@
             '&pageNow=' + pageNow
     }
 </script>
+
 <!-- 点击排序按钮 -->
 <script type="text/javascript">
     function orderby(string) {
@@ -162,6 +162,8 @@
             '&pageNow=' + pageNow
     }
 </script>
+
+<!-- 分页 -->
 <script type="text/javascript">
     function page(pageNow) {
         queryname = $('#name').val();
@@ -173,6 +175,62 @@
             '&roleId=' + roleId +
             '&orderString=' + orderString +
             '&pageNow=' + pageNow       //修改排序字段
+    }
+</script>
+
+<!-- 批量删除 -->
+<script type="text/javascript">
+    function deleteUsers() {
+        var arr = new Array();
+        $.each($('input:checkbox:checked'),function(){
+            arr.push($(this).val());
+        });
+
+        if(arr == '') {
+            alert('您还未勾选用户');
+        }else {
+            if(confirm("您确定删除" + arr + "吗?")) {
+                $.ajax({
+                    "type":"POST",
+                    "url":"/api/admin/system/deleteUsers",	//传输路径
+                    "data":{
+                        "userIdList":arr
+                    },
+                    "success":function(data){
+                        if( "OK" == data){
+                            alert("删除成功");
+                            parent.location.reload();
+                        } else {
+                            alert(data);
+                        }
+                    }
+                })
+            }
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    function deleteOne(id) {
+        if(confirm("您确定删除" + id + "吗?")) {
+            var arr = new Array();
+            arr.push(id);
+            $.ajax({
+                "type":"POST",
+                "url":"/api/admin/system/deleteUsers",	//传输路径
+                "data":{
+                    "userIdList":arr
+                },
+                "success":function(data){
+                    if( "OK" == data){
+                        alert("删除成功");
+                        window.location.reload();
+                    } else {
+                        alert(data);
+                    }
+                }
+            })
+        }
     }
 </script>
 

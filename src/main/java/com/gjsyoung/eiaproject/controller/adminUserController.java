@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * @author cairuojin
@@ -69,6 +70,7 @@ public class adminUserController {
             }
         }
 
+        user.setUpdatetime(new Date());
         userMapper.updateByPrimaryKeySelective(user);
         user = userMapper.selectByPrimaryKey(user.getId());
         request.getSession().setAttribute("user",user); //更新数据
@@ -95,6 +97,7 @@ public class adminUserController {
             return "您输入的密码有误！";
         }
         user.setPassword(newPassword);
+        user.setUpdatetime(new Date());
         userMapper.updateByPrimaryKeySelective(user);
         session.removeAttribute("user");
         return "OK" ;

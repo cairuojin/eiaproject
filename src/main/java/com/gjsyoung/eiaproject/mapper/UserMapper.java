@@ -27,4 +27,6 @@ public interface UserMapper {
     User selectByUsername(String username);
 
     List<User> selectAllLikeAndOrderBy(@Param("orderString")String orderString, @Param("name")String name, @Param("department")String department, @Param("roleId")Integer roleId);
+
+    int deleteByListId(List ids);
 }

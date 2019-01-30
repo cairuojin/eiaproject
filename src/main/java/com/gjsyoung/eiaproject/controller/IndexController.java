@@ -37,7 +37,7 @@ public class IndexController {
     @ResponseBody
     public Boolean usernameExist(String username){
         int count = userMapper.countByUsername(username);
-        return count != 0 ? true : false ;//存在返回true  不存在false
+        return count != 0 ? false : true ;//存在返回false  不存在true 满足条件
     }
 
     /**

@@ -1,19 +1,15 @@
 package com.gjsyoung.eiaproject.controller;
 
-import com.gjsyoung.eiaproject.domain.Category;
 import com.gjsyoung.eiaproject.domain.Department;
 import com.gjsyoung.eiaproject.domain.Role;
-import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.DepartmentMapper;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
 import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
-import com.gjsyoung.eiaproject.utils.RedisCache;
 import com.gjsyoung.eiaproject.vo.UserListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -120,6 +116,12 @@ public class adminIframeController {
         mav.addObject("departments",departments);
         return mav;
     }
+
+    /**
+     * 修改密码
+     * @param session
+     * @return
+     */
     @RequestMapping("/changepassword")
     public ModelAndView changepassword(HttpSession session){
         ModelAndView mav = new ModelAndView(USER + "changepassword");
