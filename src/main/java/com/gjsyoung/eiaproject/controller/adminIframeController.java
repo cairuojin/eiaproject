@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.jws.WebParam.Mode;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -44,6 +45,23 @@ public class adminIframeController {
 
     @Autowired
     UserService userService;
+
+
+
+    /* 2、项目管理 */
+    @RequestMapping("/projectInfo")
+    public ModelAndView projectInfo(){
+        ModelAndView mav = new ModelAndView(PROJECT + "projectInfo");
+        return mav;
+    }
+
+    @RequestMapping("/projectInfo_add")
+    public ModelAndView projectInfo_add(){
+        ModelAndView mav = new ModelAndView(PROJECT + "projectInfo_add");
+        return mav;
+    }
+
+
 
     /* 3、系统管理 */
 
