@@ -36,7 +36,7 @@ public class RedisCache {
     public void putObject(Object key, Object value) {
         ValueOperations opsForValue=getRedisTemplate().opsForValue();
         opsForValue.set(key,value,expireTimeInMin, TimeUnit.MINUTES);
-        logger.info("Put query result to redis,expireTime is "+expireTimeInMin+" MINUTES");
+        logger.info("Put query result to redis, key = " + key +  ", expireTime is "+expireTimeInMin+" MINUTES");
     }
 
     /**
@@ -50,7 +50,7 @@ public class RedisCache {
     public void putObjectWithTimeParam(Object key,Object value,Long expireTime,TimeUnit timeType){
         ValueOperations opsForValue=getRedisTemplate().opsForValue();
         opsForValue.set(key,value,expireTime, timeType);
-        logger.info("Put query result to redis,expireTime is "+expireTime+" "+timeType.toString());
+        logger.info("Put query result to redis, key = " + key + ", expireTime is "+expireTime+" "+timeType.toString());
     }
 
     /**
@@ -61,12 +61,12 @@ public class RedisCache {
     public void putObjectWithoutTime(Object key, Object value) {
         ValueOperations opsForValue=getRedisTemplate().opsForValue();
         opsForValue.set(key,value);
-        logger.info("Put query result to redis");
+        logger.info("Put query result to redis, key = " + key + "no expireTime");
     }
 
     public <T> T getObject(Object key) {
         ValueOperations opsForValue=getRedisTemplate().opsForValue();
-        logger.info("Get cached query result from redis");
+        logger.info("Get " + key + " from redis");
         return (T) opsForValue.get(key);
     }
 
@@ -91,7 +91,7 @@ public class RedisCache {
 
     public void removeObject(Object key) {
         getRedisTemplate().delete(key);
-        logger.info("Remove cached query result from redis");
+        logger.info("Remove cached query result from redis, key = " + key);
     }
     public void clear() {
         RedisTemplate redisTemplate = getRedisTemplate();

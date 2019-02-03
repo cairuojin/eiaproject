@@ -2,6 +2,8 @@ package com.gjsyoung.eiaproject.controller;
 
 import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
+import com.gjsyoung.eiaproject.service.UserService;
+import com.gjsyoung.eiaproject.utils.RedisCache;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author cairuojin
@@ -29,6 +33,14 @@ public class adminUserController {
 
     @Value("${UploadPath}")
     String UploadPath;
+
+    @Autowired
+    RedisCache redisCache;
+
+    @Autowired
+    UserService userService;
+
+    public final static String UserListByDepartmentId = "UserListByDepartmentId_";
 
     /**
      * 更新个人信息
@@ -103,5 +115,24 @@ public class adminUserController {
         return "OK" ;
     }
 
+    /**
+     * 传入部门，从缓存中获取该部门员工列表（缓存有效期1分钟，因为可能会修改了用户的部门属性）
+     * @param departmentId
+     * @return
+     */
+    @RequestMapping("/getUsersListByDepartment")
+    @ResponseBody
+    public List<User> getUsersListByDepartment(String departmentId){
+        List<User> userList = null;
+        Object object = redisCache.getObject(UserListByDepartmentId + departmentId);
+        if(object == null){
+            userList = userMapper.selectByDepartmentId(departmentId);
+            userService.queryRoleName(userList);
+            redisCache.putObjectWithTimeParam(UserListByDepartmentId + departmentId,userList, 1L ,TimeUnit.MINUTES);
+        } else {
+            userList = (List<User>) object;
+        }
+        return userList;
+    }
 
 }

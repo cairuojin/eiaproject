@@ -2,11 +2,14 @@ package com.gjsyoung.eiaproject.controller;
 
 import com.gjsyoung.eiaproject.domain.Department;
 import com.gjsyoung.eiaproject.domain.Role;
+import com.gjsyoung.eiaproject.domain.assist.Provinces;
 import com.gjsyoung.eiaproject.mapper.DepartmentMapper;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
 import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
+import com.gjsyoung.eiaproject.service.assist.AreasService;
+import com.gjsyoung.eiaproject.service.assist.ProjectInfoAssistService;
 import com.gjsyoung.eiaproject.vo.UserListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +49,11 @@ public class adminIframeController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    AreasService areasService;
+
+    @Autowired
+    ProjectInfoAssistService projectInfoAssistService;
 
 
     /* 2、项目管理 */
@@ -58,6 +66,14 @@ public class adminIframeController {
     @RequestMapping("/projectInfo_add")
     public ModelAndView projectInfo_add(){
         ModelAndView mav = new ModelAndView(PROJECT + "projectInfo_add");
+        List<Provinces> provinces = areasService.getProvinces();    //省份列表
+        List fileTypeList = projectInfoAssistService.loadFileTypeList();    //文件类型列表
+        List<Department> departments = departmentService.getDepartments();  //部门列表
+        departmentService.queryParentName(departments);
+
+        mav.addObject("provinces",provinces);
+        mav.addObject("fileTypeList",fileTypeList);
+        mav.addObject("departments",departments);
         return mav;
     }
 

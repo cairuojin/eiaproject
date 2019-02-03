@@ -24,6 +24,8 @@ public interface DepartmentMapper {
 
     int updateByPrimaryKey(Department record);
 
+    List<Department> selectAllByStatus(Integer status);
+
     List<Department> selectAllByStatusAndOrder(@Param("status")Integer status , @Param("orderBy")String[] orderBy);
 
     int selectSortOrderByParentId(Integer parentId);

@@ -79,4 +79,10 @@
       cityid = #{cityid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from areas
+  </select>
 </mapper>
