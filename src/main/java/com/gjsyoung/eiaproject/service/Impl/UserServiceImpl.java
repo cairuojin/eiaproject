@@ -51,6 +51,20 @@ public class UserServiceImpl implements UserService {
         List<User> users = userMapper.selectAllLikeAndOrderBy(userListVo.getOrderString(), userListVo.getName(), userListVo.getDepartmentString(), userListVo.getRoleId());
         PageInfo pageInfo = new PageInfo<>(users,userListVo.getPageSize());  //分页信息
 
+        queryRoleName(users);   //查询RoleName
+
+        userListVo.setUsers(users);
+        userListVo.setPageTotal(pageInfo.getPages());
+        userListVo.setSizeTotal(pageInfo.getTotal());
+        return userListVo;
+    }
+
+    /**
+     * 传入UserList 遍历查询其身份名字
+     * @param users
+     */
+    @Override
+    public void queryRoleName(List<User> users){
         for (User user : users) {
             Role role = roleService.selectByRoleID(user.getRole());
             user.setRoleName(role == null ? "未设定" : role.getRolename());
@@ -60,10 +74,5 @@ public class UserServiceImpl implements UserService {
                 parentDepartmentName = departmentService.getDepartmentById(department.getParentId()).getName() + " - ";
             user.setDepartmentName(department == null ? "未设定" : parentDepartmentName + department.getName());
         }
-
-        userListVo.setUsers(users);
-        userListVo.setPageTotal(pageInfo.getPages());
-        userListVo.setSizeTotal(pageInfo.getTotal());
-        return userListVo;
     }
 }

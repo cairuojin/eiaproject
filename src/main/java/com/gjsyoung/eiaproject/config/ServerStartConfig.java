@@ -8,6 +8,7 @@ import com.gjsyoung.eiaproject.service.CategoryService;
 import com.gjsyoung.eiaproject.service.Impl.CategoryServiceImpl;
 import com.gjsyoung.eiaproject.service.Impl.RoleServiceImpl;
 import com.gjsyoung.eiaproject.service.RoleService;
+import com.gjsyoung.eiaproject.service.assist.AreasService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,10 @@ public class ServerStartConfig implements CommandLineRunner {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    AreasService areasService;
+
     /**
      * 服务器启动时加载导航到内存
      * @return
@@ -46,6 +51,7 @@ public class ServerStartConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
         categoryService.loadCategory(); //加载导航
         roleService.loadRole();         //加载角色表
+        areasService.loadAreas();       //加载省市区
     }
 
 

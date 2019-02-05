@@ -2,9 +2,10 @@ package com.gjsyoung.eiaproject.domain;
 
 import org.springframework.data.annotation.Transient;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable{
     private Integer id;
 
     private String username;
