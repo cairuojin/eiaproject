@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
     <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/dateFormat.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="info" >
@@ -20,7 +21,7 @@
                     </td>
 
                     <td class="col2 tdcss2" style="padding-left: 30px;" >
-                        <input type="text" id="number"/>
+                        <input type="text" id="number" disabled="disabled"/>
                     </td>
                 </tr>
                 <tr>
@@ -86,7 +87,7 @@
                         <select id="fileType" name="fileType">
                             <option value="-1">==== 请选择 ====</option>
                             <c:forEach items="${fileTypeList}" var="fileType">
-                                <option value="${fileType.id}">${fileType.name}</option>
+                                <option value="${fileType.id}" shortname="${fileType.shortname}">${fileType.name}</option>
                             </c:forEach>
                         </select>
                     </td>
@@ -181,6 +182,11 @@
 <!-- 表单校验 -->
 <script>
     $(document).ready(function() {
+        //赋值项目编号
+        var time = (new Date()).Format("yyyyMMddhhmmss")
+        $('#number').val(time);
+
+
         //自定义区域校验
         jQuery.validator.addMethod("notEquilTo_1", function(value, element) {
             return value == -1 ? false : true;
@@ -328,8 +334,11 @@
             "url": "/api/admin/assist/getEvaluationScope",	//传输路径
             "data": {"fileTypeId": $('#fileType').val()},
             "success": function (data) {
-                var myDate = new Date();
-                $('#number').val(Date.prototype.Format(myDate));    //todo
+                //修改项目编号
+                var str = $('#number').val();
+                var shortname = $('#fileType option:selected').attr('shortname');
+                var number = str.split('_')[0] + '_' + shortname;
+                $('#number').val(number);
 
 
                 var evaluationScope = $('#evaluationScope');

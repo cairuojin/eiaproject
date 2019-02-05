@@ -29,7 +29,7 @@ import java.util.List;
 public class adminIframeController {
 
 
-    public final static String MATTER = "MATTER_";
+    public final static String MATTER = "MATTER_";      //页面前缀
     public final static String PROJECT = "PROJECT_";
     public final static String SYSTEM = "SYSTEM_";
     public final static String USER = "USER_";

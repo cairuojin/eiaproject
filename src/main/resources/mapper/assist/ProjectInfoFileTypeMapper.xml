@@ -11,23 +11,23 @@
     id, name, filetypeCombine, shortName
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
-    from projectinfofiletype
+    from ProjectInfoFileType
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from projectinfofiletype
+    delete from ProjectInfoFileType
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType">
-    insert into projectinfofiletype (id, name, filetypeCombine, 
+    insert into ProjectInfoFileType (id, name, filetypeCombine, 
       shortName)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{filetypecombine,jdbcType=INTEGER}, 
       #{shortname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType">
-    insert into projectinfofiletype
+    insert into ProjectInfoFileType
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -58,7 +58,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType">
-    update projectinfofiletype
+    update ProjectInfoFileType
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -73,17 +73,16 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType">
-    update projectinfofiletype
+    update ProjectInfoFileType
     set name = #{name,jdbcType=VARCHAR},
       filetypeCombine = #{filetypecombine,jdbcType=INTEGER},
       shortName = #{shortname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from projectinfofiletype
+    from ProjectInfoFileType
   </select>
 </mapper>

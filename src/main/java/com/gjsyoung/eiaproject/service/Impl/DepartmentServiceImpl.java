@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.gjsyoung.eiaproject.vo.CacheKey.departmentId;
+import static com.gjsyoung.eiaproject.vo.CacheKey.departments;
+
 /**
  * create by cairuojin on 2019/01/28
  */
@@ -28,13 +31,13 @@ public class DepartmentServiceImpl implements DepartmentService{
      */
     @Override
     public List<Department> getDepartments() {
-        Object departmentsObj = redisCache.getObject("departments");
+        Object departmentsObj = redisCache.getObject(departments);
         if(departmentsObj != null)
             return (List<Department>) departmentsObj;
         else {
             String[] arr = {"is_parent", "parent_id", "sort_order"};
             List departments = departmentMapper.selectAllByStatusAndOrder(0, arr);  //排序字段
-            redisCache.putObject("departments", departments);
+            redisCache.putObject(departments, departments);
             return departments;
         }
     }
@@ -46,12 +49,12 @@ public class DepartmentServiceImpl implements DepartmentService{
      */
     @Override
     public Department getDepartmentById(Integer id) {
-        Object departmentObj = redisCache.getObject("department_" + id);
+        Object departmentObj = redisCache.getObject(departmentId + id);
         if(departmentObj != null)
             return (Department) departmentObj;
         else{
             Department department = departmentMapper.selectByPrimaryKey(id);
-            redisCache.putObject("department_" + id, department);
+            redisCache.putObject(departmentId + id, department);
             return department;
         }
     }

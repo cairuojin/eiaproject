@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static com.gjsyoung.eiaproject.vo.CacheKey.projectInfoFileType;
+import static com.gjsyoung.eiaproject.vo.CacheKey.projectInfoScope;
+
 /**
  * create by cairuojin on 2019/02/01
  */
@@ -36,10 +39,10 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
     @Override
     public List loadFileTypeList() {
         List<ProjectInfoFileType> projectInfoFileTypes = null;
-        Object object = redisCache.getObject("projectInfoFileType");
+        Object object = redisCache.getObject(projectInfoFileType);
         if(object == null){
             projectInfoFileTypes = projectInfoFileTypeMapper.selectAll();
-            redisCache.putObject("projectInfoFileType" , projectInfoFileTypes);
+            redisCache.putObject(projectInfoFileType , projectInfoFileTypes);
         } else {
             projectInfoFileTypes = (List<ProjectInfoFileType>) object;
         }
@@ -68,7 +71,7 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
         if(fileType == null)
             return null;
         List<ProjectInfoScope> projectInfoScopes = null;
-        Object object = redisCache.getObject("projectInfoScope_" + fileType.getFiletypecombine());
+        Object object = redisCache.getObject(projectInfoScope + fileType.getFiletypecombine());
         if(object == null){
             Map<String , List> data = new HashMap();
             List<ProjectInfoScope> all = projectInfoScopeMapper.selectAll();
@@ -82,7 +85,7 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
                 list.add(scope);
             }
             for (Entry entry : data.entrySet()){
-                redisCache.putObject("projectInfoScope_" + entry.getKey() , entry.getValue());
+                redisCache.putObject(projectInfoScope + entry.getKey() , entry.getValue());
                 projectInfoScopes = data.get(fileType.getFiletypecombine() + "");
             }
         } else

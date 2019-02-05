@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.gjsyoung.eiaproject.vo.CacheKey.UserListByDepartmentId;
+
 /**
  * @author cairuojin
  * @create 2019-01-25 12:56
@@ -39,8 +41,6 @@ public class adminUserController {
 
     @Autowired
     UserService userService;
-
-    public final static String UserListByDepartmentId = "UserListByDepartmentId_";
 
     /**
      * 更新个人信息

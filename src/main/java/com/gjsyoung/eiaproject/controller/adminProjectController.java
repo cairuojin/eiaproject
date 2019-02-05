@@ -22,7 +22,7 @@ public class adminProjectController {
     ProjectInfoMapper projectInfoMapper;
 
     /**
-     * 添加部门信息
+     * 添加项目信息
      * @param projectInfo
      * @return
      */
@@ -35,6 +35,7 @@ public class adminProjectController {
         projectInfo.setCreateuserid(user.getId());
         projectInfo.setStatus(0);
         projectInfoMapper.insert(projectInfo);
+        //清除项目缓存
         return "OK";
     }
 
