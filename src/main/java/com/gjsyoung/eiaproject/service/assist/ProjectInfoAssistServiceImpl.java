@@ -2,8 +2,10 @@ package com.gjsyoung.eiaproject.service.assist;
 
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoScope;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
 import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoFileTypeMapper;
 import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoScopeMapper;
+import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoStatusMapper;
 import com.gjsyoung.eiaproject.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.Map.Entry;
 
 import static com.gjsyoung.eiaproject.vo.CacheKey.projectInfoFileType;
 import static com.gjsyoung.eiaproject.vo.CacheKey.projectInfoScope;
+import static com.gjsyoung.eiaproject.vo.CacheKey.projectInfoStatus;
 
 /**
  * create by cairuojin on 2019/02/01
@@ -32,12 +35,15 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
     @Autowired
     RedisCache redisCache;
 
+    @Autowired
+    ProjectInfoStatusMapper projectInfoStatusMapper;
+
     /**
      * 延迟加载项目文件类型
      * @return
      */
     @Override
-    public List loadFileTypeList() {
+    public List<ProjectInfoFileType> loadFileTypeList() {
         List<ProjectInfoFileType> projectInfoFileTypes = null;
         Object object = redisCache.getObject(projectInfoFileType);
         if(object == null){
@@ -49,6 +55,11 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
         return projectInfoFileTypes;
     }
 
+    /**
+     * 根据id获得文件类型
+     * @param fileTypeId
+     * @return
+     */
     @Override
     public ProjectInfoFileType getFileType(Integer fileTypeId) {
         List<ProjectInfoFileType> list = loadFileTypeList();
@@ -59,6 +70,7 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
         }
         return null;
     }
+
 
     /**
      * 根据文件类型加载评价范围
@@ -91,5 +103,39 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
         } else
             projectInfoScopes = (List<ProjectInfoScope>) object;
         return projectInfoScopes;
+    }
+
+
+    /**
+     * 加载项目状态
+     * @return
+     */
+    @Override
+    public List<ProjectInfoStatus> loadStatus() {
+        List<ProjectInfoStatus> projectInfoStatuses = null;
+        Object object = redisCache.getObject(projectInfoStatus);
+        if(object == null){
+            projectInfoStatuses = projectInfoStatusMapper.selectAll();
+            redisCache.putObject(projectInfoStatus , projectInfoStatuses);
+        } else {
+            projectInfoStatuses = (List<ProjectInfoStatus>) object;
+        }
+        return projectInfoStatuses;
+    }
+
+    /**
+     * 获得项目状态对象
+     * @param id
+     * @return
+     */
+    @Override
+    public ProjectInfoStatus getStatus(Integer id) {
+        List<ProjectInfoStatus> list = loadStatus();
+        for(ProjectInfoStatus projectInfoStatus : list){
+            if(projectInfoStatus.getId().intValue() == id.intValue()){
+                return projectInfoStatus;
+            }
+        }
+        return null;
     }
 }

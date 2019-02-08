@@ -14,4 +14,6 @@ public interface DepartmentService {
     public Department getDepartmentById(Integer id);
 
     public void queryParentName(List<Department> departments);
+    public void queryParentName(Department department);
+
 }

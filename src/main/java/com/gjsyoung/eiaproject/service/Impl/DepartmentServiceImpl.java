@@ -70,4 +70,9 @@ public class DepartmentServiceImpl implements DepartmentService{
             department.setParentName(parentDepartment == null ? "": parentDepartment.getName());
         }
     }
+    @Override
+    public void queryParentName(Department department) {
+        Department parentDepartment = getDepartmentById(department.getParentId());
+        department.setParentName(parentDepartment == null ? "": parentDepartment.getName());
+    }
 }

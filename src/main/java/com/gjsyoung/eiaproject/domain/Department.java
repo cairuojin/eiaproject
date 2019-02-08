@@ -34,7 +34,7 @@ public class Department implements Serializable{
     private String remarks;
 
     @Transient
-    private String parentName;  //非数据库字段
+    private String parentName;  //非数据库字段  便于展示  父级名字
 
     public Integer getId() {
         return id;

@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.domain;
 
+import org.springframework.data.annotation.Transient;
+
 import java.util.Date;
 
 public class ProjectInfo {
@@ -21,33 +23,111 @@ public class ProjectInfo {
 
     private String constructionsite;
 
-    private Integer filetype;
+    private Integer filetype;           //文件类型
 
-    private Integer evaluationscope;
+    private Integer evaluationscope;    //评价范围
 
     private String contacts;
 
     private String buildercontact;
 
-    private Integer subordinatedepartmentid;
+    private Integer subordinatedepartmentid;    //所属部门
 
-    private Integer projectundertakeruserid;
+    private Integer projectundertakeruserid;    //承接人
 
     private String contractmoney;
 
     private Integer status;
 
-    private Integer createuserid;
+    private Integer createuserid;       //创建人
 
-    private Integer organizinguserid;
+    private Integer organizinguserid;   //组织人
 
-    private Integer hostuserid;
+    private Integer hostuserid;         //主持人
 
     private Date createtime;
 
     private Date updatetime;
 
     private String remarks;
+
+    @Transient
+    private String statusName;  //项目状态名称
+
+    @Transient
+    private Department department;  //所属部门对象
+
+    @Transient
+    private String filetypeName;    //文件类型名字
+
+    @Transient
+    private User projectundertakeruser; //承接人对象
+
+    @Transient
+    private User createuser;            //创建人对象
+
+    @Transient
+    private User organizinguser;        //组织人对象
+
+    @Transient
+    private User hostuser;              //主持人对象
+
+
+    public User getProjectundertakeruser() {
+        return projectundertakeruser;
+    }
+
+    public void setProjectundertakeruser(User projectundertakeruser) {
+        this.projectundertakeruser = projectundertakeruser;
+    }
+
+    public User getCreateuser() {
+        return createuser;
+    }
+
+    public void setCreateuser(User createuser) {
+        this.createuser = createuser;
+    }
+
+    public User getOrganizinguser() {
+        return organizinguser;
+    }
+
+    public void setOrganizinguser(User organizinguser) {
+        this.organizinguser = organizinguser;
+    }
+
+    public User getHostuser() {
+        return hostuser;
+    }
+
+    public void setHostuser(User hostuser) {
+        this.hostuser = hostuser;
+    }
+
+    public String getFiletypeName() {
+        return filetypeName;
+    }
+
+    public void setFiletypeName(String filetypeName) {
+        this.filetypeName = filetypeName;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
 
     public Integer getId() {
         return id;

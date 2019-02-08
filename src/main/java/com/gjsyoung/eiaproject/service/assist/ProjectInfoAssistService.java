@@ -1,6 +1,7 @@
 package com.gjsyoung.eiaproject.service.assist;
 
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface ProjectInfoAssistService {
      * 加载文件类型
      * @return
      */
-    public List loadFileTypeList();
+    public List<ProjectInfoFileType> loadFileTypeList();
 
     /**
      * 根据文件类型
@@ -26,4 +27,17 @@ public interface ProjectInfoAssistService {
      * 获得评价范围类别
      */
     public List getScope(Integer fileTypeId);
+
+    /**
+     * 加载项目状态列表
+     * @return
+     */
+    public List<ProjectInfoStatus> loadStatus();
+
+    /**
+     * 根据id获得状态对象
+     * @param id
+     * @return
+     */
+    public ProjectInfoStatus getStatus(Integer id);
 }

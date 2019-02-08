@@ -208,7 +208,7 @@ public class adminSystemController {
     public String addDepartment(Department department){
         Department fatherDepartment = departmentService.getDepartmentById(department.getParentId());//查找父对象
 
-        department.setStatus(0);
+        department.setStatus(1);    //待分配人员状态
         department.setIsParent(fatherDepartment.getIsParent() + 1);
         department.setSortOrder(departmentMapper.selectSortOrderByParentId(department.getParentId()));
         departmentMapper.insert(department);
