@@ -22,4 +22,4 @@ public interface ProjectInfoScopeMapper {
     int updateByPrimaryKey(ProjectInfoScope record);
 
     List<ProjectInfoScope> selectAll();
-;}
+}

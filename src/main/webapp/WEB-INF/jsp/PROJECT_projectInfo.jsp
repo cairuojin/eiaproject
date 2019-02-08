@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,23 +34,6 @@
     <script src="/js/setup.js"></script>
     <script src="/js/tiny-mce/jquery.tinymce.js" type="text/javascript"></script>
 
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            setupLeftMenu();
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            setupTinyMCE();
-            setupProgressbar('progress-bar');
-            setDatePicker('date-picker');
-            setDatePicker('date-picker2');
-
-
-        });
-    </script>
-
 </head>
 <body>
 
@@ -64,10 +48,10 @@
         <tbody>
         <tr class="gradeX odd1">
             <td><label class="labelsize">
-                项目编号</label> <input type="text" id="grumble"/>
+                项目编号</label> <input type="text" id="number" name="number"/>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize">
-                    项目名称</label> <input type="text" id="grumble"/>
+                    项目名称</label> <input type="text" id="name" name="name"/>
                 &nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;
                 <span class="span_search">+高级搜索</span>
@@ -77,90 +61,51 @@
 
         <tr class="gradeX odd1 k">
             <td><label class="labelsize">
-                文件类型</label> <select id="select" name="select">
-                <option value="0">全部</option>
-                <option value="1">建设项目环境影响报告书</option>
-                <option value="2">建设项目环境影响报告表</option>
-                <option value="3">建设项目环境影响报告表-专项</option>
-                <option value="4">规划类环境影响报告书</option>
-                <option value="5">地下水评价</option>
-                <option value="6">排污许可技术报告</option>
-                <option value="7">应急预案</option>
-                <option value="8">验收报告</option>
-                <option value="9">变更补充报告</option>
-                <option value="10">现状评估报告</option>
-                <option value="11">建设项目安全预评价</option>
+                文件类型</label> <select id="filetype" name="filetype">
+                <option value="-1">==== 全部 ====</option>
+                <c:forEach items="${projectInfoFileTypes}" var="fileType">
+                    <option value="${fileType.id}" shortname="${fileType.shortname}">${fileType.name}</option>
+                </c:forEach>
 
             </select>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize">
                     项目状态</label>
-                <select id="select1" name="select" style="width:220px;">
-                    <option value="0">全部</option>
-                    <option value="1">待分配人员</option>
-                    <option value="2">待录入踏勘信息</option>
-                    <option value="3">待录入风险分析</option>
-                    <option value="4">待部门承接判定</option>
-                    <option value="5">待总工办承接判定</option>
-                    <option value="6">待总经理承接判定</option>
-                    <option value="7">待录入合同信息</option>
-                    <option value="8">待合同信息领导签字</option>
-                    <option value="9">待合同信息财务签字</option>
-                    <option value="10">待合同盖章签字</option>
-                    <option value="11">待制定收款计划</option>
-                    <option value="12">待进行项目收款管理</option>
-                    <option value="13">待执行工作计划</option>
-                    <option value="14">待完成工作计划</option>
-                    <option value="15">待提交监测方案</option>
-                    <option value="16">待提交初版报告</option>
-                    <option value="17">待初审</option>
-                    <option value="18">待初审后修改</option>
-                    <option value="19">待落实初审</option>
-                    <option value="20">待定稿审核</option>
-                    <option value="21">待定稿审核后修改</option>
-                    <option value="22">待落实定稿</option>
-                    <option value="23">待申请报审资质</option>
-                    <option value="24">待出报审资质</option>
-                    <option value="25">待进行会议总结</option>
-                    <option value="26">待提交报批/最终版报告</option>
-                    <option value="27">待录入评审会意见</option>
-                    <option value="28">待申请报批资质</option>
-                    <option value="29">待出报批资质</option>
-                    <option value="30">待录入批复信息</option>
-                    <option value="31">待申请存档</option>
-                    <option value="32">待领导签字存档清单</option>
-                    <option value="33">待存档</option>
-                    <option value="34">已存档</option>
+                <select id="status" name="status" style="width:220px;">
+                    <option value="-1">全部</option>
+                    <c:forEach items="${projectInfoStatuses}" var="status">
+                        <option value="${status.id}">${status.name}</option>
+                    </c:forEach>
 
                 </select>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize">
-                    角色姓名</label> <select id="select2" name="select">
+                    角色姓名</label> <select id="roleType" name="roleType">    <!-- todo -->
                     <option value="0">全部</option>
                     <option value="1">组织人</option>
                     <option value="2">承接人</option>
                     <option value="3">主持人</option>
                 </select>
-                <input type="text" class="nputname" id="inputname" disabled="disabled">
+                <input type="text" class="nputname" id="roleName" disabled="disabled">
                 <script>
                     $(document).ready(function () {
-                        $("#select2").bind("change", function () {
-                            if ($("#select2 option:selected").index() == 0)
+                        $("#roleType").bind("change", function () {
+                            if ($("#roleType option:selected").index() == 0)
 
-                                $("#inputname").attr("disabled", "disabled");
+                                $("#roleName").attr("disabled", "disabled");
 
                             else
-                                $("#inputname").removeAttr("disabled");
+                                $("#roleName").removeAttr("disabled");
                         })
                     });
                 </script>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize">
-                    所属部门</label> <select id="select3" name="select">
-                    <option value="0">全部</option>
-                    <option value="1">组织人</option>
-                    <option value="2">承接人</option>
-                    <option value="3">主持人</option>
+                    所属部门</label> <select id="subordinateDepartmentId" name="subordinateDepartmentId">
+                    <option value="-1">全部</option>
+                    <c:forEach items="${departments}" var="department">
+                        <option value="${department.id}">${department.parentName} - ${department.name}</option>
+                    </c:forEach>
                 </select>
                 &nbsp;&nbsp;&nbsp;
             </td>
@@ -180,17 +125,15 @@
                 &nbsp;&nbsp;&nbsp;
 
                 <label class="labelsize">
-                    项目地域</label> <select id="select5" name="select">
-                <option value="0">全部</option>
-                <option value="0">广东省</option>
+                    项目地域</label> <select id="province" name="province">
+                <option value="-1">==== 全部 ====</option>
+                <c:forEach items="${provinces}" var="province">
+                    <option value="${province.provinceid}">${province.province}</option>
+                </c:forEach>
             </select>
-                <select id="select6" name="select">
-                    <option value="0">——</option>
-                    <option value="0">广州市</option>
+                <select id="cities" name="cities">
                 </select>
-                <select id="select7" name="select">
-                    <option value="0">——</option>
-                    <option value="0">白云区</option>
+                <select id="areas" name="areas">
                 </select>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize">
@@ -242,25 +185,25 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="odd gradeX">
+        <c:forEach items="${projectListVo.projectInfos}" var="projectInfo">
+            <tr class="odd gradeX">
+                <td>${projectInfo.id}</td>
+                <td>[${projectInfo.number}]${projectInfo.name}</td>
+                <td class="center">${projectInfo.department.parentName} - ${projectInfo.department.name}</td>
+                <td class="center">${projectInfo.filetypeName}</td>
+                <td class="center">${projectInfo.projectundertakeruser.name}</td>
+                <td class="center">${projectInfo.hostuser.name}</td>
+                <td class="center">${projectInfo.organizinguser.name}</td>
+                <td class="center">${projectInfo.createuser.name}</td>
+                <td class="center">${projectInfo.statusName}</td>
 
-            <td>1</td>
-            <td>环保</td>
-            <td class="center"> 第二部门</td>
-            <td class="center">应急报告</td>
-            <td class="center"> 环评主任</td>
-            <td>管理员</td>
-            <td>管理员</td>
-            <td class="center"> 管理员</td>
-            <td class="center">待人员分配</td>
-
-            <td class="center">
-                <a href="">修改</a>&nbsp;&nbsp;
-                <a href="">删除</a>
-                <a href="">详细</a>&nbsp;
-            </td>
-        </tr>
-
+                <td class="center">
+                    <a href="">修改</a>&nbsp;&nbsp;
+                    <a href="">删除</a>
+                    <a href="">详细</a>&nbsp;
+                </td>
+            </tr>
+        </c:forEach>
 
     </table>
     <div class="block"></div>
@@ -271,4 +214,49 @@
 </div>
 </div>
 </body>
+
+<!-- 省份change修改 -->
+<script type="text/javascript">
+    $('#province').change(function () {
+        $.ajax({
+            "type": "GET",
+            "url": "/api/admin/assist/getCities",	//传输路径
+            "data": {"provinceid": $('#province').val()},
+            "success": function (data) {
+                var citiesSelect = $('#cities');
+                citiesSelect.empty();   //清除原有内容
+                $('#areas').empty();   //必须清除三级关联
+                citiesSelect.append("<option value='-1'>== 请选择 ==</option>");
+                for (var i = 0; i < data.length; i++) {
+                    citiesSelect.append(
+                        "<option value=" + data[i].cityid + ">" + data[i].city + "</option>"
+                    );
+                }
+            }
+        })
+    })
+</script>
+
+<!-- 市change修改 -->
+<script type="text/javascript">
+    $('#cities').change(function () {
+        $.ajax({
+            "type": "GET",
+            "url": "/api/admin/assist/getAreas",	//传输路径
+            "data": {"cityid": $('#cities').val()},
+            "success": function (data) {
+                var areasSelect = $('#areas');
+                areasSelect.empty();
+                areasSelect.append("<option value='-1'>== 请选择 ==</option>");
+                for (var i = 0; i < data.length; i++) {
+                    areasSelect.append(
+                        "<option value=" + data[i].areaid + ">" + data[i].area + "</option>"
+                    );
+                }
+            }
+        })
+    })
+</script>
+
+
 </html>

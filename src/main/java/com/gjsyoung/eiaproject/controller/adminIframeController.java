@@ -1,15 +1,21 @@
 package com.gjsyoung.eiaproject.controller;
 
 import com.gjsyoung.eiaproject.domain.Department;
+import com.gjsyoung.eiaproject.domain.ProjectInfo;
 import com.gjsyoung.eiaproject.domain.Role;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
 import com.gjsyoung.eiaproject.domain.assist.Provinces;
 import com.gjsyoung.eiaproject.mapper.DepartmentMapper;
+import com.gjsyoung.eiaproject.mapper.ProjectInfoMapper;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
 import com.gjsyoung.eiaproject.service.DepartmentService;
+import com.gjsyoung.eiaproject.service.ProjectInfoService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.service.assist.AreasService;
 import com.gjsyoung.eiaproject.service.assist.ProjectInfoAssistService;
+import com.gjsyoung.eiaproject.vo.ProjectListVo;
 import com.gjsyoung.eiaproject.vo.UserListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.WebParam.Mode;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -55,14 +60,41 @@ public class adminIframeController {
     @Autowired
     ProjectInfoAssistService projectInfoAssistService;
 
+    @Autowired
+    ProjectInfoMapper projectInfoMapper;
+
+    @Autowired
+    ProjectInfoService projectInfoService;
 
     /* 2、项目管理 */
+
+    /**
+     * 项目列表
+     * @return
+     */
     @RequestMapping("/projectInfo")
-    public ModelAndView projectInfo(){
+    public ModelAndView projectInfo(ProjectListVo projectListVo){
         ModelAndView mav = new ModelAndView(PROJECT + "projectInfo");
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);   //todo 项目高级搜索   项目列表
+
+        List<ProjectInfoFileType> projectInfoFileTypes = projectInfoAssistService.loadFileTypeList();//文件类型列表
+        List<ProjectInfoStatus> projectInfoStatuses = projectInfoAssistService.loadStatus();    //状态列表
+        List<Department> departments = departmentService.getDepartments();  //部门列表
+        departmentService.queryParentName(departments);
+        List<Provinces> provinces = areasService.getProvinces();    //省份列表
+
+        mav.addObject("projectListVo",projectListVo);
+        mav.addObject("projectInfoFileTypes",projectInfoFileTypes);
+        mav.addObject("projectInfoStatuses",projectInfoStatuses);
+        mav.addObject("departments",departments);
+        mav.addObject("provinces",provinces);
         return mav;
     }
 
+    /**
+     * 新增项目
+     * @return
+     */
     @RequestMapping("/projectInfo_add")
     public ModelAndView projectInfo_add(){
         ModelAndView mav = new ModelAndView(PROJECT + "projectInfo_add");
@@ -70,7 +102,6 @@ public class adminIframeController {
         List fileTypeList = projectInfoAssistService.loadFileTypeList();    //文件类型列表
         List<Department> departments = departmentService.getDepartments();  //部门列表
         departmentService.queryParentName(departments);
-
         mav.addObject("provinces",provinces);
         mav.addObject("fileTypeList",fileTypeList);
         mav.addObject("departments",departments);
