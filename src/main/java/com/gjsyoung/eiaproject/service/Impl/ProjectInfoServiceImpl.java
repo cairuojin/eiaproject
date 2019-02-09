@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gjsyoung.eiaproject.domain.Department;
 import com.gjsyoung.eiaproject.domain.ProjectInfo;
 import com.gjsyoung.eiaproject.mapper.ProjectInfoMapper;
@@ -27,7 +29,21 @@ public class ProjectInfoServiceImpl implements ProjectInfoService {
      */
     @Override
     public ProjectListVo selectAndQuery(ProjectListVo projectListVo) {
-        List<ProjectInfo> projectInfos = projectInfoMapper.selectAndQuery(new ProjectListVo());
+        if (projectListVo.getName() != null && projectListVo.getName().trim().equals(""))
+            projectListVo.setName(null);
+        if (projectListVo.getNumber() != null && projectListVo.getNumber().trim().equals(""))
+            projectListVo.setNumber(null);
+        if (projectListVo.getRoleName() != null && projectListVo.getRoleName().trim().equals(""))
+            projectListVo.setRoleName(null);
+        if (projectListVo.getProvince() != null && projectListVo.getProvince().trim().equals(""))
+            projectListVo.setProvince(null);
+        if (projectListVo.getCity() != null && projectListVo.getCity().trim().equals(""))
+            projectListVo.setCity(null);
+        if (projectListVo.getArea() != null && projectListVo.getArea().trim().equals(""))
+            projectListVo.setArea(null);
+
+        PageHelper.startPage(projectListVo.getPageNow(), projectListVo.getPageSize(),true);
+        List<ProjectInfo> projectInfos = projectInfoMapper.selectAndQuery(projectListVo);
 
         //设置部门对象
         for (ProjectInfo projectInfo : projectInfos){
@@ -36,8 +52,9 @@ public class ProjectInfoServiceImpl implements ProjectInfoService {
             projectInfo.setDepartment(department);
         }
 
-        //设置承接人、
-
+        PageInfo pageInfo = new PageInfo<>(projectInfos,projectListVo.getPageSize());  //分页信息
+        projectListVo.setPageTotal(pageInfo.getPages());
+        projectListVo.setSizeTotal(pageInfo.getTotal());
 
         projectListVo.setProjectInfos(projectInfos);
         return projectListVo;

@@ -34,6 +34,10 @@ public class AreasServiceImpl implements AreasService {
 
     private List<Provinces> provincesList = null;    //省列表
 
+    private List<Cities> citiesList = null;         //市列表
+
+    private List<Areas> areasList = null;           //区列表
+
     private Map<String , List> citiesMap = new HashMap<>();    //市Map     省id , List市
 
     private Map<String , List> areasMap = new HashMap<>();      //区域Map  市id , List区
@@ -47,12 +51,12 @@ public class AreasServiceImpl implements AreasService {
     public void loadAreas() {
         long l1 = System.currentTimeMillis();
         logger.info("开始加载省市区");
-        List<Areas> areas = areasMapper.selectAll();
-        List<Cities> cities = citiesMapper.selectAll();
+        this.areasList = areasMapper.selectAll();
+        this.citiesList = citiesMapper.selectAll();
         this.provincesList = provincesMapper.selectAll();   //省列表
 
         List singleList = null;
-        for(Cities citie : cities){         //加载城市列表
+        for(Cities citie : citiesList){         //加载城市列表
             singleList = this.citiesMap.get(citie.getProvinceid());
             if(singleList == null){
                 singleList = new LinkedList();
@@ -61,7 +65,7 @@ public class AreasServiceImpl implements AreasService {
             singleList.add(citie);
         }
         singleList.clear();
-        for (Areas area : areas){         //加载区域列表
+        for (Areas area : areasList){         //加载区域列表
             singleList = this.areasMap.get(area.getCityid());
             if(singleList == null){
                 singleList = new LinkedList();
@@ -86,5 +90,32 @@ public class AreasServiceImpl implements AreasService {
     @Override
     public List<Areas> getAreas(String cityid) {
         return this.areasMap.get(cityid);
+    }
+
+    @Override
+    public Provinces getProvince(String provinceid) {
+        for(Provinces provinces : provincesList){
+            if(provinces.getProvinceid().equals(provinceid))
+                return provinces;
+        }
+        return null;
+    }
+
+    @Override
+    public Cities getCity(String cityid) {
+        for(Cities cities : citiesList){
+            if(cities.getCityid().equals(cityid))
+                return cities;
+        }
+        return null;
+    }
+
+    @Override
+    public Areas getArea(String areaid) {
+        for(Areas areas : areasList){
+            if(areas.getAreaid().equals(areaid))
+                return areas;
+        }
+        return null;
     }
 }

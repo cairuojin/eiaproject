@@ -33,6 +33,7 @@
     <resultMap id="ResultMapWithQuery" extends="ResultMapWithBLOBs" type="com.gjsyoung.eiaproject.domain.ProjectInfo">
         <result column="statusName" jdbcType="VARCHAR" property="statusName"/>
         <result column="filetypeName" jdbcType="VARCHAR" property="filetypeName"/>
+        <result column="evaluationscopeName" jdbcType="VARCHAR" property="evaluationscopeName"/>
         <association property="projectundertakeruser" javaType="com.gjsyoung.eiaproject.domain.User">
             <id column="uid" jdbcType="INTEGER" property="id"/>
             <result column="uusername" jdbcType="VARCHAR" property="username"/>
@@ -190,13 +191,33 @@
         hostuser.updateTime AS hupdateTime
     </sql>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithQuery">
         select
         <include refid="Base_Column_List"/>
         ,
         <include refid="Blob_Column_List"/>
+        ,
+        projectinfostatus.name as statusName,
+        projectinfofiletype.name as filetypeName,
+        projectinfoscope.name as evaluationscopeName,
+        <include refid="projectundertakeruser"/>  <!-- 承接人 -->
+        ,
+        <include refid="createuser"/>    <!-- 创建人 -->
+        ,
+        <include refid="organizinguser"/>    <!-- 组织人 -->
+        ,
+        <include refid="hostuser"/>    <!-- 主持人 -->
+
         from projectinfo
-        where id = #{id,jdbcType=INTEGER}
+
+        LEFT JOIN projectinfostatus on projectinfo.status = projectinfostatus.id    <!-- 状态名 -->
+        LEFT JOIN projectinfofiletype ON projectinfo.fileType = projectinfofiletype.id    <!-- 文件类型名 -->
+        LEFT JOIN projectinfoscope ON projectinfo.evaluationScope = projectinfoscope.id    <!-- 评价范围名 -->
+        LEFT JOIN USER undertaker ON projectinfo.projectUndertakerUserId = undertaker.id    <!-- 承接人 -->
+        LEFT JOIN USER createuser ON projectinfo.createuserid = createuser.id               <!-- 创建人 -->
+        LEFT JOIN USER organizinguser ON projectinfo.organizingUserId = organizinguser.id <!-- 组织人 -->
+        LEFT JOIN USER hostuser ON projectinfo.hostuserid = hostuser.id               <!-- 主持人 -->
+        where projectinfo.id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from projectinfo
@@ -499,6 +520,7 @@
         ,
         projectinfostatus.name as statusName,
         projectinfofiletype.name as filetypeName,
+        projectinfoscope.name as evaluationscopeName,
         <include refid="projectundertakeruser"/>  <!-- 承接人 -->
         ,
         <include refid="createuser"/>    <!-- 创建人 -->
@@ -508,11 +530,49 @@
         <include refid="hostuser"/>    <!-- 主持人 -->
 
         from projectinfo
+
         LEFT JOIN projectinfostatus on projectinfo.status = projectinfostatus.id    <!-- 状态名 -->
         LEFT JOIN projectinfofiletype ON projectinfo.fileType = projectinfofiletype.id    <!-- 文件类型名 -->
+        LEFT JOIN projectinfoscope ON projectinfo.evaluationScope = projectinfoscope.id    <!-- 评价范围名 -->
         LEFT JOIN USER undertaker ON projectinfo.projectUndertakerUserId = undertaker.id    <!-- 承接人 -->
         LEFT JOIN USER createuser ON projectinfo.createuserid = createuser.id               <!-- 创建人 -->
         LEFT JOIN USER organizinguser ON projectinfo.organizingUserId = organizinguser.id <!-- 组织人 -->
         LEFT JOIN USER hostuser ON projectinfo.hostuserid = hostuser.id               <!-- 主持人 -->
+
+        <where>
+            <if test="number != null">
+                projectinfo.number = #{number,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null">
+                AND projectinfo.name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="filetype != -1">
+                AND projectinfo.filetype = #{filetype,jdbcType=INTEGER}
+            </if>
+            <if test="status != -1">
+                AND projectinfo.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="roleType == 0">
+                AND projectinfo.organizinguserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
+            </if>
+            <if test="roleType == 1">
+                AND projectinfo.projectundertakeruserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
+            </if>
+            <if test="roleType == 2">
+                AND projectinfo.hostuserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
+            </if>
+            <if test="subordinateDepartmentId != -1">
+                AND projectinfo.subordinatedepartmentid = #{subordinateDepartmentId,jdbcType=INTEGER}
+            </if>
+            <if test="province != null">
+                AND projectinfo.province = #{province,jdbcType=VARCHAR}
+            </if>
+            <if test="city != null">
+                AND projectinfo.city = #{city,jdbcType=VARCHAR}
+            </if>
+            <if test="area != null">
+                AND projectinfo.area = #{area,jdbcType=VARCHAR}
+            </if>
+        </where>
     </select>
 </mapper>

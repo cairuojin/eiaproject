@@ -9,11 +9,16 @@ import com.gjsyoung.eiaproject.mapper.UserMapper;
 import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
+import com.gjsyoung.eiaproject.utils.RedisCache;
 import com.gjsyoung.eiaproject.vo.UserListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static com.gjsyoung.eiaproject.vo.CacheKey.UserListByDepartmentId;
 
 /**
  * create by cairuojin on 2019/01/28
@@ -33,8 +38,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PageHelper pageHelper;
 
+    @Autowired
+    RedisCache redisCache;
+
     /**
-     * 查询departmentName 和 roleName
+     * 筛选用户列表
      */
     @Override
     public UserListVo selectAndQueryOtherName(UserListVo userListVo) {
@@ -74,5 +82,38 @@ public class UserServiceImpl implements UserService {
                 parentDepartmentName = departmentService.getDepartmentById(department.getParentId()).getName() + " - ";
             user.setDepartmentName(department == null ? "未设定" : parentDepartmentName + department.getName());
         }
+    }
+
+    /**
+     * 从缓存中获得用户
+     * @param session
+     * @return
+     */
+    @Override
+    public User getFromSession(HttpSession session) {
+        Object userObj = session.getAttribute("user");
+        if (userObj != null){
+            return (User)userObj;
+        }
+        return null;
+    }
+
+    /**
+     * 搜寻该部门下的用户列表(缓存一分钟)
+     * @param departmentId
+     * @return
+     */
+    @Override
+    public List<User> getUserListByDepartment(String departmentId) {
+        List<User> userList = null;
+        Object object = redisCache.getObject(UserListByDepartmentId + departmentId);
+        if(object == null){
+            userList = userMapper.selectByDepartmentId(departmentId);
+            queryRoleName(userList);
+            redisCache.putObjectWithTimeParam(UserListByDepartmentId + departmentId,userList, 1L , TimeUnit.MINUTES);
+        } else {
+            userList = (List<User>) object;
+        }
+        return userList;
     }
 }

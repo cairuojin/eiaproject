@@ -23,6 +23,7 @@ public class EiaprojectApplicationTests {
     @Test
     public void contextLoads() {
         ProjectListVo projectListVo = new ProjectListVo();
+        projectListVo.setSubordinateDepartmentId(1);
         List<ProjectInfo> projectInfos = projectInfoMapper.selectAndQuery(projectListVo);
         System.out.print("");
     }

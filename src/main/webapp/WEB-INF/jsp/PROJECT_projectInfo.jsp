@@ -206,7 +206,16 @@
         </c:forEach>
 
     </table>
-    <div class="block"></div>
+    <div class="block" style="text-align: center">
+        <c:forEach begin="1" end="${projectListVo.pageTotal}" var="index">
+            <c:if test="${index == projectListVo.pageNow}">
+                <a href="javascript:0" onclick="page(${index})" style="color: red"> ${index}</a>
+            </c:if>
+            <c:if test="${index != projectListVo.pageNow}">
+                <a href="javascript:0" onclick="page(${index})"> ${index}</a>
+            </c:if>
+        </c:forEach>
+    </div>
 
 
 </div>
@@ -258,5 +267,18 @@
     })
 </script>
 
-
+<!-- 分页 --><!-- todo 项目列表分页未做 -->
+<script type="text/javascript">
+    function page(pageNow) {
+        queryname = $('#name').val();
+        departmentString = $('#departmentString').val();
+        roleId = $('#roleId').val();    //获得当前页面值（刷新）
+        window.location.href = '/api/admin/iframe/userList?' +
+            'name=' + queryname +
+            '&departmentString=' + departmentString +
+            '&roleId=' + roleId +
+            '&orderString=' + orderString +
+            '&pageNow=' + pageNow       //修改排序字段
+    }
+</script>
 </html>

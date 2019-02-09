@@ -61,6 +61,9 @@ public class ProjectInfo {
     private String filetypeName;    //文件类型名字
 
     @Transient
+    private String evaluationscopeName;    //文件类型名字
+
+    @Transient
     private User projectundertakeruser; //承接人对象
 
     @Transient
@@ -72,6 +75,17 @@ public class ProjectInfo {
     @Transient
     private User hostuser;              //主持人对象
 
+
+
+
+
+    public String getEvaluationscopeName() {
+        return evaluationscopeName;
+    }
+
+    public void setEvaluationscopeName(String evaluationscopeName) {
+        this.evaluationscopeName = evaluationscopeName;
+    }
 
     public User getProjectundertakeruser() {
         return projectundertakeruser;
