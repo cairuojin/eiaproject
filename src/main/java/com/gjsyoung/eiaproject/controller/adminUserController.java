@@ -123,15 +123,7 @@ public class adminUserController {
     @RequestMapping("/getUsersListByDepartment")
     @ResponseBody
     public List<User> getUsersListByDepartment(String departmentId){
-        List<User> userList = null;
-        Object object = redisCache.getObject(UserListByDepartmentId + departmentId);
-        if(object == null){
-            userList = userMapper.selectByDepartmentId(departmentId);
-            userService.queryRoleName(userList);
-            redisCache.putObjectWithTimeParam(UserListByDepartmentId + departmentId,userList, 1L ,TimeUnit.MINUTES);
-        } else {
-            userList = (List<User>) object;
-        }
+        List<User> userList = userService.getUserListByDepartment(departmentId);
         return userList;
     }
 

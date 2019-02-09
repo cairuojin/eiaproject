@@ -3,6 +3,7 @@ package com.gjsyoung.eiaproject.controller;
 import com.gjsyoung.eiaproject.domain.Department;
 import com.gjsyoung.eiaproject.domain.ProjectInfo;
 import com.gjsyoung.eiaproject.domain.Role;
+import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
 import com.gjsyoung.eiaproject.domain.assist.Provinces;
@@ -15,6 +16,7 @@ import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.service.assist.AreasService;
 import com.gjsyoung.eiaproject.service.assist.ProjectInfoAssistService;
+import com.gjsyoung.eiaproject.vo.BaseException;
 import com.gjsyoung.eiaproject.vo.ProjectListVo;
 import com.gjsyoung.eiaproject.vo.UserListVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +26,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * create by cairuojin on 2019/01/22
+ * 进入页面Controller
  */
 @Controller
 @RequestMapping("/${authentication}/iframe")
 public class adminIframeController {
 
 
-    public final static String MATTER = "MATTER_";      //页面前缀
-    public final static String PROJECT = "PROJECT_";
-    public final static String SYSTEM = "SYSTEM_";
-    public final static String USER = "USER_";
+    public final static String MATTER = "MATTER_";      //待办事项
+    public final static String PROJECT = "PROJECT_";    //项目管理
+    public final static String SYSTEM = "SYSTEM_";      //系统管理
+    public final static String USER = "USER_";          //个人设置
 
     @Autowired
     RoleService roleService;
@@ -66,6 +70,34 @@ public class adminIframeController {
     @Autowired
     ProjectInfoService projectInfoService;
 
+
+    /* 1、待办事项 */
+
+    /**
+     * 人员分配
+     * @param projectListVo 筛选字段
+     * @return
+     */
+    @RequestMapping("/allotmentList")
+    public ModelAndView personnelAllotment(ProjectListVo projectListVo, HttpSession session) throws BaseException {
+        User fromSession = userService.getFromSession(session);
+        if(fromSession != null){
+            if(fromSession.getRole() != 0)          //非管理员只能看见他自己的部门
+            projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
+        } else {
+            throw BaseException.FAILED(404,"您还没有登录");
+        }
+
+        ModelAndView mav = new ModelAndView(MATTER +"allotmentList");
+        projectListVo.setStatus(1); //筛选人员分配状态
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);
+        mav.addObject("projectListVo",projectListVo);
+        return mav;
+    }
+
+
+
+
     /* 2、项目管理 */
 
     /**
@@ -73,14 +105,30 @@ public class adminIframeController {
      * @return
      */
     @RequestMapping("/projectInfo")
-    public ModelAndView projectInfo(ProjectListVo projectListVo){
+    public ModelAndView projectInfo(ProjectListVo projectListVo, HttpSession session){
         ModelAndView mav = new ModelAndView(PROJECT + "projectInfo");
-        projectListVo = projectInfoService.selectAndQuery(projectListVo);   //todo 项目高级搜索   项目列表
+
 
         List<ProjectInfoFileType> projectInfoFileTypes = projectInfoAssistService.loadFileTypeList();//文件类型列表
         List<ProjectInfoStatus> projectInfoStatuses = projectInfoAssistService.loadStatus();    //状态列表
-        List<Department> departments = departmentService.getDepartments();  //部门列表
-        departmentService.queryParentName(departments);
+
+        //非管理员只加载自己部门
+        List<Department> departments = new ArrayList<>();
+        User fromSession = userService.getFromSession(session);
+        if(fromSession != null){
+            if(fromSession.getRole() != 0){
+                departments.add(departmentService.getDepartmentById(fromSession.getDepartment()));
+                projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
+            } else {
+                departments = departmentService.getDepartments();  //部门列表
+            }
+            departmentService.queryParentName(departments);
+        }
+
+
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);   //todo 项目高级搜索   项目列表
+
+
         List<Provinces> provinces = areasService.getProvinces();    //省份列表
 
         mav.addObject("projectListVo",projectListVo);
@@ -107,6 +155,11 @@ public class adminIframeController {
         mav.addObject("departments",departments);
         return mav;
     }
+
+
+
+
+
 
 
 

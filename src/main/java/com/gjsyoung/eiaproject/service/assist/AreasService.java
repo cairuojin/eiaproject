@@ -13,11 +13,16 @@ public interface AreasService {
 
     public void loadAreas();
 
+
     public List<Provinces> getProvinces();
 
     public List<Cities> getCites(String provinceid);
 
     public List<Areas> getAreas(String cityid);
 
+    public Provinces getProvince(String provinceid);
 
+    public Cities getCity(String cityid);
+
+    public Areas getArea(String areaid);
 }

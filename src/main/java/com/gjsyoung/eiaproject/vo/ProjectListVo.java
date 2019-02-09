@@ -14,7 +14,7 @@ public class ProjectListVo {
     private Integer status = -1;    //项目状态
 
 
-    private Integer roleType = -1;  //角色身份 组织0 承接1 主持2 todo
+    private Integer roleType = -1;  //角色身份 组织0 承接1 主持2
     private String roleName = null; //查询上面字段对应的角色姓名
 
     private Integer subordinateDepartmentId = -1;   //所属部门id
