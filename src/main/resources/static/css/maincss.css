@@ -199,4 +199,23 @@ display: none;
     height: 104px;
     width: 104px;
 }
-
+.opinion_css,.opinion_css_vice{
+    width:98%;
+    margin: 15px auto;
+    border:1px solid grey;
+    vertical-align: middle;
+}
+.opinion_span{
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+    position: relative;
+    left:20px;
+    top:-10px;
+    background-color: white;
+}
+.span_tips{
+    margin-left: 1%;
+    font-size: 14px;
+    color:red;
+}
