@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/maincss.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script type="text/javascript">
+        var w,h,className;
+        function getSrceenWH(){
+            w = $(window).width();
+            h = $(window).height();
+            $('#dialogBg').width(w).height(h);
+        }
+
+        window.onresize = function(){
+            getSrceenWH();
+        }
+        $(window).resize();
+
+        $(function(){
+            getSrceenWH();
+
+            //显示弹框
+            $('.box').bind("click",function(){
+                className = $(this).attr('class');
+                $('#dialogBg').fadeIn(300);
+                $('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
+            });
+
+            //关闭弹窗
+            $('.claseDialogBtn').click(function(){
+                $('#dialogBg').fadeOut(300,function(){
+                    $('#dialog').addClass('bounceOutUp').fadeOut();
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="grid_100">
+    <table class="data display datatable table1">
+        <tbody>
+        <tr class=" gradeX odd2">
+            <td style="text-align: right; border-bottom: 1px solid rgba(144,144,144,.7);">
+                <input  type="submit" class="btn btn-primary box" value="申请" /> &nbsp;&nbsp;&nbsp;
+                <a href="make%20up%20qulification.html" class="btn btn-primary" />返回
+                </a>
+            </td>
+        </tr>
+        <tr class="tr1"></tr>
+        </tbody>
+    </table>
+    <table class="data display datatable table1">
+        <thead>
+        <tr>
+
+            <th class="sorting" style="width: 5%;">序号</th>
+            <th class="sorting" style="width: 5%;">资质版本</th>
+            <th class="sorting" style="width: 5%;">资质份数</th>
+            <th class="sorting" style="width: 20%;">资质流水号 </th>
+            <th class="sorting" style="width:15%;">申请时间  </th>
+            <th class="sorting" style="width:15%;">申请人 </th>
+            <th class="sorting" style="width:20%;">申请说明 </th>
+            <th class="sorting" style="width:15%;">资质状态 </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd gradeX">
+
+            <td>1</td>
+            <td> 如果是在报审时候申请的为“报审版”，在报批时申请的为“报批版” </td>
+            <td class="center"> 2 </td>
+            <td class="center">1500011-1500012 </td>
+            <td class="center"> 2015-10-10 </td>
+            <td class="center"> huanxiaoxin</td>
+            <td class="center">辅导费”</td>
+            <td class="center">如果是已经批准的资质，则为“已出资质”，如果是已经申请但未批准的则显示“已提交”</td>
+        </tr>
+    </table>
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img class="dialogIco" width="50" height="50" src="../../images/ico.png" alt="" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn">关闭</a>
+        </div>
+        <form action="" method="post" id="editForm">
+            <ul class="editInfos">
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:70%; float:left; text-align:left;">绑定数据库信息</div></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>审批/备案部门：</div ><div style="width:70%; float:left; text-align:left;">绑定数据库信息</div></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>资质版本：</div ><div style="width:70%; float:left; text-align:left;"><select><option value="1">报审版</option><option value="2">报批版</option></select></div></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>资质份数：</div ><div style="width:70%; float:left; text-align:left;"><input type="text" id="grumble" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>申请说明：</div ><div style="width:70%; float:left; text-align:left;"><textarea  style="width: 99%; height: 60px; border: 1px solid rgba(144,144,144,.8); " ></textarea></div></li>
+                <li><input type="submit" value="确认申请" class="submitBtn" /></li>
+            </ul>
+        </form>
+    </div>
+    <div class="block"></div>
+
+
+
+
+</div>
+<div class="clear">
+</div>
+</div>
+</body>
+</html>

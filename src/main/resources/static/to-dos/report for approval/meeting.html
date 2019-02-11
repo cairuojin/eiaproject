@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../../css/maincss.css">
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/layout.css">
-    <link rel="stylesheet" href="../../css/maincss.css">
     <link rel="stylesheet" href="../../css/common.css">
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/jquery.js"></script>
@@ -40,6 +40,7 @@
             });
         });
     </script>
+
 </head>
 <body>
 <div class="grid_100">
@@ -53,10 +54,10 @@
         <tbody>
         <tr class="gradeX odd1">
             <td><label class="labelsize" >
-                项目编号</label> <input type="text" id="grumble" style="border: 1px solid rgba(144,144,144,.8);" />
+                项目编号</label> <input type="text" id="grumble"  style="border: 1px solid rgba(144,144,144,.8); height: 20px;"/>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize" >
-                    项目名称</label> <input type="text" id="grumble" style="border: 1px solid rgba(144,144,144,.8);"/>
+                    项目名称</label> <input type="text" id="grumble" style="border: 1px solid rgba(144,144,144,.8); height: 20px;" />
             </td>
         </tr>
         <tr class=" gradeX odd2">
@@ -71,10 +72,13 @@
     <table class="data display datatable table1">
         <thead>
         <tr>
+
             <th class="sorting" style="width: 5%;">序号</th>
             <th class="sorting" style="width: 15%;">项目名称</th>
+
             <th class="sorting" style="width: 10%;">所在区域</th>
             <th class="sorting" style="width: 15%;">文件类型</th>
+
             <th class="sorting" style="width:15%;">评价范围类别 </th>
             <th class="sorting" style="width:10%;">承接人 </th>
             <th class="sorting" style="width:10%;">主持人 </th>
@@ -88,14 +92,15 @@
 
             <td>1</td>
             <td> [HBHP2019-1101-0008]df  </td>
-            <td>广东省汕头市金平区 </td>
+            <td class="center">汕头</td>
             <td class="center">  建设项目环境影响报告表  </td>
             <td class="center">建设项目环境影响报告表 </td>
             <td class="center"> hangxiaoxin</td>
             <td class="center"> huanxiaoxin</td>
             <td class="center">huangixoa</td>
+
             <td class="center">
-                <a class="box" style="background-color: transparent; cursor: pointer;" >提交初版报告</a>&nbsp;&nbsp;
+                <a class="box" style="background-color: transparent; cursor: pointer;" >会议总结</a>&nbsp;&nbsp;
             </td>
         </tr>
     </table>
@@ -107,14 +112,12 @@
         </div>
         <form action="" method="post" id="editForm">
             <ul class="editInfos">
-                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:50%; float:left; text-align:left;">绑定数据库信息</div></li>
-                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px;"><font color="#ff0000">* </font>初审版报告：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><input type="file" id="grumble" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
-                <li ><div style="width:30%; float:left; text-align:right;margin-top: 10px;"><font color="#ff0000">* </font>选择初审人：</div ><div style="width:50%; float:left; text-align:left; margin-top: 10px;"><select  id="grumble" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " ><option>1</option></select></div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;">绑定数据</div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>会议总结：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><input style="border: 1px solid rgba(144,144,144,.8);height: 26px; width: 99%;" type="file"> </div></li>
                 <li  style="margin-top: 10px;"><input type="submit" value="提交" class="submitBtn" /></li>
             </ul>
         </form>
     </div>
-</div>
     <div class="block"></div>
 
 

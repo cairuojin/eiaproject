@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/maincss.css">
+
+</head>
+<body>
+
+<div class="grid_100">
+    <table class="data display datatable table1">
+        <thead>
+        <tr>
+            <th class="sorting searchbar"  style="width: 100%;"> 搜索</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="gradeX odd1">
+            <td><label class="labelsize" >
+                项目编号</label> <input type="text" id="grumble" />
+                &nbsp;&nbsp;&nbsp;
+                <label class="labelsize" >
+                    项目名称</label> <input type="text" id="grumble" />
+                &nbsp;&nbsp;&nbsp;
+                <label class="labelsize" >
+                    存档人</label> <input type="text" id="grumble" />
+                &nbsp;&nbsp;&nbsp;
+                <label class="labelsize" >
+                    档案编号</label> <input type="text" id="grumble" />
+                &nbsp;&nbsp;&nbsp;
+            </td>
+
+        </tr>
+
+        <tr class="gradeX odd1 ">
+            <td><label class="labelsize" >
+                文件类型</label>  <select id="select" name="select">
+                <option value="0">全部</option>
+                <option value="1">建设项目环境影响报告书</option>
+                <option value="2">建设项目环境影响报告表</option>
+                <option value="3">建设项目环境影响报告表-专项</option>
+                <option value="4">规划类环境影响报告书</option>
+                <option value="5">地下水评价</option>
+                <option value="6">排污许可技术报告</option>
+                <option value="7">应急预案</option>
+                <option value="8">验收报告</option>
+                <option value="9">变更补充报告</option>
+                <option value="10">现状评估报告</option>
+                <option value="11">建设项目安全预评价</option>
+
+            </select>
+                &nbsp;&nbsp;&nbsp;
+                <label class="labelsize" >
+                    评价类别</label>
+                <select id="select1" name="select" style="width:220px;">
+                    <option value="1">根据前面文件类型进行绑定</option>
+                </select>
+                &nbsp;&nbsp;&nbsp;
+                <label class="labelsize" >
+                    角色姓名</label>  <select id="select2" name="select">
+                    <option value="0">全部</option>
+                    <option value="1">组织人</option>
+                    <option value="2">承接人</option>
+                    <option value="3">主持人</option>
+                </select>
+                <input type="text" class="nputname" id="inputname" disabled="disabled">
+                <script>
+                    $(document).ready(function() {
+                        $("#select2").bind("change", function () {
+                            if ($("#select2 option:selected").index()==0)
+
+                                $("#inputname").attr("disabled","disabled");
+
+                            else
+                                $("#inputname").removeAttr("disabled");
+                        })
+                    });
+                </script>
+                &nbsp;&nbsp;&nbsp;
+
+                &nbsp;&nbsp;&nbsp;
+            </td>
+
+        </tr>
+        <tr class=" gradeX odd2">
+            <td style="text-align: right;">
+                <input type="submit" class="btn btn-primary" value="查询"  >&nbsp;&nbsp;&nbsp;
+            </td>
+        </tr>
+        <tr class="tr1"></tr>
+        </tbody>
+    </table>
+
+    <table class="data display datatable table1">
+        <thead>
+        <tr>
+            <th class="sorting" style="width: 5%;"> 序号</th>
+            <th class="sorting" style="width: 20%;">项目名称</th>
+
+            <th class="sorting" style="width: 15%;">文件类型</th>
+            <th class="sorting" style="width: 15%;">评价范围类别 </th>
+            <th class="sorting" style="width: 10%;">存档人</th>
+            <th class="sorting" style="width: 12.5%;">存档位置</th>
+            <th class="sorting" style="width: 12.5%;">档案编号</th>
+            <th class="sorting" style="width: 10%;">存档日期 </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd gradeX">
+            <td>1</td>
+            <td>环保</td>
+            <td class="center">应急报告</td>
+            <td class="center"> 建设项目环境影响报告书</td>
+            <td>管理员</td>
+            <td>D楼</td>
+            <td class="center"> sf</td>
+            <td class="center">2001-10-10</td>
+        </tr>
+    </table>
+    <div class="block"></div>
+</div>
+<div class="clear">
+</div>
+</div>
+</body>
+</html>
