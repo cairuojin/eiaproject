@@ -16,8 +16,8 @@ logging:
 
 
 spring:
-    profiles:
-       active: dev
+#    profiles:
+#       active: dev
 
     datasource:     # 数据库地址
         url: jdbc:mysql://111.230.196.33:3306/eiaproject?useSSL=false
@@ -39,10 +39,10 @@ spring:
             prefix: /WEB-INF/jsp/
             suffix: .jsp
 
-#    servlet:
-#        multipart:
-#            max-request-size: 100Mb
-#            max-file-size: 10Mb
+    servlet:
+        multipart:
+            max-request-size: 100Mb
+            max-file-size: 10Mb
 
 #    rabbitmq:
 #        host: localhost

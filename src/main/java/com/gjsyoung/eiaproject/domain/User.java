@@ -5,6 +5,9 @@ import org.springframework.data.annotation.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 用户表
+ */
 public class User implements Serializable{
     private Integer id;
 

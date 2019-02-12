@@ -59,7 +59,7 @@
 
 
                 <%--src ="/api/admin/iframe/personalInfo"--%>
-                <iframe src ="/api/admin/iframe/allotmentList" id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
+                <iframe id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
 
 
 

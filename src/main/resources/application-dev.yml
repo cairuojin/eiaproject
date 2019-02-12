@@ -39,10 +39,10 @@ spring:
             prefix: /WEB-INF/jsp/
             suffix: .jsp
 
-#    servlet:
-#        multipart:
-#            max-request-size: 100Mb
-#            max-file-size: 10Mb
+    servlet:
+        multipart:
+            max-request-size: 100Mb
+            max-file-size: 10Mb
 
 #    rabbitmq:
 #        host: localhost

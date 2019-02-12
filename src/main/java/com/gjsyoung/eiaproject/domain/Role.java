@@ -2,12 +2,15 @@ package com.gjsyoung.eiaproject.domain;
 
 import java.util.Date;
 
+/**
+ * 身份
+ */
 public class Role {
     private Integer id;
 
-    private String rolename;
+    private String rolename;    //中文名
 
-    private String engname;
+    private String engname;     //英文名
 
     private Date createtime;
 

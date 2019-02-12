@@ -4,6 +4,7 @@ import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.utils.RedisCache;
+import com.gjsyoung.eiaproject.utils.UploadUtil;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.gjsyoung.eiaproject.vo.CacheKey.UserListByDepartmentId;
 
-/**
+/** 用户信息controller
  * @author cairuojin
  * @create 2019-01-25 12:56
  */
@@ -33,14 +34,14 @@ public class adminUserController {
     @Autowired
     UserMapper userMapper;
 
-    @Value("${UploadPath}")
-    String UploadPath;
-
     @Autowired
     RedisCache redisCache;
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UploadUtil uploadUtil;
 
     /**
      * 更新个人信息
@@ -62,26 +63,7 @@ public class adminUserController {
         user.setUsername(null);                 //防止接口攻击
         user.setPassword(null);
 
-        //图片上传
-        if(file != null && !"undefined".equals(file)){
-            String fileName = file.getOriginalFilename();
-            String type=fileName.indexOf(".")!=-1?fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()):null;
-            if(type == null){
-                throw BaseException.FAILED(400,"上传的类型有误！" );
-            }else{
-                if(("JPEG".equals(type.toUpperCase())||"PNG".equals(type.toUpperCase())||"JPG".equals(type.toUpperCase()))){
-                    if(fileName.length()>8)
-                        fileName = fileName.substring(fileName.length()-8);
-                    String path ="images/personalImg/"  + System.currentTimeMillis() + fileName;
-                    File personalFile = new File(UploadPath + path);
-                    file.transferTo(personalFile);
-                    user.setImgurl(path);  //设置路径
-                } else {
-                    throw BaseException.FAILED(400,"上传的类型有误！" );
-                }
-            }
-        }
-
+        user.setImgurl(uploadUtil.uploadPic(file, "images/personalImg/"));
         user.setUpdatetime(new Date());
         userMapper.updateByPrimaryKeySelective(user);
         user = userMapper.selectByPrimaryKey(user.getId());

@@ -1,23 +1,11 @@
 package com.gjsyoung.eiaproject.config;
 
-import com.gjsyoung.eiaproject.domain.Category;
 import com.gjsyoung.eiaproject.domain.Role;
-import com.gjsyoung.eiaproject.mapper.CategoryMapper;
-import com.gjsyoung.eiaproject.mapper.RoleMapper;
 import com.gjsyoung.eiaproject.service.CategoryService;
-import com.gjsyoung.eiaproject.service.Impl.CategoryServiceImpl;
-import com.gjsyoung.eiaproject.service.Impl.RoleServiceImpl;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.assist.AreasService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.core.annotation.Order;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -28,8 +16,6 @@ import java.util.*;
  */
 @Component
 public class ServerStartConfig implements CommandLineRunner {
-
-    private static final Logger logger = LoggerFactory.getLogger(ServerStartConfig.class);
 
     private static Map roleMap = new HashMap(); //身份导航内容<id, role>
     private static List<Role> roleList = null;

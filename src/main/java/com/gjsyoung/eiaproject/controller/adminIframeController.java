@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,23 +75,32 @@ public class adminIframeController {
     /* 1、待办事项 */
 
     /**
-     * 人员分配
+     * 人员分配/踏勘情况     列表
      * @param projectListVo 筛选字段
      * @return
      */
-    @RequestMapping("/allotmentList")
-    public ModelAndView personnelAllotment(ProjectListVo projectListVo, HttpSession session) throws BaseException {
-        User fromSession = userService.getFromSession(session);
-        if(fromSession != null){
-            if(fromSession.getRole() != 0)          //非管理员只能看见他自己的部门
-            projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
-        } else {
-            throw BaseException.FAILED(404,"您还没有登录");
-        }
+    @RequestMapping(
+                {
+                    "/allotmentList",
+                    "/reconnaissanceList"
+                }
+            )
+    public ModelAndView personnelAllotment(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
+        String requestURI = request.getRequestURI();    //获得请求地址
+        requestURI = requestURI.substring(requestURI.lastIndexOf('/') + 1, requestURI.length());    //截取到方法地址
 
-        ModelAndView mav = new ModelAndView(MATTER +"allotmentList");
-        projectListVo.setStatus(1); //筛选人员分配状态
-        projectListVo = projectInfoService.selectAndQuery(projectListVo);
+        User fromSession = userService.getFromSession(session);
+        if (fromSession.getRole() != 0)          //非管理员只能看见他自己的部门
+            projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
+
+
+        switch (requestURI){
+            case "allotmentList":projectListVo.setStatus(1);break;  //搜索对应状态的项目
+            case "reconnaissanceList":projectListVo.setStatus(2);break;
+        }
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
+
+        ModelAndView mav = new ModelAndView(MATTER + requestURI);
         mav.addObject("projectListVo",projectListVo);
         return mav;
     }
@@ -105,28 +115,25 @@ public class adminIframeController {
      * @return
      */
     @RequestMapping("/projectInfo")
-    public ModelAndView projectInfo(ProjectListVo projectListVo, HttpSession session){
+    public ModelAndView projectInfo(ProjectListVo projectListVo, HttpSession session) throws BaseException {
         ModelAndView mav = new ModelAndView(PROJECT + "projectInfo");
 
 
-        List<ProjectInfoFileType> projectInfoFileTypes = projectInfoAssistService.loadFileTypeList();//文件类型列表
-        List<ProjectInfoStatus> projectInfoStatuses = projectInfoAssistService.loadStatus();    //状态列表
+        List<ProjectInfoFileType> projectInfoFileTypes = projectInfoAssistService.loadFileTypeList();//加载文件类型列表
+        List<ProjectInfoStatus> projectInfoStatuses = projectInfoAssistService.loadStatus();    //加载状态列表
 
-        //非管理员只加载自己部门
+        //非管理员只加载自己部门项目
         List<Department> departments = new ArrayList<>();
         User fromSession = userService.getFromSession(session);
-        if(fromSession != null){
-            if(fromSession.getRole() != 0){
-                departments.add(departmentService.getDepartmentById(fromSession.getDepartment()));
-                projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
-            } else {
-                departments = departmentService.getDepartments();  //部门列表
-            }
-            departmentService.queryParentName(departments);
+        if (fromSession.getRole() != 0) {   //自己部门
+            departments.add(departmentService.getDepartmentById(fromSession.getDepartment()));
+            projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());//搜索该部门的项目
+        } else {
+            departments = departmentService.getDepartments();  //部门列表
         }
+        departmentService.queryParentName(departments);
 
-
-        projectListVo = projectInfoService.selectAndQuery(projectListVo);   //todo 项目高级搜索   项目列表
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);   //todo 项目高级搜索
 
 
         List<Provinces> provinces = areasService.getProvinces();    //省份列表
@@ -160,9 +167,6 @@ public class adminIframeController {
 
 
 
-
-
-
     /* 3、系统管理 */
 
     /**
@@ -172,8 +176,8 @@ public class adminIframeController {
     @RequestMapping("/userList")
     public ModelAndView userList(UserListVo userListVo){
         ModelAndView mav = new ModelAndView(SYSTEM + "userList");
-        userListVo = userService.selectAndQueryOtherName(userListVo);//用户列表
-        List<Role> roleList = roleService.getList();    //角色列表
+        userListVo = userService.selectAndQueryOtherName(userListVo);//获得用户列表
+        List<Role> roleList = roleService.getList();    //获得角色列表
         mav.addObject("userListVo",userListVo);
         mav.addObject("roleList",roleList);
         return mav;
@@ -193,7 +197,7 @@ public class adminIframeController {
     }
 
     /**
-     * 部门详细信息
+     * 根据id获得该部门详细信息
      * @param id 部门id
      * @return
      */
@@ -206,7 +210,7 @@ public class adminIframeController {
     }
 
     /**
-     * 新增部门
+     * 进入新增部门页面
      * @return
      */
     @RequestMapping("/department/add")
@@ -227,16 +231,16 @@ public class adminIframeController {
     @RequestMapping("/personalInfo")
     public ModelAndView personalInfo(HttpSession session){
         ModelAndView mav = new ModelAndView(USER + "personalInfo");
-        List<Role> list = roleService.getList();
-        List<Department> departments = departmentService.getDepartments();
-        departmentService.queryParentName(departments);   //需要展示父name
+        List<Role> list = roleService.getList();    //获得身份列表
+        List<Department> departments = departmentService.getDepartments();  //获得部门列表
+        departmentService.queryParentName(departments);
         mav.addObject("roleList",list );
         mav.addObject("departments",departments);
         return mav;
     }
 
     /**
-     * 修改密码
+     * 进入修改密码页面
      * @param session
      * @return
      */

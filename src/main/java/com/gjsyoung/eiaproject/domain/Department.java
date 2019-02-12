@@ -4,6 +4,9 @@ import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 
+/**
+ * 部门
+ */
 public class Department implements Serializable{
     private Integer id;
 
@@ -34,7 +37,7 @@ public class Department implements Serializable{
     private String remarks;
 
     @Transient
-    private String parentName;  //非数据库字段  便于展示  父级名字
+    private String parentName;  //非数据库字段  父级名字
 
     public Integer getId() {
         return id;

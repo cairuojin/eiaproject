@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.ProjectReconnaissanceMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ProjectReconnaissance">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="reconnaissanceUserId" jdbcType="INTEGER" property="reconnaissanceuserid" />
+    <result column="informationList" jdbcType="VARCHAR" property="informationlist" />
+    <result column="siteConditions" jdbcType="VARCHAR" property="siteconditions" />
+    <result column="existingProblems" jdbcType="VARCHAR" property="existingproblems" />
+    <result column="annex" jdbcType="VARCHAR" property="annex" />
+    <result column="mapLng" jdbcType="VARCHAR" property="maplng" />
+    <result column="mapLat" jdbcType="VARCHAR" property="maplat" />
+    <result column="filePic1" jdbcType="VARCHAR" property="filepic1" />
+    <result column="filePic2" jdbcType="VARCHAR" property="filepic2" />
+    <result column="filePic3" jdbcType="VARCHAR" property="filepic3" />
+    <result column="filePic4" jdbcType="VARCHAR" property="filepic4" />
+    <result column="filePic5" jdbcType="VARCHAR" property="filepic5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, reconnaissanceUserId, informationList, siteConditions, existingProblems, annex, 
+    mapLng, mapLat, filePic1, filePic2, filePic3, filePic4, filePic5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from projectreconnaissance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from projectreconnaissance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ProjectReconnaissance">
+    insert into projectreconnaissance (id, reconnaissanceUserId, informationList, 
+      siteConditions, existingProblems, annex, 
+      mapLng, mapLat, filePic1, 
+      filePic2, filePic3, filePic4, 
+      filePic5)
+    values (#{id,jdbcType=INTEGER}, #{reconnaissanceuserid,jdbcType=INTEGER}, #{informationlist,jdbcType=VARCHAR}, 
+      #{siteconditions,jdbcType=VARCHAR}, #{existingproblems,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
+      #{maplng,jdbcType=VARCHAR}, #{maplat,jdbcType=VARCHAR}, #{filepic1,jdbcType=VARCHAR}, 
+      #{filepic2,jdbcType=VARCHAR}, #{filepic3,jdbcType=VARCHAR}, #{filepic4,jdbcType=VARCHAR}, 
+      #{filepic5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectReconnaissance">
+    insert into projectreconnaissance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="reconnaissanceuserid != null">
+        reconnaissanceUserId,
+      </if>
+      <if test="informationlist != null">
+        informationList,
+      </if>
+      <if test="siteconditions != null">
+        siteConditions,
+      </if>
+      <if test="existingproblems != null">
+        existingProblems,
+      </if>
+      <if test="annex != null">
+        annex,
+      </if>
+      <if test="maplng != null">
+        mapLng,
+      </if>
+      <if test="maplat != null">
+        mapLat,
+      </if>
+      <if test="filepic1 != null">
+        filePic1,
+      </if>
+      <if test="filepic2 != null">
+        filePic2,
+      </if>
+      <if test="filepic3 != null">
+        filePic3,
+      </if>
+      <if test="filepic4 != null">
+        filePic4,
+      </if>
+      <if test="filepic5 != null">
+        filePic5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="reconnaissanceuserid != null">
+        #{reconnaissanceuserid,jdbcType=INTEGER},
+      </if>
+      <if test="informationlist != null">
+        #{informationlist,jdbcType=VARCHAR},
+      </if>
+      <if test="siteconditions != null">
+        #{siteconditions,jdbcType=VARCHAR},
+      </if>
+      <if test="existingproblems != null">
+        #{existingproblems,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null">
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="maplng != null">
+        #{maplng,jdbcType=VARCHAR},
+      </if>
+      <if test="maplat != null">
+        #{maplat,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic1 != null">
+        #{filepic1,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic2 != null">
+        #{filepic2,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic3 != null">
+        #{filepic3,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic4 != null">
+        #{filepic4,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic5 != null">
+        #{filepic5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectReconnaissance">
+    update projectreconnaissance
+    <set>
+      <if test="reconnaissanceuserid != null">
+        reconnaissanceUserId = #{reconnaissanceuserid,jdbcType=INTEGER},
+      </if>
+      <if test="informationlist != null">
+        informationList = #{informationlist,jdbcType=VARCHAR},
+      </if>
+      <if test="siteconditions != null">
+        siteConditions = #{siteconditions,jdbcType=VARCHAR},
+      </if>
+      <if test="existingproblems != null">
+        existingProblems = #{existingproblems,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null">
+        annex = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="maplng != null">
+        mapLng = #{maplng,jdbcType=VARCHAR},
+      </if>
+      <if test="maplat != null">
+        mapLat = #{maplat,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic1 != null">
+        filePic1 = #{filepic1,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic2 != null">
+        filePic2 = #{filepic2,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic3 != null">
+        filePic3 = #{filepic3,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic4 != null">
+        filePic4 = #{filepic4,jdbcType=VARCHAR},
+      </if>
+      <if test="filepic5 != null">
+        filePic5 = #{filepic5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ProjectReconnaissance">
+    update projectreconnaissance
+    set reconnaissanceUserId = #{reconnaissanceuserid,jdbcType=INTEGER},
+      informationList = #{informationlist,jdbcType=VARCHAR},
+      siteConditions = #{siteconditions,jdbcType=VARCHAR},
+      existingProblems = #{existingproblems,jdbcType=VARCHAR},
+      annex = #{annex,jdbcType=VARCHAR},
+      mapLng = #{maplng,jdbcType=VARCHAR},
+      mapLat = #{maplat,jdbcType=VARCHAR},
+      filePic1 = #{filepic1,jdbcType=VARCHAR},
+      filePic2 = #{filepic2,jdbcType=VARCHAR},
+      filePic3 = #{filepic3,jdbcType=VARCHAR},
+      filePic4 = #{filepic4,jdbcType=VARCHAR},
+      filePic5 = #{filepic5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

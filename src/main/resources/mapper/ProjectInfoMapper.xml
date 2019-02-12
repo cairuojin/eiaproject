@@ -31,6 +31,9 @@
 
 
     <resultMap id="ResultMapWithQuery" extends="ResultMapWithBLOBs" type="com.gjsyoung.eiaproject.domain.ProjectInfo">
+        <result column="provinceName" jdbcType="VARCHAR" property="provinceName"/>
+        <result column="cityName" jdbcType="VARCHAR" property="cityName"/>
+        <result column="areaName" jdbcType="VARCHAR" property="areaName"/>
         <result column="statusName" jdbcType="VARCHAR" property="statusName"/>
         <result column="filetypeName" jdbcType="VARCHAR" property="filetypeName"/>
         <result column="evaluationscopeName" jdbcType="VARCHAR" property="evaluationscopeName"/>
@@ -110,9 +113,9 @@
 
 
     <sql id="Base_Column_List">
-    projectinfo.id, projectinfo.number, projectinfo.name, builder, province, city, area, filingDepartment, constructionSite,
-    fileType, evaluationScope, contacts, builderContact, subordinateDepartmentId, projectUndertakerUserId, 
-    contractMoney, projectinfo.status, createUserId, organizingUserId, hostUserId, projectinfo.createTime, projectinfo.updateTime
+    projectinfo.id, projectinfo.number, projectinfo.name, projectinfo.builder, projectinfo.province, projectinfo.city, projectinfo.area, projectinfo.filingDepartment, projectinfo.constructionSite,
+    projectinfo.fileType, projectinfo.evaluationScope, projectinfo.contacts, projectinfo.builderContact, projectinfo.subordinateDepartmentId, projectinfo.projectUndertakerUserId,
+    projectinfo.contractMoney, projectinfo.status, projectinfo.createUserId, projectinfo.organizingUserId, projectinfo.hostUserId, projectinfo.createTime, projectinfo.updateTime
     </sql>
     <sql id="Blob_Column_List">
     remarks
@@ -197,6 +200,10 @@
         ,
         <include refid="Blob_Column_List"/>
         ,
+        provinces.province as provinceName,
+        cities.city as cityName,
+        areas.area as areaName
+        ,
         projectinfostatus.name as statusName,
         projectinfofiletype.name as filetypeName,
         projectinfoscope.name as evaluationscopeName,
@@ -210,6 +217,9 @@
 
         from projectinfo
 
+        LEFT JOIN provinces on projectinfo.province = provinces.provinceid
+        LEFT JOIN cities on projectinfo.city = cities.cityid
+        LEFT JOIN areas on projectinfo.area = areas.areaid
         LEFT JOIN projectinfostatus on projectinfo.status = projectinfostatus.id    <!-- 状态名 -->
         LEFT JOIN projectinfofiletype ON projectinfo.fileType = projectinfofiletype.id    <!-- 文件类型名 -->
         LEFT JOIN projectinfoscope ON projectinfo.evaluationScope = projectinfoscope.id    <!-- 评价范围名 -->
@@ -518,6 +528,10 @@
         ,
         <include refid="Blob_Column_List"/>
         ,
+        provinces.province as provinceName,
+        cities.city as cityName,
+        areas.area as areaName
+        ,
         projectinfostatus.name as statusName,
         projectinfofiletype.name as filetypeName,
         projectinfoscope.name as evaluationscopeName,
@@ -531,6 +545,9 @@
 
         from projectinfo
 
+        LEFT JOIN provinces on projectinfo.province = provinces.provinceid
+        LEFT JOIN cities on projectinfo.city = cities.cityid
+        LEFT JOIN areas on projectinfo.area = areas.areaid
         LEFT JOIN projectinfostatus on projectinfo.status = projectinfostatus.id    <!-- 状态名 -->
         LEFT JOIN projectinfofiletype ON projectinfo.fileType = projectinfofiletype.id    <!-- 文件类型名 -->
         LEFT JOIN projectinfoscope ON projectinfo.evaluationScope = projectinfoscope.id    <!-- 评价范围名 -->

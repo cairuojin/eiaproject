@@ -8,6 +8,7 @@ import com.gjsyoung.eiaproject.mapper.UserMapper;
 import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.utils.RedisCache;
+import com.gjsyoung.eiaproject.utils.UploadUtil;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +27,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-/**
+/** 系统管理controller
  * @author cairuojin
  * @create 2019-01-27 19:28
  */
@@ -51,8 +52,8 @@ public class adminSystemController {
     @Autowired
     RoleService roleService;
 
-    @Value("${UploadPath}")
-    String UploadPath;
+    @Autowired
+    UploadUtil uploadUtil;
 
     /**
      * 跳转到添加用户页面
@@ -76,26 +77,7 @@ public class adminSystemController {
     @RequestMapping("/addUser")
     @ResponseBody
     public String addUser(MultipartFile file, User user) throws BaseException, IOException {
-        //图片上传
-        if(file != null && !"undefined".equals(file)){
-            String fileName = file.getOriginalFilename();
-            String type=fileName.indexOf(".")!=-1?fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()):null;
-            if(type == null){
-                throw BaseException.FAILED(400,"上传的类型有误！" );
-            }else{
-                if(("JPEG".equals(type.toUpperCase())||"PNG".equals(type.toUpperCase())||"JPG".equals(type.toUpperCase()))){
-                    if(fileName.length()>8)
-                        fileName = fileName.substring(fileName.length()-8);
-                    String path ="images/personalImg/"  + System.currentTimeMillis() + fileName;
-                    File personalFile = new File(UploadPath + path);
-                    file.transferTo(personalFile);
-                    user.setImgurl(path);  //设置路径
-                } else {
-                    throw BaseException.FAILED(400,"上传的类型有误！" );
-                }
-            }
-        }
-
+        user.setImgurl(uploadUtil.uploadPic(file,"images/personalImg/"));
         user.setCreatetime(new Date());
         user.setUpdatetime(new Date());
         userMapper.insert(user);    //添加用户
@@ -138,26 +120,7 @@ public class adminSystemController {
     @ResponseBody
     public String updatePersonalInfo(MultipartFile file, HttpServletRequest request, User user) throws BaseException, IOException {
         user.setUsername(null);                 //防止接口攻击
-        //图片上传
-        if(file != null && !"undefined".equals(file)){
-            String fileName = file.getOriginalFilename();
-            String type=fileName.indexOf(".")!=-1?fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()):null;
-            if(type == null){
-                throw BaseException.FAILED(400,"上传的类型有误！" );
-            }else{
-                if(("JPEG".equals(type.toUpperCase())||"PNG".equals(type.toUpperCase())||"JPG".equals(type.toUpperCase()))){
-                    if(fileName.length()>8)
-                        fileName = fileName.substring(fileName.length()-8);
-                    String path ="images/personalImg/"  + System.currentTimeMillis() + fileName;
-                    File personalFile = new File(UploadPath + path);
-                    file.transferTo(personalFile);
-                    user.setImgurl(path);  //设置路径
-                } else {
-                    throw BaseException.FAILED(400,"上传的类型有误！" );
-                }
-            }
-        }
-
+        user.setImgurl(uploadUtil.uploadPic(file,"images/personalImg/"));
         userMapper.updateByPrimaryKeySelective(user);
         return "OK";
     }

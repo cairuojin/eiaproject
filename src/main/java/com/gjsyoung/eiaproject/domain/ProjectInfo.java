@@ -4,6 +4,9 @@ import org.springframework.data.annotation.Transient;
 
 import java.util.Date;
 
+/**
+ * 项目主表
+ */
 public class ProjectInfo {
     private Integer id;
 
@@ -52,6 +55,15 @@ public class ProjectInfo {
     private String remarks;
 
     @Transient
+    private String provinceName;
+
+    @Transient
+    private String cityName;
+
+    @Transient
+    private String areaName;
+
+    @Transient
     private String statusName;  //项目状态名称
 
     @Transient
@@ -75,9 +87,29 @@ public class ProjectInfo {
     @Transient
     private User hostuser;              //主持人对象
 
+    public String getProvinceName() {
+        return provinceName;
+    }
 
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
 
+    public String getCityName() {
+        return cityName;
+    }
 
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
 
     public String getEvaluationscopeName() {
         return evaluationscopeName;

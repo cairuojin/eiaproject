@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * create by cairuojin on 2019/01/22
+ * 管理页面基础controller
  */
 @Controller
 @RequestMapping("/${authentication}")
@@ -40,7 +41,7 @@ public class adminController {
 
     /**
      * 根据身份获得左边导航
-     * @param headerPage
+     * @param headerPage    顶端导航当前位置 默认为1
      * @param session
      * @return
      * @throws Exception
@@ -49,19 +50,17 @@ public class adminController {
     @ResponseBody
     public String getCategory(@RequestParam(defaultValue = "1") String headerPage , HttpSession session) throws BaseException {
         Object userObj = session.getAttribute("user");
-        User user = null;
+        User user;
         if (userObj == null) {
             user = userMapper.selectByUsername("cairuojin");
             session.setAttribute("user",user);
-            //throw BaseException.FAILED(400,"用户未登录");
+            //throw BaseException.FAILED(400,"用户未登录");  //todo 身份填充
         } else {
             user = (User)userObj;
         }
 
-        List<Category> categoryByUser = categoryService.getCategoryByUser(headerPage , user);
+        List<Category> categoryByUser = categoryService.getCategoryByUser(headerPage , user);   //获得左边导航
         String jsonCategory = JSON.toJSONString(categoryByUser);
         return jsonCategory;
-
-
     }
 }
