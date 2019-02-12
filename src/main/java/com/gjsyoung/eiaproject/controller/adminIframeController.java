@@ -82,7 +82,8 @@ public class adminIframeController {
     @RequestMapping(
                 {
                     "/allotmentList",
-                    "/reconnaissanceList"
+                    "/reconnaissanceList",
+                    "/riskAnalysisList"
                 }
             )
     public ModelAndView personnelAllotment(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -97,6 +98,7 @@ public class adminIframeController {
         switch (requestURI){
             case "allotmentList":projectListVo.setStatus(1);break;  //搜索对应状态的项目
             case "reconnaissanceList":projectListVo.setStatus(2);break;
+            case "riskAnalysisList":projectListVo.setStatus(3);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 

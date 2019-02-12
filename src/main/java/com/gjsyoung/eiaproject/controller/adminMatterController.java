@@ -167,5 +167,19 @@ public class adminMatterController {
         return "OK";
     }
 
-
+    /* 3、风险分析录入 */
+    /**
+     * 进入单个人员踏勘录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/riskAnalysisInput")
+    public ModelAndView riskAnalysisInput(String projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "riskAnalysisInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(Integer.valueOf(projectInfoId)); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        mav.addObject("projectInfo",projectInfo);
+        return mav;
+    }
 }

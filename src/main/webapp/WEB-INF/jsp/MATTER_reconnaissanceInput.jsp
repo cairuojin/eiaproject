@@ -35,7 +35,7 @@
 
 <body>
 <div class="info" >
-    <div  >
+    <div>
         <form id="reconnaissanceFrom">
             <table class="form">
                 <tr>
