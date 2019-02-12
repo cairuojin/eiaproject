@@ -2,22 +2,25 @@ package com.gjsyoung.eiaproject.domain;
 
 import java.util.Date;
 
+/**
+ * 目录
+ */
 public class Category implements Comparable<Category>{
     private Integer id;
 
-    private Integer parentId;
+    private Integer parentId;   //父id
 
-    private String name;
+    private String name;        //内容
 
-    private Integer status;
+    private Integer status;     //状态  是否开启 0-开启 1删除
 
-    private Integer sortOrder;
+    private Integer sortOrder;  //排序id  小在前
 
-    private Integer isParent;
+    private Integer isParent;   //目录表树中位于第几层  0-横向   1竖父级 2竖子级
 
-    private String role;
+    private String role;        //何种身份可见
 
-    private String engname;
+    private String engname;     //对应controller方法的值
 
     private Date createtime;
 

@@ -5,6 +5,7 @@ import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.ProjectOperationRecordMapper;
 import com.gjsyoung.eiaproject.service.ProjectOperationRecordService;
 import com.gjsyoung.eiaproject.service.UserService;
+import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class ProjectOperationRecordServiceImpl implements ProjectOperationRecord
      * @param status
      */
     @Override
-    public void addRecord(HttpSession session, Integer projectId, Integer status) {
+    public void addRecord(HttpSession session, Integer projectId, Integer status) throws BaseException{
         ProjectOperationRecord projectOperationRecord = new ProjectOperationRecord();
         User fromSession = userService.getFromSession(session);
         if(fromSession != null){

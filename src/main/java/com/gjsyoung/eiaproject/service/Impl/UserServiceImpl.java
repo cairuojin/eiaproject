@@ -10,6 +10,7 @@ import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.utils.RedisCache;
+import com.gjsyoung.eiaproject.vo.BaseException;
 import com.gjsyoung.eiaproject.vo.UserListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,12 +91,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public User getFromSession(HttpSession session) {
+    public User getFromSession(HttpSession session) throws BaseException {
         Object userObj = session.getAttribute("user");
         if (userObj != null){
             return (User)userObj;
+        } else {
+            throw BaseException.FAILED(500,"您还未登录");
         }
-        return null;
     }
 
     /**

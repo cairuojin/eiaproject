@@ -33,7 +33,7 @@ public class adminProjectController {
         projectInfo.setUpdatetime(new Date());
         User user = (User) session.getAttribute("user");
         projectInfo.setCreateuserid(user.getId());
-        projectInfo.setStatus(0);
+        projectInfo.setStatus(1);   //待分配人员
         projectInfoMapper.insert(projectInfo);
         //清除项目缓存
         return "OK";

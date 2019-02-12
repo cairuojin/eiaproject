@@ -22,7 +22,7 @@
 
                     <td class="col2 tdcss2" style="padding-left: 30px;" >
                         <label class="labelsize" style="font-weight: normal;">
-                            ${projectInfo.province}-${projectInfo.city}-${projectInfo.area}</label>
+                            ${projectInfo.provinceName}-${projectInfo.cityName}-${projectInfo.areaName}</label>
                     </td>
                 </tr>
                 <tr>
@@ -116,7 +116,7 @@
                 "success": function (data) {
                     if ("OK" == data) {
                         alert("人员分配成功");
-                        parent.location.reload();
+                        window.location.href = "/api/admin/matter/allotmentList";
                     } else {
                         alert(data);
                     }

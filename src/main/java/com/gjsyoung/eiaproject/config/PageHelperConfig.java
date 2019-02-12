@@ -8,6 +8,7 @@ import java.util.Properties;
 
 /**
  * create by chenguitao on 2018/1/16
+ * 分页配置
  */
 @Configuration
 public class PageHelperConfig {
