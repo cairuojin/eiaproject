@@ -116,7 +116,7 @@
                 "success": function (data) {
                     if ("OK" == data) {
                         alert("人员分配成功");
-                        window.location.href = "/api/admin/matter/allotmentList";
+                        window.location.href = "/api/admin/iframe/allotmentList";
                     } else {
                         alert(data);
                     }

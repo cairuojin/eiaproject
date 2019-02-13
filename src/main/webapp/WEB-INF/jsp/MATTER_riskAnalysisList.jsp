@@ -4,11 +4,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>人员分配</title>
+    <title>风险信息录入</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/maincss.css">
-    <script src="/js/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="grid_100">
@@ -41,38 +40,40 @@
         <tr>
 
             <th class="sorting" style="width: 5%;">序号</th>
-            <th class="sorting" style="width: 30%;">项目名称</th>
-            <th class="sorting" style="width: 20%;">文件类型</th>
-            <th class="sorting" style="width: 20%;">评价范围类别 </th>
-            <th class="sorting" style="width: 10%;">承接人</th>
-            <th class="sorting" style="width: 15%;">操作</th>
+            <th class="sorting" style="width: 20%;">项目名称</th>
+            <th class="sorting" style="width: 15%;">所在区域</th>
+            <th class="sorting" style="width: 15%;">文件类型</th>
+            <th class="sorting" style="width: 15%;">评价范围类别 </th>
+            <th class="sorting" style="width: 5%;">承接人</th>
+            <th class="sorting" style="width: 5%;">主持人</th>
+            <th class="sorting" style="width: 5%;">组织人</th>
+            <th class="sorting" style="width: 5%;">风险判定状态</th>
+            <th class="sorting" style="width: 10%;">操作</th>
         </tr>
         </thead>
         <tbody>
+
             <c:forEach items="${projectListVo.projectInfos}" var="projectInfo">
                 <tr class="odd gradeX">
+
                     <td>${projectInfo.id}</td>
                     <td>[${projectInfo.number}]${projectInfo.name}</td>
+                    <td>${projectInfo.provinceName}-${projectInfo.cityName}-${projectInfo.areaName}</td>
                     <td class="center">${projectInfo.filetypeName}</td>
                     <td class="center">${projectInfo.evaluationscopeName}</td>
                     <td class="center">${projectInfo.projectundertakeruser.name}</td>
+                    <td class="center">${projectInfo.hostuser.name}</td>
+                    <td class="center">${projectInfo.organizinguser.name}</td>
+                    <td class="center"> 未录入</td>
                     <td class="center">
-                        <a href="/api/admin/matter/allotmentPersonnel?projectInfoId=${projectInfo.id}" >人员分配</a>&nbsp;&nbsp;
+                        <a href="/api/admin/matter/riskAnalysisInput?projectInfoId=${projectInfo.id}" >风险录入</a>&nbsp;&nbsp;
+
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-    <div class="block" style="text-align: center">
-        <c:forEach begin="1" end="${projectListVo.pageTotal}" var="index">
-            <c:if test="${index == projectListVo.pageNow}">
-                <a href="javascript:0" onclick="page(${index})" style="color: red"> ${index}</a>
-            </c:if>
-            <c:if test="${index != projectListVo.pageNow}">
-                <a href="javascript:0" onclick="page(${index})"> ${index}</a>
-            </c:if>
-        </c:forEach>
-    </div>
+    <div class="block"></div>
 
 
 
@@ -83,6 +84,7 @@
 </div>
 </body>
 
+<script src="/js/jquery.min.js" type="text/javascript"></script>
 <!-- 数据回显与赋值 -->
 <script type="text/javascript">
     var pageNow = "${projectListVo.pageNow}";
@@ -98,7 +100,7 @@
         queryname = $('#name').val();
         queryNumber = $('#number').val();
 
-        window.location.href = '/api/admin/iframe/allotmentList?' +
+        window.location.href = '/api/admin/iframe/riskAnalysisList?' +
             'name=' + queryname +
             '&number=' + queryNumber
     }
@@ -109,11 +111,10 @@
     function page(pageNow) {
         queryname = $('#name').val();
         queryNumber = $('#number').val();
-        window.location.href = '/api/admin/iframe/allotmentList?' +
+        window.location.href = '/api/admin/iframe/riskAnalysisList?' +
             'name=' + queryname +
             '&number=' + queryNumber +
             '&pageNow=' + pageNow
     }
 </script>
-
 </html>

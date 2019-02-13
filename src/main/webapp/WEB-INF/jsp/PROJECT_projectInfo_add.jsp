@@ -316,7 +316,7 @@
                 "success": function (data) {
                     if ("OK" == data) {
                         alert("添加成功");
-                        parent.location.reload();
+                        window.location.href="/api/admin/iframe/projectInfo";
                     } else {
                         alert(data);
                     }

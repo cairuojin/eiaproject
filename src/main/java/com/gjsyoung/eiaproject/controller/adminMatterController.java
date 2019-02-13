@@ -2,9 +2,11 @@ package com.gjsyoung.eiaproject.controller;
 
 import com.gjsyoung.eiaproject.domain.ProjectInfo;
 import com.gjsyoung.eiaproject.domain.ProjectReconnaissance;
+import com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis;
 import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.ProjectInfoMapper;
 import com.gjsyoung.eiaproject.mapper.ProjectReconnaissanceMapper;
+import com.gjsyoung.eiaproject.mapper.ProjectRiskAnalysisMapper;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
 import com.gjsyoung.eiaproject.service.ProjectOperationRecordService;
 import com.gjsyoung.eiaproject.service.UserService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
@@ -55,6 +58,9 @@ public class adminMatterController {
 
     @Autowired
     UploadUtil uploadUtil;
+
+    @Autowired
+    ProjectRiskAnalysisMapper projectReconnaissance;
 
     /* 1、人员分配 */
 
@@ -164,6 +170,56 @@ public class adminMatterController {
         projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
         //插入操作记录表
         projectOperationRecordService.addRecord(session,projectInfo.getId(),2);
+        return "OK";
+    }
+
+    /* 3、风险分析录入 */
+    /**
+     * 进入单个人员踏勘录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/riskAnalysisInput")
+    public ModelAndView riskAnalysisInput(String projectInfoId) throws BaseException {
+        if(projectInfoId == null)
+            return new ModelAndView("redirect:/api/admin/iframe/riskAnalysisList");
+
+
+        ModelAndView mav = new ModelAndView(MATTER + "riskAnalysisInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(Integer.valueOf(projectInfoId)); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        mav.addObject("projectInfo",projectInfo);
+        return mav;
+    }
+
+
+    @RequestMapping("/riskAnalysis")
+    @ResponseBody
+    public String reconnaissance(ProjectRiskAnalysis projectRiskAnalysis, HttpSession session) throws BaseException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectRiskAnalysis.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 3)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        User fromSession = userService.getFromSession(session);
+        projectRiskAnalysis.setRiskanalysisuserid(fromSession.getId());
+        //插入风险表
+        projectReconnaissance.insert(projectRiskAnalysis);
+
+        //更新主表状态
+        projectInfo.setStatus(4);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),3);
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return "OK";
     }
 
