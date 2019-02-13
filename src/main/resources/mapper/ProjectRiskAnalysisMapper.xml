@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.ProjectRiskAnalysisMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="riskanalysisUserId" jdbcType="INTEGER" property="riskanalysisuserid" />
+    <result column="eiacategory" jdbcType="INTEGER" property="eiacategory" />
+    <result column="companyQualification" jdbcType="INTEGER" property="companyqualification" />
+    <result column="projectInformation" jdbcType="VARCHAR" property="projectinformation" />
+    <result column="projectInvestment" jdbcType="VARCHAR" property="projectinvestment" />
+    <result column="natureconstruction" jdbcType="INTEGER" property="natureconstruction" />
+    <result column="contentsofconstruction" jdbcType="VARCHAR" property="contentsofconstruction" />
+    <result column="processroute" jdbcType="VARCHAR" property="processroute" />
+    <result column="constructionscale" jdbcType="VARCHAR" property="constructionscale" />
+    <result column="geographicalposition" jdbcType="VARCHAR" property="geographicalposition" />
+    <result column="projectcategory" jdbcType="INTEGER" property="projectcategory" />
+    <result column="projectgrade" jdbcType="INTEGER" property="projectgrade" />
+    <result column="extension" jdbcType="VARCHAR" property="extension" />
+    <result column="drainage" jdbcType="INTEGER" property="drainage" />
+    <result column="environmental" jdbcType="INTEGER" property="environmental" />
+    <result column="contaminants" jdbcType="INTEGER" property="contaminants" />
+    <result column="entrycriteria" jdbcType="INTEGER" property="entrycriteria" />
+    <result column="otherpolicies" jdbcType="INTEGER" property="otherpolicies" />
+    <result column="twohighandonecapital" jdbcType="INTEGER" property="twohighandonecapital" />
+    <result column="industry" jdbcType="INTEGER" property="industry" />
+    <result column="environmentalprotection" jdbcType="INTEGER" property="environmentalprotection" />
+    <result column="hygiene" jdbcType="INTEGER" property="hygiene" />
+    <result column="park" jdbcType="INTEGER" property="park" />
+    <result column="otherlocation" jdbcType="INTEGER" property="otherlocation" />
+    <result column="involvingprotectedareas" jdbcType="VARCHAR" property="involvingprotectedareas" />
+    <result column="othersensitivetargets" jdbcType="VARCHAR" property="othersensitivetargets" />
+    <result column="otherquestions" jdbcType="VARCHAR" property="otherquestions" />
+    <result column="projectgroupcomments" jdbcType="VARCHAR" property="projectgroupcomments" />
+    <result column="Remarks1" jdbcType="VARCHAR" property="remarks1" />
+    <result column="Remarks2" jdbcType="VARCHAR" property="remarks2" />
+    <result column="Remarks3" jdbcType="VARCHAR" property="remarks3" />
+    <result column="Remarks4" jdbcType="VARCHAR" property="remarks4" />
+    <result column="Remarks5" jdbcType="VARCHAR" property="remarks5" />
+    <result column="Remarks6" jdbcType="VARCHAR" property="remarks6" />
+    <result column="Remarks7" jdbcType="VARCHAR" property="remarks7" />
+    <result column="Remarks8" jdbcType="VARCHAR" property="remarks8" />
+    <result column="Remarks9" jdbcType="VARCHAR" property="remarks9" />
+    <result column="Remarks10" jdbcType="VARCHAR" property="remarks10" />
+    <result column="Remarks11" jdbcType="VARCHAR" property="remarks11" />
+    <result column="Remarks12" jdbcType="VARCHAR" property="remarks12" />
+    <result column="Remarks13" jdbcType="VARCHAR" property="remarks13" />
+    <result column="Remarks14" jdbcType="VARCHAR" property="remarks14" />
+    <result column="Remarks15" jdbcType="VARCHAR" property="remarks15" />
+    <result column="Remarks16" jdbcType="VARCHAR" property="remarks16" />
+    <result column="Remarks17" jdbcType="VARCHAR" property="remarks17" />
+    <result column="Remarks18" jdbcType="VARCHAR" property="remarks18" />
+    <result column="Remarks19" jdbcType="VARCHAR" property="remarks19" />
+    <result column="Remarks20" jdbcType="VARCHAR" property="remarks20" />
+    <result column="Remarks21" jdbcType="VARCHAR" property="remarks21" />
+    <result column="Remarks22" jdbcType="VARCHAR" property="remarks22" />
+    <result column="Remarks23" jdbcType="VARCHAR" property="remarks23" />
+    <result column="Remarks24" jdbcType="VARCHAR" property="remarks24" />
+    <result column="Remarks25" jdbcType="VARCHAR" property="remarks25" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, riskanalysisUserId, eiacategory, companyQualification, projectInformation, projectInvestment, 
+    natureconstruction, contentsofconstruction, processroute, constructionscale, geographicalposition, 
+    projectcategory, projectgrade, extension, drainage, environmental, contaminants, 
+    entrycriteria, otherpolicies, twohighandonecapital, industry, environmentalprotection, 
+    hygiene, park, otherlocation, involvingprotectedareas, othersensitivetargets, otherquestions, 
+    projectgroupcomments, Remarks1, Remarks2, Remarks3, Remarks4, Remarks5, Remarks6, 
+    Remarks7, Remarks8, Remarks9, Remarks10, Remarks11, Remarks12, Remarks13, Remarks14, 
+    Remarks15, Remarks16, Remarks17, Remarks18, Remarks19, Remarks20, Remarks21, Remarks22, 
+    Remarks23, Remarks24, Remarks25
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from projectriskanalysis
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from projectriskanalysis
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis">
+    insert into projectriskanalysis (id, riskanalysisUserId, eiacategory, 
+      companyQualification, projectInformation, 
+      projectInvestment, natureconstruction, 
+      contentsofconstruction, processroute, constructionscale, 
+      geographicalposition, projectcategory, 
+      projectgrade, extension, drainage, 
+      environmental, contaminants, entrycriteria, 
+      otherpolicies, twohighandonecapital, industry, 
+      environmentalprotection, hygiene, park, 
+      otherlocation, involvingprotectedareas, 
+      othersensitivetargets, otherquestions, 
+      projectgroupcomments, Remarks1, Remarks2, 
+      Remarks3, Remarks4, Remarks5, 
+      Remarks6, Remarks7, Remarks8, 
+      Remarks9, Remarks10, Remarks11, 
+      Remarks12, Remarks13, Remarks14, 
+      Remarks15, Remarks16, Remarks17, 
+      Remarks18, Remarks19, Remarks20, 
+      Remarks21, Remarks22, Remarks23, 
+      Remarks24, Remarks25)
+    values (#{id,jdbcType=INTEGER}, #{riskanalysisuserid,jdbcType=INTEGER}, #{eiacategory,jdbcType=INTEGER}, 
+      #{companyqualification,jdbcType=INTEGER}, #{projectinformation,jdbcType=VARCHAR}, 
+      #{projectinvestment,jdbcType=VARCHAR}, #{natureconstruction,jdbcType=INTEGER}, 
+      #{contentsofconstruction,jdbcType=VARCHAR}, #{processroute,jdbcType=VARCHAR}, #{constructionscale,jdbcType=VARCHAR}, 
+      #{geographicalposition,jdbcType=VARCHAR}, #{projectcategory,jdbcType=INTEGER}, 
+      #{projectgrade,jdbcType=INTEGER}, #{extension,jdbcType=VARCHAR}, #{drainage,jdbcType=INTEGER}, 
+      #{environmental,jdbcType=INTEGER}, #{contaminants,jdbcType=INTEGER}, #{entrycriteria,jdbcType=INTEGER}, 
+      #{otherpolicies,jdbcType=INTEGER}, #{twohighandonecapital,jdbcType=INTEGER}, #{industry,jdbcType=INTEGER}, 
+      #{environmentalprotection,jdbcType=INTEGER}, #{hygiene,jdbcType=INTEGER}, #{park,jdbcType=INTEGER}, 
+      #{otherlocation,jdbcType=INTEGER}, #{involvingprotectedareas,jdbcType=VARCHAR}, 
+      #{othersensitivetargets,jdbcType=VARCHAR}, #{otherquestions,jdbcType=VARCHAR}, 
+      #{projectgroupcomments,jdbcType=VARCHAR}, #{remarks1,jdbcType=VARCHAR}, #{remarks2,jdbcType=VARCHAR}, 
+      #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, #{remarks5,jdbcType=VARCHAR}, 
+      #{remarks6,jdbcType=VARCHAR}, #{remarks7,jdbcType=VARCHAR}, #{remarks8,jdbcType=VARCHAR}, 
+      #{remarks9,jdbcType=VARCHAR}, #{remarks10,jdbcType=VARCHAR}, #{remarks11,jdbcType=VARCHAR}, 
+      #{remarks12,jdbcType=VARCHAR}, #{remarks13,jdbcType=VARCHAR}, #{remarks14,jdbcType=VARCHAR}, 
+      #{remarks15,jdbcType=VARCHAR}, #{remarks16,jdbcType=VARCHAR}, #{remarks17,jdbcType=VARCHAR}, 
+      #{remarks18,jdbcType=VARCHAR}, #{remarks19,jdbcType=VARCHAR}, #{remarks20,jdbcType=VARCHAR}, 
+      #{remarks21,jdbcType=VARCHAR}, #{remarks22,jdbcType=VARCHAR}, #{remarks23,jdbcType=VARCHAR}, 
+      #{remarks24,jdbcType=VARCHAR}, #{remarks25,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis">
+    insert into projectriskanalysis
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="riskanalysisuserid != null">
+        riskanalysisUserId,
+      </if>
+      <if test="eiacategory != null">
+        eiacategory,
+      </if>
+      <if test="companyqualification != null">
+        companyQualification,
+      </if>
+      <if test="projectinformation != null">
+        projectInformation,
+      </if>
+      <if test="projectinvestment != null">
+        projectInvestment,
+      </if>
+      <if test="natureconstruction != null">
+        natureconstruction,
+      </if>
+      <if test="contentsofconstruction != null">
+        contentsofconstruction,
+      </if>
+      <if test="processroute != null">
+        processroute,
+      </if>
+      <if test="constructionscale != null">
+        constructionscale,
+      </if>
+      <if test="geographicalposition != null">
+        geographicalposition,
+      </if>
+      <if test="projectcategory != null">
+        projectcategory,
+      </if>
+      <if test="projectgrade != null">
+        projectgrade,
+      </if>
+      <if test="extension != null">
+        extension,
+      </if>
+      <if test="drainage != null">
+        drainage,
+      </if>
+      <if test="environmental != null">
+        environmental,
+      </if>
+      <if test="contaminants != null">
+        contaminants,
+      </if>
+      <if test="entrycriteria != null">
+        entrycriteria,
+      </if>
+      <if test="otherpolicies != null">
+        otherpolicies,
+      </if>
+      <if test="twohighandonecapital != null">
+        twohighandonecapital,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="environmentalprotection != null">
+        environmentalprotection,
+      </if>
+      <if test="hygiene != null">
+        hygiene,
+      </if>
+      <if test="park != null">
+        park,
+      </if>
+      <if test="otherlocation != null">
+        otherlocation,
+      </if>
+      <if test="involvingprotectedareas != null">
+        involvingprotectedareas,
+      </if>
+      <if test="othersensitivetargets != null">
+        othersensitivetargets,
+      </if>
+      <if test="otherquestions != null">
+        otherquestions,
+      </if>
+      <if test="projectgroupcomments != null">
+        projectgroupcomments,
+      </if>
+      <if test="remarks1 != null">
+        Remarks1,
+      </if>
+      <if test="remarks2 != null">
+        Remarks2,
+      </if>
+      <if test="remarks3 != null">
+        Remarks3,
+      </if>
+      <if test="remarks4 != null">
+        Remarks4,
+      </if>
+      <if test="remarks5 != null">
+        Remarks5,
+      </if>
+      <if test="remarks6 != null">
+        Remarks6,
+      </if>
+      <if test="remarks7 != null">
+        Remarks7,
+      </if>
+      <if test="remarks8 != null">
+        Remarks8,
+      </if>
+      <if test="remarks9 != null">
+        Remarks9,
+      </if>
+      <if test="remarks10 != null">
+        Remarks10,
+      </if>
+      <if test="remarks11 != null">
+        Remarks11,
+      </if>
+      <if test="remarks12 != null">
+        Remarks12,
+      </if>
+      <if test="remarks13 != null">
+        Remarks13,
+      </if>
+      <if test="remarks14 != null">
+        Remarks14,
+      </if>
+      <if test="remarks15 != null">
+        Remarks15,
+      </if>
+      <if test="remarks16 != null">
+        Remarks16,
+      </if>
+      <if test="remarks17 != null">
+        Remarks17,
+      </if>
+      <if test="remarks18 != null">
+        Remarks18,
+      </if>
+      <if test="remarks19 != null">
+        Remarks19,
+      </if>
+      <if test="remarks20 != null">
+        Remarks20,
+      </if>
+      <if test="remarks21 != null">
+        Remarks21,
+      </if>
+      <if test="remarks22 != null">
+        Remarks22,
+      </if>
+      <if test="remarks23 != null">
+        Remarks23,
+      </if>
+      <if test="remarks24 != null">
+        Remarks24,
+      </if>
+      <if test="remarks25 != null">
+        Remarks25,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="riskanalysisuserid != null">
+        #{riskanalysisuserid,jdbcType=INTEGER},
+      </if>
+      <if test="eiacategory != null">
+        #{eiacategory,jdbcType=INTEGER},
+      </if>
+      <if test="companyqualification != null">
+        #{companyqualification,jdbcType=INTEGER},
+      </if>
+      <if test="projectinformation != null">
+        #{projectinformation,jdbcType=VARCHAR},
+      </if>
+      <if test="projectinvestment != null">
+        #{projectinvestment,jdbcType=VARCHAR},
+      </if>
+      <if test="natureconstruction != null">
+        #{natureconstruction,jdbcType=INTEGER},
+      </if>
+      <if test="contentsofconstruction != null">
+        #{contentsofconstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="processroute != null">
+        #{processroute,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionscale != null">
+        #{constructionscale,jdbcType=VARCHAR},
+      </if>
+      <if test="geographicalposition != null">
+        #{geographicalposition,jdbcType=VARCHAR},
+      </if>
+      <if test="projectcategory != null">
+        #{projectcategory,jdbcType=INTEGER},
+      </if>
+      <if test="projectgrade != null">
+        #{projectgrade,jdbcType=INTEGER},
+      </if>
+      <if test="extension != null">
+        #{extension,jdbcType=VARCHAR},
+      </if>
+      <if test="drainage != null">
+        #{drainage,jdbcType=INTEGER},
+      </if>
+      <if test="environmental != null">
+        #{environmental,jdbcType=INTEGER},
+      </if>
+      <if test="contaminants != null">
+        #{contaminants,jdbcType=INTEGER},
+      </if>
+      <if test="entrycriteria != null">
+        #{entrycriteria,jdbcType=INTEGER},
+      </if>
+      <if test="otherpolicies != null">
+        #{otherpolicies,jdbcType=INTEGER},
+      </if>
+      <if test="twohighandonecapital != null">
+        #{twohighandonecapital,jdbcType=INTEGER},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=INTEGER},
+      </if>
+      <if test="environmentalprotection != null">
+        #{environmentalprotection,jdbcType=INTEGER},
+      </if>
+      <if test="hygiene != null">
+        #{hygiene,jdbcType=INTEGER},
+      </if>
+      <if test="park != null">
+        #{park,jdbcType=INTEGER},
+      </if>
+      <if test="otherlocation != null">
+        #{otherlocation,jdbcType=INTEGER},
+      </if>
+      <if test="involvingprotectedareas != null">
+        #{involvingprotectedareas,jdbcType=VARCHAR},
+      </if>
+      <if test="othersensitivetargets != null">
+        #{othersensitivetargets,jdbcType=VARCHAR},
+      </if>
+      <if test="otherquestions != null">
+        #{otherquestions,jdbcType=VARCHAR},
+      </if>
+      <if test="projectgroupcomments != null">
+        #{projectgroupcomments,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks1 != null">
+        #{remarks1,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks2 != null">
+        #{remarks2,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks3 != null">
+        #{remarks3,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks4 != null">
+        #{remarks4,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks5 != null">
+        #{remarks5,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks6 != null">
+        #{remarks6,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks7 != null">
+        #{remarks7,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks8 != null">
+        #{remarks8,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks9 != null">
+        #{remarks9,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks10 != null">
+        #{remarks10,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks11 != null">
+        #{remarks11,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks12 != null">
+        #{remarks12,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks13 != null">
+        #{remarks13,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks14 != null">
+        #{remarks14,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks15 != null">
+        #{remarks15,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks16 != null">
+        #{remarks16,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks17 != null">
+        #{remarks17,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks18 != null">
+        #{remarks18,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks19 != null">
+        #{remarks19,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks20 != null">
+        #{remarks20,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks21 != null">
+        #{remarks21,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks22 != null">
+        #{remarks22,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks23 != null">
+        #{remarks23,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks24 != null">
+        #{remarks24,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks25 != null">
+        #{remarks25,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis">
+    update projectriskanalysis
+    <set>
+      <if test="riskanalysisuserid != null">
+        riskanalysisUserId = #{riskanalysisuserid,jdbcType=INTEGER},
+      </if>
+      <if test="eiacategory != null">
+        eiacategory = #{eiacategory,jdbcType=INTEGER},
+      </if>
+      <if test="companyqualification != null">
+        companyQualification = #{companyqualification,jdbcType=INTEGER},
+      </if>
+      <if test="projectinformation != null">
+        projectInformation = #{projectinformation,jdbcType=VARCHAR},
+      </if>
+      <if test="projectinvestment != null">
+        projectInvestment = #{projectinvestment,jdbcType=VARCHAR},
+      </if>
+      <if test="natureconstruction != null">
+        natureconstruction = #{natureconstruction,jdbcType=INTEGER},
+      </if>
+      <if test="contentsofconstruction != null">
+        contentsofconstruction = #{contentsofconstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="processroute != null">
+        processroute = #{processroute,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionscale != null">
+        constructionscale = #{constructionscale,jdbcType=VARCHAR},
+      </if>
+      <if test="geographicalposition != null">
+        geographicalposition = #{geographicalposition,jdbcType=VARCHAR},
+      </if>
+      <if test="projectcategory != null">
+        projectcategory = #{projectcategory,jdbcType=INTEGER},
+      </if>
+      <if test="projectgrade != null">
+        projectgrade = #{projectgrade,jdbcType=INTEGER},
+      </if>
+      <if test="extension != null">
+        extension = #{extension,jdbcType=VARCHAR},
+      </if>
+      <if test="drainage != null">
+        drainage = #{drainage,jdbcType=INTEGER},
+      </if>
+      <if test="environmental != null">
+        environmental = #{environmental,jdbcType=INTEGER},
+      </if>
+      <if test="contaminants != null">
+        contaminants = #{contaminants,jdbcType=INTEGER},
+      </if>
+      <if test="entrycriteria != null">
+        entrycriteria = #{entrycriteria,jdbcType=INTEGER},
+      </if>
+      <if test="otherpolicies != null">
+        otherpolicies = #{otherpolicies,jdbcType=INTEGER},
+      </if>
+      <if test="twohighandonecapital != null">
+        twohighandonecapital = #{twohighandonecapital,jdbcType=INTEGER},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=INTEGER},
+      </if>
+      <if test="environmentalprotection != null">
+        environmentalprotection = #{environmentalprotection,jdbcType=INTEGER},
+      </if>
+      <if test="hygiene != null">
+        hygiene = #{hygiene,jdbcType=INTEGER},
+      </if>
+      <if test="park != null">
+        park = #{park,jdbcType=INTEGER},
+      </if>
+      <if test="otherlocation != null">
+        otherlocation = #{otherlocation,jdbcType=INTEGER},
+      </if>
+      <if test="involvingprotectedareas != null">
+        involvingprotectedareas = #{involvingprotectedareas,jdbcType=VARCHAR},
+      </if>
+      <if test="othersensitivetargets != null">
+        othersensitivetargets = #{othersensitivetargets,jdbcType=VARCHAR},
+      </if>
+      <if test="otherquestions != null">
+        otherquestions = #{otherquestions,jdbcType=VARCHAR},
+      </if>
+      <if test="projectgroupcomments != null">
+        projectgroupcomments = #{projectgroupcomments,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks1 != null">
+        Remarks1 = #{remarks1,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks2 != null">
+        Remarks2 = #{remarks2,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks3 != null">
+        Remarks3 = #{remarks3,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks4 != null">
+        Remarks4 = #{remarks4,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks5 != null">
+        Remarks5 = #{remarks5,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks6 != null">
+        Remarks6 = #{remarks6,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks7 != null">
+        Remarks7 = #{remarks7,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks8 != null">
+        Remarks8 = #{remarks8,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks9 != null">
+        Remarks9 = #{remarks9,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks10 != null">
+        Remarks10 = #{remarks10,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks11 != null">
+        Remarks11 = #{remarks11,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks12 != null">
+        Remarks12 = #{remarks12,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks13 != null">
+        Remarks13 = #{remarks13,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks14 != null">
+        Remarks14 = #{remarks14,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks15 != null">
+        Remarks15 = #{remarks15,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks16 != null">
+        Remarks16 = #{remarks16,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks17 != null">
+        Remarks17 = #{remarks17,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks18 != null">
+        Remarks18 = #{remarks18,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks19 != null">
+        Remarks19 = #{remarks19,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks20 != null">
+        Remarks20 = #{remarks20,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks21 != null">
+        Remarks21 = #{remarks21,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks22 != null">
+        Remarks22 = #{remarks22,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks23 != null">
+        Remarks23 = #{remarks23,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks24 != null">
+        Remarks24 = #{remarks24,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks25 != null">
+        Remarks25 = #{remarks25,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis">
+    update projectriskanalysis
+    set riskanalysisUserId = #{riskanalysisuserid,jdbcType=INTEGER},
+      eiacategory = #{eiacategory,jdbcType=INTEGER},
+      companyQualification = #{companyqualification,jdbcType=INTEGER},
+      projectInformation = #{projectinformation,jdbcType=VARCHAR},
+      projectInvestment = #{projectinvestment,jdbcType=VARCHAR},
+      natureconstruction = #{natureconstruction,jdbcType=INTEGER},
+      contentsofconstruction = #{contentsofconstruction,jdbcType=VARCHAR},
+      processroute = #{processroute,jdbcType=VARCHAR},
+      constructionscale = #{constructionscale,jdbcType=VARCHAR},
+      geographicalposition = #{geographicalposition,jdbcType=VARCHAR},
+      projectcategory = #{projectcategory,jdbcType=INTEGER},
+      projectgrade = #{projectgrade,jdbcType=INTEGER},
+      extension = #{extension,jdbcType=VARCHAR},
+      drainage = #{drainage,jdbcType=INTEGER},
+      environmental = #{environmental,jdbcType=INTEGER},
+      contaminants = #{contaminants,jdbcType=INTEGER},
+      entrycriteria = #{entrycriteria,jdbcType=INTEGER},
+      otherpolicies = #{otherpolicies,jdbcType=INTEGER},
+      twohighandonecapital = #{twohighandonecapital,jdbcType=INTEGER},
+      industry = #{industry,jdbcType=INTEGER},
+      environmentalprotection = #{environmentalprotection,jdbcType=INTEGER},
+      hygiene = #{hygiene,jdbcType=INTEGER},
+      park = #{park,jdbcType=INTEGER},
+      otherlocation = #{otherlocation,jdbcType=INTEGER},
+      involvingprotectedareas = #{involvingprotectedareas,jdbcType=VARCHAR},
+      othersensitivetargets = #{othersensitivetargets,jdbcType=VARCHAR},
+      otherquestions = #{otherquestions,jdbcType=VARCHAR},
+      projectgroupcomments = #{projectgroupcomments,jdbcType=VARCHAR},
+      Remarks1 = #{remarks1,jdbcType=VARCHAR},
+      Remarks2 = #{remarks2,jdbcType=VARCHAR},
+      Remarks3 = #{remarks3,jdbcType=VARCHAR},
+      Remarks4 = #{remarks4,jdbcType=VARCHAR},
+      Remarks5 = #{remarks5,jdbcType=VARCHAR},
+      Remarks6 = #{remarks6,jdbcType=VARCHAR},
+      Remarks7 = #{remarks7,jdbcType=VARCHAR},
+      Remarks8 = #{remarks8,jdbcType=VARCHAR},
+      Remarks9 = #{remarks9,jdbcType=VARCHAR},
+      Remarks10 = #{remarks10,jdbcType=VARCHAR},
+      Remarks11 = #{remarks11,jdbcType=VARCHAR},
+      Remarks12 = #{remarks12,jdbcType=VARCHAR},
+      Remarks13 = #{remarks13,jdbcType=VARCHAR},
+      Remarks14 = #{remarks14,jdbcType=VARCHAR},
+      Remarks15 = #{remarks15,jdbcType=VARCHAR},
+      Remarks16 = #{remarks16,jdbcType=VARCHAR},
+      Remarks17 = #{remarks17,jdbcType=VARCHAR},
+      Remarks18 = #{remarks18,jdbcType=VARCHAR},
+      Remarks19 = #{remarks19,jdbcType=VARCHAR},
+      Remarks20 = #{remarks20,jdbcType=VARCHAR},
+      Remarks21 = #{remarks21,jdbcType=VARCHAR},
+      Remarks22 = #{remarks22,jdbcType=VARCHAR},
+      Remarks23 = #{remarks23,jdbcType=VARCHAR},
+      Remarks24 = #{remarks24,jdbcType=VARCHAR},
+      Remarks25 = #{remarks25,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -83,4 +83,38 @@
 </div>
 </div>
 </body>
+
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+<!-- 数据回显与赋值 -->
+<script type="text/javascript">
+    var pageNow = "${projectListVo.pageNow}";
+    $(function () {
+        $('#name').val("${projectListVo.name}");
+        $('#number').val("${projectListVo.number}");
+    });
+</script>
+
+<!-- 点击查询按钮 -->
+<script type="text/javascript">
+    function queryProjects() {
+        queryname = $('#name').val();
+        queryNumber = $('#number').val();
+
+        window.location.href = '/api/admin/iframe/riskAnalysisList?' +
+            'name=' + queryname +
+            '&number=' + queryNumber
+    }
+</script>
+
+<!-- 分页 -->
+<script type="text/javascript">
+    function page(pageNow) {
+        queryname = $('#name').val();
+        queryNumber = $('#number').val();
+        window.location.href = '/api/admin/iframe/riskAnalysisList?' +
+            'name=' + queryname +
+            '&number=' + queryNumber +
+            '&pageNow=' + pageNow
+    }
+</script>
 </html>
