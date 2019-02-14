@@ -183,7 +183,9 @@ public class adminMatterController {
     public ModelAndView riskAnalysisInput(String projectInfoId) throws BaseException {
         if(projectInfoId == null)
             return new ModelAndView("redirect:/api/admin/iframe/riskAnalysisList");
-
+        ProjectRiskAnalysis projectRiskAnalysis = projectReconnaissance.selectByPrimaryKey(Integer.valueOf(projectInfoId));
+        if(projectRiskAnalysis != null)
+            throw BaseException.FAILED(400,"该项目已经录入风险分析");
 
         ModelAndView mav = new ModelAndView(MATTER + "riskAnalysisInput");
         ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(Integer.valueOf(projectInfoId)); //搜索该项目
@@ -215,11 +217,6 @@ public class adminMatterController {
         //插入操作记录表
         projectOperationRecordService.addRecord(session,projectInfo.getId(),3);
 
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return "OK";
     }
 
