@@ -1,5 +1,9 @@
 package com.gjsyoung.eiaproject.domain;
 
+import org.springframework.data.annotation.Transient;
+
+import java.util.Date;
+
 public class ProjectRiskAnalysis {
     private Integer id;
 
@@ -108,6 +112,19 @@ public class ProjectRiskAnalysis {
     private String remarks24;
 
     private String remarks25;
+
+    private Date createtime;
+
+    @Transient
+    private User user;  //风险录入人员
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getId() {
         return id;
@@ -539,5 +556,13 @@ public class ProjectRiskAnalysis {
 
     public void setRemarks25(String remarks25) {
         this.remarks25 = remarks25 == null ? null : remarks25.trim();
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 }

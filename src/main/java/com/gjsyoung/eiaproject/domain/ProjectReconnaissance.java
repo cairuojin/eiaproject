@@ -1,12 +1,13 @@
 package com.gjsyoung.eiaproject.domain;
 
-/**
- * 项目踏勘表
- */
+import org.springframework.data.annotation.Transient;
+
+import java.util.Date;
+
 public class ProjectReconnaissance {
     private Integer id;
 
-    private Integer reconnaissanceuserid;   //踏勘人员Id
+    private Integer reconnaissanceuserid;
 
     private String informationlist;
 
@@ -29,6 +30,29 @@ public class ProjectReconnaissance {
     private String filepic4;
 
     private String filepic5;
+
+    private String filepicname1;
+
+    private String filepicname2;
+
+    private String filepicname3;
+
+    private String filepicname4;
+
+    private String filepicname5;
+
+    private Date createtime;
+
+    @Transient
+    private User user;  //踏勘人员
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getId() {
         return id;
@@ -132,5 +156,53 @@ public class ProjectReconnaissance {
 
     public void setFilepic5(String filepic5) {
         this.filepic5 = filepic5 == null ? null : filepic5.trim();
+    }
+
+    public String getFilepicname1() {
+        return filepicname1;
+    }
+
+    public void setFilepicname1(String filepicname1) {
+        this.filepicname1 = filepicname1 == null ? null : filepicname1.trim();
+    }
+
+    public String getFilepicname2() {
+        return filepicname2;
+    }
+
+    public void setFilepicname2(String filepicname2) {
+        this.filepicname2 = filepicname2 == null ? null : filepicname2.trim();
+    }
+
+    public String getFilepicname3() {
+        return filepicname3;
+    }
+
+    public void setFilepicname3(String filepicname3) {
+        this.filepicname3 = filepicname3 == null ? null : filepicname3.trim();
+    }
+
+    public String getFilepicname4() {
+        return filepicname4;
+    }
+
+    public void setFilepicname4(String filepicname4) {
+        this.filepicname4 = filepicname4 == null ? null : filepicname4.trim();
+    }
+
+    public String getFilepicname5() {
+        return filepicname5;
+    }
+
+    public void setFilepicname5(String filepicname5) {
+        this.filepicname5 = filepicname5 == null ? null : filepicname5.trim();
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 }

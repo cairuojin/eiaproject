@@ -24,5 +24,5 @@ public interface ProjectInfoMapper {
 
     int updateByPrimaryKey(ProjectInfo record);
 
-    List<ProjectInfo> selectAndQuery(ProjectListVo projectListVo);  //根据Vo查询列表
+    List<ProjectInfo> selectAndQuery(ProjectListVo projectListVo);  //根据Vo查询项目列表
 }

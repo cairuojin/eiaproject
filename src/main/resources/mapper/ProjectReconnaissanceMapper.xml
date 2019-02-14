@@ -15,16 +15,45 @@
     <result column="filePic3" jdbcType="VARCHAR" property="filepic3" />
     <result column="filePic4" jdbcType="VARCHAR" property="filepic4" />
     <result column="filePic5" jdbcType="VARCHAR" property="filepic5" />
+    <result column="filePicName1" jdbcType="VARCHAR" property="filepicname1" />
+    <result column="filePicName2" jdbcType="VARCHAR" property="filepicname2" />
+    <result column="filePicName3" jdbcType="VARCHAR" property="filepicname3" />
+    <result column="filePicName4" jdbcType="VARCHAR" property="filepicname4" />
+    <result column="filePicName5" jdbcType="VARCHAR" property="filepicname5" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, reconnaissanceUserId, informationList, siteConditions, existingProblems, annex, 
-    mapLng, mapLat, filePic1, filePic2, filePic3, filePic4, filePic5
+    projectreconnaissance.id, reconnaissanceUserId, informationList, siteConditions, existingProblems, annex,
+    mapLng, mapLat, filePic1, filePic2, filePic3, filePic4, filePic5, filePicName1, filePicName2, 
+    filePicName3, filePicName4, filePicName5, projectreconnaissance.createTime
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+  <sql id="user">
+    user.id as 'user.id',
+    user.username as 'user.username',
+    user.password as 'user.password',
+    user.name as 'user.name',
+    user.sex as 'user.sex',
+    user.department as 'user.department',
+    user.role as 'user.role',
+    user.hiredate as 'user.hiredate',
+    user.contactway as 'user.contactway',
+    user.weChat as 'user.weChat',
+    user.email as 'user.email',
+    user.officelocation as 'user.officelocation',
+    user.imgUrl as 'user.imgUrl',
+    user.status as 'user.status',
+    user.createTime as 'user.createTime',
+    user.updateTime as 'user.updateTime'
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.ProjectReconnaissance">
+    select
     <include refid="Base_Column_List" />
+    ,
+    <include refid="user"/>
     from projectreconnaissance
-    where id = #{id,jdbcType=INTEGER}
+    LEFT JOIN user on projectreconnaissance.reconnaissanceUserId = user.id
+    where projectreconnaissance.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from projectreconnaissance
@@ -35,12 +64,16 @@
       siteConditions, existingProblems, annex, 
       mapLng, mapLat, filePic1, 
       filePic2, filePic3, filePic4, 
-      filePic5)
+      filePic5, filePicName1, filePicName2, 
+      filePicName3, filePicName4, filePicName5, 
+      createTime)
     values (#{id,jdbcType=INTEGER}, #{reconnaissanceuserid,jdbcType=INTEGER}, #{informationlist,jdbcType=VARCHAR}, 
       #{siteconditions,jdbcType=VARCHAR}, #{existingproblems,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
       #{maplng,jdbcType=VARCHAR}, #{maplat,jdbcType=VARCHAR}, #{filepic1,jdbcType=VARCHAR}, 
       #{filepic2,jdbcType=VARCHAR}, #{filepic3,jdbcType=VARCHAR}, #{filepic4,jdbcType=VARCHAR}, 
-      #{filepic5,jdbcType=VARCHAR})
+      #{filepic5,jdbcType=VARCHAR}, #{filepicname1,jdbcType=VARCHAR}, #{filepicname2,jdbcType=VARCHAR}, 
+      #{filepicname3,jdbcType=VARCHAR}, #{filepicname4,jdbcType=VARCHAR}, #{filepicname5,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectReconnaissance">
     insert into projectreconnaissance
@@ -84,6 +117,24 @@
       <if test="filepic5 != null">
         filePic5,
       </if>
+      <if test="filepicname1 != null">
+        filePicName1,
+      </if>
+      <if test="filepicname2 != null">
+        filePicName2,
+      </if>
+      <if test="filepicname3 != null">
+        filePicName3,
+      </if>
+      <if test="filepicname4 != null">
+        filePicName4,
+      </if>
+      <if test="filepicname5 != null">
+        filePicName5,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -124,6 +175,24 @@
       </if>
       <if test="filepic5 != null">
         #{filepic5,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname1 != null">
+        #{filepicname1,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname2 != null">
+        #{filepicname2,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname3 != null">
+        #{filepicname3,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname4 != null">
+        #{filepicname4,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname5 != null">
+        #{filepicname5,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -166,6 +235,24 @@
       <if test="filepic5 != null">
         filePic5 = #{filepic5,jdbcType=VARCHAR},
       </if>
+      <if test="filepicname1 != null">
+        filePicName1 = #{filepicname1,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname2 != null">
+        filePicName2 = #{filepicname2,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname3 != null">
+        filePicName3 = #{filepicname3,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname4 != null">
+        filePicName4 = #{filepicname4,jdbcType=VARCHAR},
+      </if>
+      <if test="filepicname5 != null">
+        filePicName5 = #{filepicname5,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -182,7 +269,13 @@
       filePic2 = #{filepic2,jdbcType=VARCHAR},
       filePic3 = #{filepic3,jdbcType=VARCHAR},
       filePic4 = #{filepic4,jdbcType=VARCHAR},
-      filePic5 = #{filepic5,jdbcType=VARCHAR}
+      filePic5 = #{filepic5,jdbcType=VARCHAR},
+      filePicName1 = #{filepicname1,jdbcType=VARCHAR},
+      filePicName2 = #{filepicname2,jdbcType=VARCHAR},
+      filePicName3 = #{filepicname3,jdbcType=VARCHAR},
+      filePicName4 = #{filepicname4,jdbcType=VARCHAR},
+      filePicName5 = #{filepicname5,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

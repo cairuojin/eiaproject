@@ -1,9 +1,7 @@
 package com.gjsyoung.eiaproject.controller;
 
-import com.gjsyoung.eiaproject.domain.ProjectInfo;
-import com.gjsyoung.eiaproject.domain.ProjectReconnaissance;
-import com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis;
-import com.gjsyoung.eiaproject.domain.User;
+import com.gjsyoung.eiaproject.domain.*;
+import com.gjsyoung.eiaproject.mapper.ProjectDepartmentUndertakeMapper;
 import com.gjsyoung.eiaproject.mapper.ProjectInfoMapper;
 import com.gjsyoung.eiaproject.mapper.ProjectReconnaissanceMapper;
 import com.gjsyoung.eiaproject.mapper.ProjectRiskAnalysisMapper;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
@@ -60,7 +57,11 @@ public class adminMatterController {
     UploadUtil uploadUtil;
 
     @Autowired
-    ProjectRiskAnalysisMapper projectReconnaissance;
+    ProjectRiskAnalysisMapper projectRiskAnalysisMapper;
+
+    @Autowired
+    ProjectDepartmentUndertakeMapper projectDepartmentUndertakeMapper;
+
 
     /* 1、人员分配 */
 
@@ -143,7 +144,7 @@ public class adminMatterController {
     @RequestMapping("/reconnaissance")
     @ResponseBody
     public String reconnaissance(ProjectReconnaissance projectReconnaissance, MultipartFile annexFile, HttpSession session,
-                                 MultipartFile filePic1, MultipartFile filePic2,  MultipartFile filePic3,  MultipartFile filePic4,  MultipartFile filePic5) throws IOException, BaseException {
+                                 MultipartFile filePic1, MultipartFile filePic2, MultipartFile filePic3, MultipartFile filePic4, MultipartFile filePic5) throws IOException, BaseException {
 
 
         ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectReconnaissance.getId());
@@ -158,10 +159,16 @@ public class adminMatterController {
         projectReconnaissance.setFilepic3(uploadUtil.uploadPic(filePic3,"reconnaissance/"));
         projectReconnaissance.setFilepic4(uploadUtil.uploadPic(filePic4,"reconnaissance/"));
         projectReconnaissance.setFilepic5(uploadUtil.uploadPic(filePic5,"reconnaissance/"));
+        projectReconnaissance.setFilepicname1(filePic1.getOriginalFilename());
+        projectReconnaissance.setFilepicname2(filePic2.getOriginalFilename());
+        projectReconnaissance.setFilepicname3(filePic3.getOriginalFilename());
+        projectReconnaissance.setFilepicname4(filePic4.getOriginalFilename());
+        projectReconnaissance.setFilepicname5(filePic5.getOriginalFilename());
         projectReconnaissance.setAnnex(uploadUtil.upload(annexFile,"reconnaissance/"));
 
         User fromSession = userService.getFromSession(session);
         projectReconnaissance.setReconnaissanceuserid(fromSession.getId());
+        projectReconnaissance.setCreatetime(new Date());
         projectReconnaissanceMapper.insert(projectReconnaissance);
 
         //更新主表状态
@@ -173,9 +180,10 @@ public class adminMatterController {
         return "OK";
     }
 
+
     /* 3、风险分析录入 */
     /**
-     * 进入单个人员踏勘录入页面
+     * 进入单个人员风险分析录入页面
      * @param projectInfoId
      * @return
      */
@@ -183,7 +191,7 @@ public class adminMatterController {
     public ModelAndView riskAnalysisInput(String projectInfoId) throws BaseException {
         if(projectInfoId == null)
             return new ModelAndView("redirect:/api/admin/iframe/riskAnalysisList");
-        ProjectRiskAnalysis projectRiskAnalysis = projectReconnaissance.selectByPrimaryKey(Integer.valueOf(projectInfoId));
+        ProjectRiskAnalysis projectRiskAnalysis = projectRiskAnalysisMapper.selectByPrimaryKey(Integer.valueOf(projectInfoId));
         if(projectRiskAnalysis != null)
             throw BaseException.FAILED(400,"该项目已经录入风险分析");
 
@@ -195,7 +203,13 @@ public class adminMatterController {
         return mav;
     }
 
-
+    /**
+     * 录入风险分析信息
+     * @param projectRiskAnalysis
+     * @param session
+     * @return
+     * @throws BaseException
+     */
     @RequestMapping("/riskAnalysis")
     @ResponseBody
     public String reconnaissance(ProjectRiskAnalysis projectRiskAnalysis, HttpSession session) throws BaseException {
@@ -207,8 +221,9 @@ public class adminMatterController {
 
         User fromSession = userService.getFromSession(session);
         projectRiskAnalysis.setRiskanalysisuserid(fromSession.getId());
+        projectRiskAnalysis.setCreatetime(new Date());
         //插入风险表
-        projectReconnaissance.insert(projectRiskAnalysis);
+        projectRiskAnalysisMapper.insert(projectRiskAnalysis);
 
         //更新主表状态
         projectInfo.setStatus(4);
@@ -221,4 +236,68 @@ public class adminMatterController {
     }
 
 
+    /* 4、部门承接录入 */
+    /**
+     * 进入单个人员风险分析录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/departmentUndertakeInput")
+    public ModelAndView departmentUndertakeInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "departmentUndertakeInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+
+        ProjectRiskAnalysis projectRiskAnalysis = projectRiskAnalysisMapper.selectByPrimaryKey(projectInfoId);
+        ProjectReconnaissance projectReconnaissance = projectReconnaissanceMapper.selectByPrimaryKey(projectInfoId);
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("projectRiskAnalysis",projectRiskAnalysis);       //查询该项目的风险录入和踏勘信息
+        mav.addObject("projectReconnaissance",projectReconnaissance);
+        return mav;
+    }
+
+    /**
+     * 风险分析信息录入
+     * @param projectDepartmentUndertake
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/departmentUndertake")
+    @ResponseBody
+    public String departmentUndertake(ProjectDepartmentUndertake projectDepartmentUndertake, HttpSession session) throws BaseException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectDepartmentUndertake.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 4)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        if(projectDepartmentUndertake.getUndertakingsituation() == 2){  //不承接 删除风险并返回状态3
+            projectInfo.setStatus(3);
+            projectRiskAnalysisMapper.deleteByPrimaryKey(projectDepartmentUndertake.getId());
+        } else if (projectDepartmentUndertake.getUndertakingsituation() == 1){
+            projectInfo.setStatus(7);
+            //插入部门承接表
+            User fromSession = userService.getFromSession(session);
+            projectDepartmentUndertake.setUndertakinguserid(fromSession.getId());
+            projectDepartmentUndertake.setCreatetime(new Date());
+            projectDepartmentUndertakeMapper.insert(projectDepartmentUndertake);
+        } else if (projectDepartmentUndertake.getUndertakingsituation() == 3){
+            projectInfo.setStatus(5);
+            //插入部门承接表
+            User fromSession = userService.getFromSession(session);
+            projectDepartmentUndertake.setUndertakinguserid(fromSession.getId());
+            projectDepartmentUndertake.setCreatetime(new Date());
+            projectDepartmentUndertakeMapper.insert(projectDepartmentUndertake);
+        }
+
+
+        //更新主表状态
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),4);
+        return "OK";
+    }
 }
