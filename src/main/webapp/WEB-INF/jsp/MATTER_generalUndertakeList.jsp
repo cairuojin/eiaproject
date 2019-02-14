@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>部门承接</title>
+    <title>总工办承接</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/maincss.css">
@@ -64,7 +64,7 @@
                     <td class="center">${projectInfo.hostuser.name}</td>
                     <td class="center">${projectInfo.organizinguser.name}</td>
                     <td class="center">
-                        <a href="/api/admin/matter/departmentUndertakeInput?projectInfoId=${projectInfo.id}" >项目承接</a>&nbsp;&nbsp;
+                        <a href="/api/admin/matter/generalUndertakeInput?projectInfoId=${projectInfo.id}" >项目承接</a>&nbsp;&nbsp;
                     </td>
                 </tr>
             </c:forEach>
@@ -107,7 +107,7 @@
         queryname = $('#name').val();
         queryNumber = $('#number').val();
 
-        window.location.href = '/api/admin/iframe/departmentUndertakeList?' +
+        window.location.href = '/api/admin/iframe/generalUndertakeList?' +
             'name=' + queryname +
             '&number=' + queryNumber
     }
@@ -118,7 +118,7 @@
     function page(pageNow) {
         queryname = $('#name').val();
         queryNumber = $('#number').val();
-        window.location.href = '/api/admin/iframe/departmentUndertakeList?' +
+        window.location.href = '/api/admin/iframe/generalUndertakeList?' +
             'name=' + queryname +
             '&number=' + queryNumber +
             '&pageNow=' + pageNow

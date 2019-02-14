@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.domain;
 
+import org.springframework.data.annotation.Transient;
+
 import java.util.Date;
 
 public class ProjectDepartmentUndertake {
@@ -12,6 +14,17 @@ public class ProjectDepartmentUndertake {
     private Integer undertakingsituation;
 
     private Date createtime;
+
+    @Transient
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getId() {
         return id;
