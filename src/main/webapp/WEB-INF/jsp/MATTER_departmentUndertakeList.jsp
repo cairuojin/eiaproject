@@ -43,12 +43,11 @@
             <th class="sorting" style="width: 5%;">序号</th>
             <th class="sorting" style="width: 20%;">项目名称</th>
             <th class="sorting" style="width: 15%;">所在区域</th>
-            <th class="sorting" style="width: 15%;">文件类型</th>
-            <th class="sorting" style="width: 15%;">评价范围类别 </th>
+            <th class="sorting" style="width: 17.5%;">文件类型</th>
+            <th class="sorting" style="width: 17.5%;">评价范围类别 </th>
             <th class="sorting" style="width: 5%;">承接人</th>
             <th class="sorting" style="width: 5%;">主持人</th>
             <th class="sorting" style="width: 5%;">组织人</th>
-            <th class="sorting" style="width: 5%;">踏勘状态</th>
             <th class="sorting" style="width: 10%;">操作</th>
         </tr>
         </thead>
@@ -64,9 +63,8 @@
                     <td class="center">${projectInfo.projectundertakeruser.name}</td>
                     <td class="center">${projectInfo.hostuser.name}</td>
                     <td class="center">${projectInfo.organizinguser.name}</td>
-                    <td class="center">未录入</td>
                     <td class="center">
-                        <a href="/api/admin/matter/reconnaissanceInput?projectInfoId=${projectInfo.id}" >踏勘录入</a>&nbsp;&nbsp;
+                        <a href="/api/admin/matter/departmentUndertakeInput?projectInfoId=${projectInfo.id}" >项目承接</a>&nbsp;&nbsp;
                     </td>
                 </tr>
             </c:forEach>
@@ -93,6 +91,7 @@
 </div>
 </body>
 
+
 <!-- 数据回显与赋值 -->
 <script type="text/javascript">
     var pageNow = "${projectListVo.pageNow}";
@@ -108,7 +107,7 @@
         queryname = $('#name').val();
         queryNumber = $('#number').val();
 
-        window.location.href = '/api/admin/iframe/reconnaissanceList?' +
+        window.location.href = '/api/admin/iframe/departmentUndertakeList?' +
             'name=' + queryname +
             '&number=' + queryNumber
     }
@@ -119,7 +118,7 @@
     function page(pageNow) {
         queryname = $('#name').val();
         queryNumber = $('#number').val();
-        window.location.href = '/api/admin/iframe/reconnaissanceList?' +
+        window.location.href = '/api/admin/iframe/departmentUndertakeList?' +
             'name=' + queryname +
             '&number=' + queryNumber +
             '&pageNow=' + pageNow

@@ -56,9 +56,10 @@
     <result column="Remarks23" jdbcType="VARCHAR" property="remarks23" />
     <result column="Remarks24" jdbcType="VARCHAR" property="remarks24" />
     <result column="Remarks25" jdbcType="VARCHAR" property="remarks25" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, riskanalysisUserId, eiacategory, companyQualification, projectInformation, projectInvestment, 
+    projectriskanalysis.id, riskanalysisUserId, eiacategory, companyQualification, projectInformation, projectInvestment,
     natureconstruction, contentsofconstruction, processroute, constructionscale, geographicalposition, 
     projectcategory, projectgrade, extension, drainage, environmental, contaminants, 
     entrycriteria, otherpolicies, twohighandonecapital, industry, environmentalprotection, 
@@ -66,13 +67,37 @@
     projectgroupcomments, Remarks1, Remarks2, Remarks3, Remarks4, Remarks5, Remarks6, 
     Remarks7, Remarks8, Remarks9, Remarks10, Remarks11, Remarks12, Remarks13, Remarks14, 
     Remarks15, Remarks16, Remarks17, Remarks18, Remarks19, Remarks20, Remarks21, Remarks22, 
-    Remarks23, Remarks24, Remarks25
+    Remarks23, Remarks24, Remarks25, projectriskanalysis.createTime
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+
+
+  <sql id="user">
+    user.id as 'user.id',
+    user.username as 'user.username',
+    user.password as 'user.password',
+    user.name as 'user.name',
+    user.sex as 'user.sex',
+    user.department as 'user.department',
+    user.role as 'user.role',
+    user.hiredate as 'user.hiredate',
+    user.contactway as 'user.contactway',
+    user.weChat as 'user.weChat',
+    user.email as 'user.email',
+    user.officelocation as 'user.officelocation',
+    user.imgUrl as 'user.imgUrl',
+    user.status as 'user.status',
+    user.createTime as 'user.createTime',
+    user.updateTime as 'user.updateTime'
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis">
+    select
     <include refid="Base_Column_List" />
+    ,
+    <include refid="user"/>
     from projectriskanalysis
-    where id = #{id,jdbcType=INTEGER}
+    LEFT JOIN user on projectriskanalysis.riskanalysisUserId = user.id
+    where projectriskanalysis.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from projectriskanalysis
@@ -98,7 +123,8 @@
       Remarks15, Remarks16, Remarks17, 
       Remarks18, Remarks19, Remarks20, 
       Remarks21, Remarks22, Remarks23, 
-      Remarks24, Remarks25)
+      Remarks24, Remarks25, createTime
+      )
     values (#{id,jdbcType=INTEGER}, #{riskanalysisuserid,jdbcType=INTEGER}, #{eiacategory,jdbcType=INTEGER}, 
       #{companyqualification,jdbcType=INTEGER}, #{projectinformation,jdbcType=VARCHAR}, 
       #{projectinvestment,jdbcType=VARCHAR}, #{natureconstruction,jdbcType=INTEGER}, 
@@ -118,7 +144,8 @@
       #{remarks15,jdbcType=VARCHAR}, #{remarks16,jdbcType=VARCHAR}, #{remarks17,jdbcType=VARCHAR}, 
       #{remarks18,jdbcType=VARCHAR}, #{remarks19,jdbcType=VARCHAR}, #{remarks20,jdbcType=VARCHAR}, 
       #{remarks21,jdbcType=VARCHAR}, #{remarks22,jdbcType=VARCHAR}, #{remarks23,jdbcType=VARCHAR}, 
-      #{remarks24,jdbcType=VARCHAR}, #{remarks25,jdbcType=VARCHAR})
+      #{remarks24,jdbcType=VARCHAR}, #{remarks25,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectRiskAnalysis">
     insert into projectriskanalysis
@@ -285,6 +312,9 @@
       <if test="remarks25 != null">
         Remarks25,
       </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -448,6 +478,9 @@
       </if>
       <if test="remarks25 != null">
         #{remarks25,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -613,6 +646,9 @@
       <if test="remarks25 != null">
         Remarks25 = #{remarks25,jdbcType=VARCHAR},
       </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -670,7 +706,8 @@
       Remarks22 = #{remarks22,jdbcType=VARCHAR},
       Remarks23 = #{remarks23,jdbcType=VARCHAR},
       Remarks24 = #{remarks24,jdbcType=VARCHAR},
-      Remarks25 = #{remarks25,jdbcType=VARCHAR}
+      Remarks25 = #{remarks25,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
