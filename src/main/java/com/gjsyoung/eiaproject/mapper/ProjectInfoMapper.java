@@ -20,8 +20,6 @@ public interface ProjectInfoMapper {
 
     int updateByPrimaryKeySelective(ProjectInfo record);
 
-    int updateByPrimaryKeyWithBLOBs(ProjectInfo record);
-
     int updateByPrimaryKey(ProjectInfo record);
 
     List<ProjectInfo> selectAndQuery(ProjectListVo projectListVo);  //根据Vo查询项目列表

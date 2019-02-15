@@ -48,6 +48,8 @@ public class ProjectInfo {
 
     private Integer hostuserid;         //主持人
 
+    private Date undertaketime; //承接时间
+
     private Date createtime;
 
     private Date updatetime;
@@ -349,6 +351,14 @@ public class ProjectInfo {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public Date getUndertaketime() {
+        return undertaketime;
+    }
+
+    public void setUndertaketime(Date undertaketime) {
+        this.undertaketime = undertaketime;
     }
 
     public String getRemarks() {

@@ -174,6 +174,9 @@ public class adminMatterController {
         projectReconnaissanceMapper.insert(projectReconnaissance);
 
         //更新主表状态
+        if(projectInfo.getName().contains("(退回)")){
+            projectInfo.setName(projectInfo.getName().replace("(退回)","" ));
+        }
         projectInfo.setStatus(3);
         projectInfo.setUpdatetime(new Date());
         projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
@@ -281,7 +284,8 @@ public class adminMatterController {
             projectReconnaissanceMapper.deleteByPrimaryKey(projectDepartmentUndertake.getId());
             projectRiskAnalysisMapper.deleteByPrimaryKey(projectDepartmentUndertake.getId());
         } else if (projectDepartmentUndertake.getUndertakingsituation() == 1){  //承接
-            projectInfo.setStatus(7);   //进入合同信息 todo 设置承接时间
+            projectInfo.setStatus(7);   //进入合同信息
+            projectInfo.setUndertaketime(new Date());   //承接时间
             //插入部门承接表
             User fromSession = userService.getFromSession(session);
             projectDepartmentUndertake.setUndertakinguserid(fromSession.getId());
@@ -296,7 +300,6 @@ public class adminMatterController {
             projectDepartmentUndertakeMapper.insert(projectDepartmentUndertake);
         }
 
-
         //更新主表状态
         projectInfo.setUpdatetime(new Date());
         projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
@@ -308,7 +311,7 @@ public class adminMatterController {
 
     /* 5、总工办承接录入 */
     /**
-     * 进入单个人员风险分析录入页面
+     * 进入单个总工办承接录入页面
      * @param projectInfoId
      * @return
      */
@@ -352,7 +355,8 @@ public class adminMatterController {
             projectRiskAnalysisMapper.deleteByPrimaryKey(projectGeneralUndertake.getId());
             projectDepartmentUndertakeMapper.deleteByPrimaryKey(projectGeneralUndertake.getId());   //删除部门承接
         } else if (projectGeneralUndertake.getUndertakingsituation() == 1){  //承接
-            projectInfo.setStatus(7);   //进入合同信息 todo 设置承接时间
+            projectInfo.setStatus(7);   //进入合同信息
+            projectInfo.setUndertaketime(new Date());   //承接时间
             //插入总工办承接表
             User fromSession = userService.getFromSession(session);
             projectGeneralUndertake.setUndertakinguserid(fromSession.getId());
@@ -379,7 +383,7 @@ public class adminMatterController {
 
     /* 6、总经理承接录入 */
     /**
-     * 进入单个人员风险分析录入页面
+     * 进入单个总经理承接录入页面
      * @param projectInfoId
      * @return
      */
@@ -427,7 +431,8 @@ public class adminMatterController {
             projectDepartmentUndertakeMapper.deleteByPrimaryKey(projectManagerUndertake.getId());   //删除部门承接和总工办承接
             projectGeneralUndertakeMapper.deleteByPrimaryKey(projectManagerUndertake.getId());
         } else if (projectManagerUndertake.getUndertakingsituation() == 1){  //承接
-            projectInfo.setStatus(7);   //进入合同信息 todo 设置承接时间
+            projectInfo.setStatus(7);   //进入合同信息
+            projectInfo.setUndertaketime(new Date());   //承接时间
             //插入总经理承接表
             User fromSession = userService.getFromSession(session);
             projectManagerUndertake.setUndertakinguserid(fromSession.getId());
@@ -441,5 +446,23 @@ public class adminMatterController {
         //插入操作记录表
         projectOperationRecordService.addRecord(session,projectInfo.getId(),6);
         return "OK";
+    }
+
+
+
+    /* 7、合同信息录入 */
+    /**
+     * 进入单个人员合同信息录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/contractEntryInput")
+    public ModelAndView contractEntryInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "contractEntryInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        mav.addObject("projectInfo",projectInfo);
+        return mav;
     }
 }
