@@ -130,8 +130,8 @@
     </div>
 
 </div>
-<!-- 地图div -->
 
+<!-- 地图div -->
 <div id="mapDiv" style="width: 450px;height: 500px; display: none;">
     <div id="container" style="width: 450px;height: 460px;">
     </div>
@@ -150,6 +150,7 @@
         </table>
     </div>
 </div>
+
 </body>
 
 <script src="/js/jquery.min.js"></script>

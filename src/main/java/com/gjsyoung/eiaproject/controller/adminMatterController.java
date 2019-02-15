@@ -1,10 +1,7 @@
 package com.gjsyoung.eiaproject.controller;
 
 import com.gjsyoung.eiaproject.domain.*;
-import com.gjsyoung.eiaproject.mapper.ProjectDepartmentUndertakeMapper;
-import com.gjsyoung.eiaproject.mapper.ProjectInfoMapper;
-import com.gjsyoung.eiaproject.mapper.ProjectReconnaissanceMapper;
-import com.gjsyoung.eiaproject.mapper.ProjectRiskAnalysisMapper;
+import com.gjsyoung.eiaproject.mapper.*;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
 import com.gjsyoung.eiaproject.service.ProjectOperationRecordService;
 import com.gjsyoung.eiaproject.service.UserService;
@@ -62,6 +59,11 @@ public class adminMatterController {
     @Autowired
     ProjectDepartmentUndertakeMapper projectDepartmentUndertakeMapper;
 
+    @Autowired
+    ProjectGeneralUndertakeMapper projectGeneralUndertakeMapper;
+
+    @Autowired
+    ProjectManagerUndertakeMapper projectManagerUndertakeMapper;
 
     /* 1、人员分配 */
 
@@ -273,19 +275,20 @@ public class adminMatterController {
         if(projectInfo.getStatus() != 4)
             throw BaseException.FAILED(400,"该项目状态有误");
 
-        if(projectDepartmentUndertake.getUndertakingsituation() == 2){  //不承接 删除风险并返回状态3
-            projectInfo.setStatus(3);
+        if(projectDepartmentUndertake.getUndertakingsituation() == 2){  //不承接 删除风险和踏勘并返回状态2
+            projectInfo.setStatus(2);
             projectInfo.setName(projectInfo.getName() + "(退回)");
+            projectReconnaissanceMapper.deleteByPrimaryKey(projectDepartmentUndertake.getId());
             projectRiskAnalysisMapper.deleteByPrimaryKey(projectDepartmentUndertake.getId());
         } else if (projectDepartmentUndertake.getUndertakingsituation() == 1){  //承接
-            projectInfo.setStatus(7);
+            projectInfo.setStatus(7);   //进入合同信息 todo 设置承接时间
             //插入部门承接表
             User fromSession = userService.getFromSession(session);
             projectDepartmentUndertake.setUndertakinguserid(fromSession.getId());
             projectDepartmentUndertake.setCreatetime(new Date());
             projectDepartmentUndertakeMapper.insert(projectDepartmentUndertake);
         } else if (projectDepartmentUndertake.getUndertakingsituation() == 3){  //上报
-            projectInfo.setStatus(5);
+            projectInfo.setStatus(5);   //总工办承接
             //插入部门承接表
             User fromSession = userService.getFromSession(session);
             projectDepartmentUndertake.setUndertakinguserid(fromSession.getId());
@@ -301,6 +304,7 @@ public class adminMatterController {
         projectOperationRecordService.addRecord(session,projectInfo.getId(),4);
         return "OK";
     }
+
 
     /* 5、总工办承接录入 */
     /**
@@ -325,48 +329,117 @@ public class adminMatterController {
         return mav;
     }
 
-//    /**
-//     * 风险分析信息录入
-//     * @param projectDepartmentUndertake
-//     * @param session
-//     * @return
-//     * @throws BaseException
-//     */
-//    @RequestMapping("/generalUndertake")
-//    @ResponseBody
-//    public String generalUndertake(ProjectDepartmentUndertake projectDepartmentUndertake, HttpSession session) throws BaseException {
-//        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectDepartmentUndertake.getId());
-//        if (projectInfo == null)
-//            throw BaseException.FAILED(404,"找不到该项目");
-//        if(projectInfo.getStatus() != 4)
-//            throw BaseException.FAILED(400,"该项目状态有误");
-//
-//        if(projectDepartmentUndertake.getUndertakingsituation() == 2){  //不承接 删除风险并返回状态3
-//            projectInfo.setStatus(3);
-//            projectInfo.setName(projectInfo.getName() + "(退回)");
-//            projectRiskAnalysisMapper.deleteByPrimaryKey(projectDepartmentUndertake.getId());
-//        } else if (projectDepartmentUndertake.getUndertakingsituation() == 1){  //承接
-//            projectInfo.setStatus(7);
-//            //插入部门承接表
-//            User fromSession = userService.getFromSession(session);
-//            projectDepartmentUndertake.setUndertakinguserid(fromSession.getId());
-//            projectDepartmentUndertake.setCreatetime(new Date());
-//            projectDepartmentUndertakeMapper.insert(projectDepartmentUndertake);
-//        } else if (projectDepartmentUndertake.getUndertakingsituation() == 3){  //上报
-//            projectInfo.setStatus(5);
-//            //插入部门承接表
-//            User fromSession = userService.getFromSession(session);
-//            projectDepartmentUndertake.setUndertakinguserid(fromSession.getId());
-//            projectDepartmentUndertake.setCreatetime(new Date());
-//            projectDepartmentUndertakeMapper.insert(projectDepartmentUndertake);
-//        }
-//
-//
-//        //更新主表状态
-//        projectInfo.setUpdatetime(new Date());
-//        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
-//        //插入操作记录表
-//        projectOperationRecordService.addRecord(session,projectInfo.getId(),4);
-//        return "OK";
-//    }
+    /**
+     * 总工办信息录入
+     * @param projectGeneralUndertake
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/generalUndertake")
+    @ResponseBody
+    public String generalUndertake(ProjectGeneralUndertake projectGeneralUndertake, HttpSession session) throws BaseException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectGeneralUndertake.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 5)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        if(projectGeneralUndertake.getUndertakingsituation() == 2){  //不承接 删除风险和踏勘并返回状态2
+            projectInfo.setStatus(2);
+            projectInfo.setName(projectInfo.getName() + "(退回)");
+            projectReconnaissanceMapper.deleteByPrimaryKey(projectGeneralUndertake.getId());
+            projectRiskAnalysisMapper.deleteByPrimaryKey(projectGeneralUndertake.getId());
+            projectDepartmentUndertakeMapper.deleteByPrimaryKey(projectGeneralUndertake.getId());   //删除部门承接
+        } else if (projectGeneralUndertake.getUndertakingsituation() == 1){  //承接
+            projectInfo.setStatus(7);   //进入合同信息 todo 设置承接时间
+            //插入总工办承接表
+            User fromSession = userService.getFromSession(session);
+            projectGeneralUndertake.setUndertakinguserid(fromSession.getId());
+            projectGeneralUndertake.setCreatetime(new Date());
+            projectGeneralUndertakeMapper.insert(projectGeneralUndertake);
+        } else if (projectGeneralUndertake.getUndertakingsituation() == 3){  //上报
+            projectInfo.setStatus(6);   //总经理承接
+            //插入部门承接表
+            User fromSession = userService.getFromSession(session);
+            projectGeneralUndertake.setUndertakinguserid(fromSession.getId());
+            projectGeneralUndertake.setCreatetime(new Date());
+            projectGeneralUndertakeMapper.insert(projectGeneralUndertake);
+        }
+
+
+        //更新主表状态
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),5);
+        return "OK";
+    }
+
+
+    /* 6、总经理承接录入 */
+    /**
+     * 进入单个人员风险分析录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/managerUndertakeInput")
+    public ModelAndView managerUndertakeInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "managerUndertakeInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+
+        ProjectRiskAnalysis projectRiskAnalysis = projectRiskAnalysisMapper.selectByPrimaryKey(projectInfoId);
+        ProjectReconnaissance projectReconnaissance = projectReconnaissanceMapper.selectByPrimaryKey(projectInfoId);
+        ProjectDepartmentUndertake projectDepartmentUndertake = projectDepartmentUndertakeMapper.selectByPrimaryKey(projectInfoId);
+        ProjectGeneralUndertake projectGeneralUndertake = projectGeneralUndertakeMapper.selectByPrimaryKey(projectInfoId);
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("projectRiskAnalysis",projectRiskAnalysis);       //风险录入
+        mav.addObject("projectReconnaissance",projectReconnaissance);   //踏勘信息
+        mav.addObject("projectDepartmentUndertake",projectDepartmentUndertake);     //部门承接
+        mav.addObject("projectGeneralUndertake",projectGeneralUndertake);     //总工办承接
+        return mav;
+    }
+
+
+    /**
+     * 总经理信息录入
+     * @param projectManagerUndertake
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/managerUndertake")
+    @ResponseBody
+    public String managerUndertake(ProjectManagerUndertake projectManagerUndertake, HttpSession session) throws BaseException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectManagerUndertake.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 6)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        if(projectManagerUndertake.getUndertakingsituation() == 2){  //不承接 删除风险和踏勘并返回状态2
+            projectInfo.setStatus(2);
+            projectInfo.setName(projectInfo.getName() + "(退回)");
+            projectReconnaissanceMapper.deleteByPrimaryKey(projectManagerUndertake.getId());
+            projectRiskAnalysisMapper.deleteByPrimaryKey(projectManagerUndertake.getId());
+            projectDepartmentUndertakeMapper.deleteByPrimaryKey(projectManagerUndertake.getId());   //删除部门承接和总工办承接
+            projectGeneralUndertakeMapper.deleteByPrimaryKey(projectManagerUndertake.getId());
+        } else if (projectManagerUndertake.getUndertakingsituation() == 1){  //承接
+            projectInfo.setStatus(7);   //进入合同信息 todo 设置承接时间
+            //插入总经理承接表
+            User fromSession = userService.getFromSession(session);
+            projectManagerUndertake.setUndertakinguserid(fromSession.getId());
+            projectManagerUndertake.setCreatetime(new Date());
+            projectManagerUndertakeMapper.insert(projectManagerUndertake);
+        }
+
+        //更新主表状态
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),6);
+        return "OK";
+    }
 }

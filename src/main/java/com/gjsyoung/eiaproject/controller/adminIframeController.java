@@ -74,6 +74,7 @@ public class adminIframeController {
 
     /* 1、待办事项 */
 
+    //项目承接列表
     /**
      * 人员分配/踏勘情况     列表
      * @param projectListVo 筛选字段
@@ -85,7 +86,8 @@ public class adminIframeController {
                     "/reconnaissanceList",
                     "/riskAnalysisList",
                     "/departmentUndertakeList",
-                    "/generalUndertakeList"
+                    "/generalUndertakeList",
+                    "/managerUndertakeList"
                 }
             )
     public ModelAndView personnelAllotment(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -103,6 +105,7 @@ public class adminIframeController {
             case "riskAnalysisList":projectListVo.setStatus(3);break;
             case "departmentUndertakeList":projectListVo.setStatus(4);break;
             case "generalUndertakeList":projectListVo.setStatus(5);break;
+            case "managerUndertakeList":projectListVo.setStatus(6);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
