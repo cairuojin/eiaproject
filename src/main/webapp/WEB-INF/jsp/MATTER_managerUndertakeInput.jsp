@@ -522,8 +522,17 @@
     </div>
 </div>
 
+<div class="risktable4"  >
+    <div class="risk_div bg_risk" style="width:15%;   ">总工办意见</div>
+    <div class="risk_div " style="width:85%; text-align: left; ">
+        <div class="td_risk textcss " style="height: 78px;" >
+            <textarea style="width: 100%; height: 48px;" disabled="disabled">${projectGeneralUndertake.undertakingopinions}</textarea>
+            签字：${projectGeneralUndertake.user.name}&nbsp;&nbsp;签字时间：<fmt:formatDate value="${projectGeneralUndertake.createtime}" pattern="yyyy年MM月dd日HH点mm分ss秒" />
+        </div>
+    </div>
+</div>
 
-<form id="generalUndertakeForm">
+<form id="managerUndertakeForm">
     <input type="hidden" name="id" value="${projectRiskAnalysis.id}">
     <div class="risktable4"  >
         <div class="risk_div bg_risk" style="width:15%;   ">承接意见</div>
@@ -533,14 +542,13 @@
                 承接
                 <input type="radio" name="undertakingsituation" value="2"/>
                 不承接
-                <input type="radio" name="undertakingsituation" value="3"/>
-                上报<br>
+            <br>
                 <textarea name="undertakingopinions"  style="width:99%; height: 48px;" placeholder="请输入意见......" ></textarea>
             </div>
         </div>
     </div>
     <div class="btnnew" >
-        <input type="button" class="btn btn-primary" onclick="generalUndertakeInput()" value="提交"  />
+        <input type="button" class="btn btn-primary" onclick="managerUndertakeInput()" value="提交"  />
         &nbsp;&nbsp;&nbsp;&nbsp;
     </div>
 </form>
@@ -550,23 +558,23 @@
 <script src="/js/jquery.min.js"></script>
 <!-- 保存踏勘信息 -->
 <script type="text/javascript">
-    function generalUndertakeInput() {
+    function managerUndertakeInput() {
         if($("input[name='undertakingsituation']:checked").val() == undefined){
             alert("请选择承接意见");
             return;
         }
 
-        if (!confirm("您确定录入总工办承接信息吗?")) {
+        if (!confirm("您确定录入总经理承接信息吗?")) {
             return
         }
         $.ajax({
             "type": "POST",
-            "url": "/api/admin/matter/generalUndertake",	//传输路径
-            "data": $('#generalUndertakeForm').serialize(),
+            "url": "/api/admin/matter/managerUndertake",	//传输路径
+            "data": $('#managerUndertakeForm').serialize(),
             "success": function (data) {
                 if (data == "OK") {
-                    alert("录入总工办承接信息成功");
-                    window.location.href = "/api/admin/iframe/generalUndertakeList";
+                    alert("录入总经理承接信息成功");
+                    window.location.href = "/api/admin/iframe/managerUndertakeList";
                 }
             },
             "error": function (data) {

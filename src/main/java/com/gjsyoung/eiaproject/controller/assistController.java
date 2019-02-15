@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -54,4 +55,17 @@ public class assistController {
         return projectInfoAssistService.getScope(fileTypeId);
     }
 
+    /**
+     * 在地图中查看标记点
+     * @param lng
+     * @param lat
+     * @return
+     */
+    @RequestMapping("/gaodeMap")
+    public ModelAndView gaodeMap(String lng, String lat){
+        ModelAndView mav = new ModelAndView("ASSIST_gaodeMap");
+        mav.addObject("lng",lng);
+        mav.addObject("lat",lat);
+        return mav;
+    }
 }

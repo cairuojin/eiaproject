@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +36,7 @@
 <div class="risktable6">
     <div class="td_risk bg_risk undertake1">坐标&nbsp;&nbsp;</div>
     <div class="td_risk  undertake2 textcss">经度：${projectReconnaissance.maplng}&nbsp;&nbsp;&nbsp;&nbsp;纬度：${projectReconnaissance.maplat}&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="">在地图中查看</a>
+        <a href="/api/admin/assist/gaodeMap?lng=${projectReconnaissance.maplng}&lat=${projectReconnaissance.maplat}" target="view_window">在地图中查看</a>
     </div>
 </div>
 <div class="risktable6 risktable7">
@@ -506,7 +507,7 @@
     <div class="risk_div " style="width:85%; text-align: left; ">
         <div class="td_risk textcss " style="height: 78px;" >
             <textarea style="width: 100%; height: 48px;" disabled="disabled">${projectRiskAnalysis.projectgroupcomments}</textarea>
-            签字：${projectRiskAnalysis.user.name} &nbsp;&nbsp;签字时间：${projectRiskAnalysis.createtime}
+            签字：${projectRiskAnalysis.user.name} &nbsp;&nbsp;签字时间：<fmt:formatDate value="${projectRiskAnalysis.createtime}" pattern="yyyy年MM月dd日HH点mm分ss秒" />
         </div>
     </div>
 </div>
