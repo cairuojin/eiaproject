@@ -74,7 +74,7 @@ public class adminIframeController {
 
     /* 1、待办事项 */
 
-    //项目承接列表
+    //项目列表
     /**
      * 人员分配/踏勘情况     列表
      * @param projectListVo 筛选字段
@@ -87,10 +87,14 @@ public class adminIframeController {
                     "/riskAnalysisList",
                     "/departmentUndertakeList",
                     "/generalUndertakeList",
-                    "/managerUndertakeList"
+                    "/managerUndertakeList",
+                    "/contractEntryList",
+                    "/contractLeaderList",
+                    "/contractFinanceList",
+                    "/contractSignatureList"
                 }
             )
-    public ModelAndView personnelAllotment(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
+    public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
         String requestURI = request.getRequestURI();    //获得请求地址
         requestURI = requestURI.substring(requestURI.lastIndexOf('/') + 1, requestURI.length());    //截取到方法地址
 
@@ -98,7 +102,7 @@ public class adminIframeController {
         if (fromSession.getRole() != 0)          //非管理员只能看见他自己的部门
             projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
 
-
+        ModelAndView mav = new ModelAndView(MATTER + requestURI);
         switch (requestURI){
             case "allotmentList":projectListVo.setStatus(1);break;  //搜索对应状态的项目
             case "reconnaissanceList":projectListVo.setStatus(2);break;
@@ -106,10 +110,21 @@ public class adminIframeController {
             case "departmentUndertakeList":projectListVo.setStatus(4);break;
             case "generalUndertakeList":projectListVo.setStatus(5);break;
             case "managerUndertakeList":projectListVo.setStatus(6);break;
+            case "contractEntryList":projectListVo.setStatus(7);break;
+            case "contractLeaderList":projectListVo.setStatus(8);break;
+            case "contractFinanceList":projectListVo.setStatus(9);break;
+            case "contractSignatureList":{
+                projectListVo.setStatus(10);    //加载部门列表和文件类型列表
+                List<Department> departments = departmentService.getDepartments();
+                departmentService.queryParentName(departments);
+                List<ProjectInfoFileType> projectInfoFileTypes = projectInfoAssistService.loadFileTypeList();
+                mav.addObject("departments", departments);
+                mav.addObject("projectInfoFileTypes", projectInfoFileTypes);
+                break;
+            }
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
-        ModelAndView mav = new ModelAndView(MATTER + requestURI);
         mav.addObject("projectListVo",projectListVo);
         return mav;
     }

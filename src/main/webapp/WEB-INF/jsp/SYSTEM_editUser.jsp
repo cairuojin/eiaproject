@@ -112,7 +112,7 @@
                         <label class="labelsize">入职时间</label>
                     </td>
                     <td class="col2 tdcss2" style="padding-left: 30px;">
-                        <input type="date" id="hiredate" value="<fmt:formatDate value='${user.hiredate}' pattern='yyyy-MM-dd'></fmt:formatDate>">
+                        <input type="date" id="hiredate" name="hiredate" value="<fmt:formatDate value='${user.hiredate}' pattern='yyyy-MM-dd'></fmt:formatDate>">
                     </td>
                 </tr>
                 <tr>
@@ -198,6 +198,10 @@
                 },
                 newPasswordComfirm:{
                     equalTo: "#newPassword"
+                },
+                hiredate:{
+                    required:true,
+                    dateISO:true
                 }
             },
             messages:{
@@ -207,6 +211,10 @@
                 },
                 newPasswordComfirm:{
                     equalTo: "两次输入的密码不相同！"
+                },
+                hiredate:{
+                    required:"必须填写入职时间",
+                    date:"请输入正确的时间"
                 }
             }
         });
@@ -225,15 +233,14 @@
                 }
             }
 
+            formFile.append("file", $('#chooseImage')[0].files[0]); //加入文件对象
             formFile.append("id", '${user.id}');
             formFile.append("action", "UploadVMKImagePath");
-            formFile.append("file", $('#chooseImage')[0].files[0]); //加入文件对象
             formFile.append("name", $('#name').val());
             formFile.append("sex", $('input[name="sex"]:checked').val());
             formFile.append("department", $('#department').val());
             formFile.append("role", $('#role').val());
             formFile.append("hiredate", $('#hiredate').val());
-            <!-- todo date校验 -->
             formFile.append("contactway", $('#contactway').val());
             formFile.append("wechat", $('#wechat').val());
             formFile.append("email", $('#email').val());

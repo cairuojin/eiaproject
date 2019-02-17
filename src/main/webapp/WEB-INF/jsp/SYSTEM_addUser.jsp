@@ -198,7 +198,8 @@
                     required:true
                 },
                 hiredate:{
-                    required:true
+                    required:true,
+                    dateISO:true
                 }
             },
             messages:{
@@ -223,7 +224,8 @@
                     required:"必须选择部门"
                 },
                 hiredate:{
-                    required:"必须填写入职时间"
+                    required:"必须填写入职时间",
+                    date:"请输入正确的时间"
                 }
             }
         });

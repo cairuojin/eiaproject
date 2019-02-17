@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.ContractLeaderMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ContractLeader">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="leaderUserId" jdbcType="INTEGER" property="leaderuserid" />
+    <result column="leaderOpinions" jdbcType="VARCHAR" property="leaderopinions" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    contractleader.id, leaderUserId, leaderOpinions, contractleader.createTime
+  </sql>
+
+  <sql id="user">
+    user.id as 'user.id',
+    user.username as 'user.username',
+    user.password as 'user.password',
+    user.name as 'user.name',
+    user.sex as 'user.sex',
+    user.department as 'user.department',
+    user.role as 'user.role',
+    user.hiredate as 'user.hiredate',
+    user.contactway as 'user.contactway',
+    user.weChat as 'user.weChat',
+    user.email as 'user.email',
+    user.officelocation as 'user.officelocation',
+    user.imgUrl as 'user.imgUrl',
+    user.status as 'user.status',
+    user.createTime as 'user.createTime',
+    user.updateTime as 'user.updateTime'
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="user"/>
+    from contractleader
+    LEFT JOIN user on contractleader.leaderUserId = user.id
+    where contractleader.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from contractleader
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ContractLeader">
+    insert into contractleader (id, leaderUserId, leaderOpinions, 
+      createTime)
+    values (#{id,jdbcType=INTEGER}, #{leaderuserid,jdbcType=INTEGER}, #{leaderopinions,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ContractLeader">
+    insert into contractleader
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="leaderuserid != null">
+        leaderUserId,
+      </if>
+      <if test="leaderopinions != null">
+        leaderOpinions,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="leaderuserid != null">
+        #{leaderuserid,jdbcType=INTEGER},
+      </if>
+      <if test="leaderopinions != null">
+        #{leaderopinions,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ContractLeader">
+    update contractleader
+    <set>
+      <if test="leaderuserid != null">
+        leaderUserId = #{leaderuserid,jdbcType=INTEGER},
+      </if>
+      <if test="leaderopinions != null">
+        leaderOpinions = #{leaderopinions,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ContractLeader">
+    update contractleader
+    set leaderUserId = #{leaderuserid,jdbcType=INTEGER},
+      leaderOpinions = #{leaderopinions,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
