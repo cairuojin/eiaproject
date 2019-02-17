@@ -1,12 +1,10 @@
 package com.gjsyoung.eiaproject.controller;
 
-import com.gjsyoung.eiaproject.domain.Department;
-import com.gjsyoung.eiaproject.domain.ProjectInfo;
-import com.gjsyoung.eiaproject.domain.Role;
-import com.gjsyoung.eiaproject.domain.User;
+import com.gjsyoung.eiaproject.domain.*;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
 import com.gjsyoung.eiaproject.domain.assist.Provinces;
+import com.gjsyoung.eiaproject.mapper.CollectionPlanMapper;
 import com.gjsyoung.eiaproject.mapper.DepartmentMapper;
 import com.gjsyoung.eiaproject.mapper.ProjectInfoMapper;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
@@ -71,6 +69,8 @@ public class adminIframeController {
     @Autowired
     ProjectInfoService projectInfoService;
 
+    @Autowired
+    CollectionPlanMapper collectionPlanMapper;
 
     /* 1、待办事项 */
 
@@ -91,7 +91,9 @@ public class adminIframeController {
                     "/contractEntryList",
                     "/contractLeaderList",
                     "/contractFinanceList",
-                    "/contractSignatureList"
+                    "/contractSignatureList",
+                    "/collectionPlanList",
+                    "/collectionManageList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -122,8 +124,17 @@ public class adminIframeController {
                 mav.addObject("projectInfoFileTypes", projectInfoFileTypes);
                 break;
             }
+            case "collectionPlanList":projectListVo.setStatus(11);break;
+            case "collectionManageList": projectListVo.setStatus(12);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
+
+        if("collectionManageList".equals(requestURI)){  //收款记录列表必须查出收款计划表
+            for (ProjectInfo projectInfo : projectListVo.getProjectInfos()){
+                CollectionPlan collectionPlan = collectionPlanMapper.selectByPrimaryKey(projectInfo.getId());
+                projectInfo.getSubObject().put("collectionPlan",collectionPlan );
+            }
+        }
 
         mav.addObject("projectListVo",projectListVo);
         return mav;

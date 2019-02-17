@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="../../css/layout.css">
     <link rel="stylesheet" href="../../css/maincss.css">
     <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        .deleteid{
+            cursor: pointer;
+        }
+    </style>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/jquery.js"></script>
     <script type="text/javascript">
@@ -39,6 +44,7 @@
                 });
             });
         });
+
     </script>
 </head>
 <body>
@@ -53,14 +59,15 @@
         <tbody>
         <tr class=" gradeX odd2">
             <td style="text-align: right; padding-top: 5px; ">
-                <input type="submit" class="btn btn-primary box" value="新增" >&nbsp;&nbsp;&nbsp;
-                </input>&nbsp;&nbsp; <a href="makeworkplanlist.html" class="btn btn-primary" >返回</a>
+                <input type="submit" class="btn btn-primary box" value="新增" />&nbsp;&nbsp;&nbsp;
+                <input type="submit" class="btn btn-primary" value="提交" />
+                &nbsp;&nbsp; <a href="makeworkplanlist.html" class="btn btn-primary" >返回</a>
             </td>
         </tr>
         <tr class="tr1"></tr>
         </tbody>
     </table>
-    <table class="data display datatable table1">
+    <table class="data display datatable table1" id="specialtable">
         <thead>
         <tr>
 
@@ -74,20 +81,42 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="odd gradeX">
-
-            <td>1</td>
-            <td> 2019-01-22</td>
-            <td>努力学习 </td>
-            <td class="center">  黄晓欣 </td>
-            <td class="center">黄晓欣 </td>
-            <td class="center"> hangxiaoxin</td>
-            <td class="center">
-                <a >删除</a>
-
-            </td>
-        </tr>
+      
+        </tbody>
     </table>
+    <script>
+        $(document).ready(function() {
+
+            $("#txt1").bind("click",function(){
+
+                // 设置序列号, 如果tbody里存在元素, 则按顺序递增序列号, 否则从1开始
+                if($('#specialtable tbody').html()){
+                    $index = Number($('#specialtable tbody tr td:first-child').last().text()) + 1
+                }else{
+                    $index = 1;
+                };
+
+                var $html1=$(".html1").val();   // 日期
+                var $html2=$(".html2").val();   // 工作内容
+                var $html3=$(".html3").val();   // 乙方责任人
+                var $html4=$(".html4").val();   // 责任方
+                var $html5=$(".html5").val();   // 备注
+                // 设置添加内容
+                $append_tr = $(
+                    "<tr class=\"odd gradeX\"><td>"+ $index +"</td><td>"+ $html1 +"</td><td>"+ $html2 +"</td><td class=\"center\">"+ $html3 +"</td><td class=\"center\">"+ $html4 +"</td><td class=\"center\">"+ $html5 +"</td><td class='center deleteid'>删除</td></tr>");
+                // 添加标签
+                $("#specialtable tbody").append($append_tr);
+
+            });
+
+            $("#specialtable tbody").on("click", ".deleteid", function(){
+
+                $(this).parent().remove();
+
+            });
+
+        })
+    </script>
     <div id="dialogBg"></div>
     <div id="dialog" class="animated">
         <img class="dialogIco" width="50" height="50" src="../../images/ico.png" alt="" />
@@ -97,12 +126,12 @@
         <form action="" method="post" id="editForm">
             <ul class="editInfos">
                 <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:50%; float:left; text-align:left;">绑定数据库信息</div></li>
-                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>日期：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
-                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>工作内容：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
-                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>乙方责任人：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
-                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>责任方：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
-                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>备注：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
-                <li><input type="submit" value="确认增加" class="submitBtn" /></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>日期：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" class="html1" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>工作内容：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" class="html2" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>乙方责任人：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" class="html3" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>责任方：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" class="html4" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
+                <li><div style="width:30%; float:left; text-align:right;"><font color="#ff0000">* </font>备注：</div ><div style="width:50%; float:left; text-align:left;"><input type="text" id="grumble" class="html5" style="width: 90%; border: 1px solid rgba(144,144,144,.8); " /></div></li>
+                <li><input type="button" value="确认增加" id="txt1" class="submitBtn" /></li>
             </ul>
         </form>
     </div>
