@@ -5,6 +5,8 @@ import com.gjsyoung.eiaproject.domain.Category;
 import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
 import com.gjsyoung.eiaproject.service.CategoryService;
+import com.gjsyoung.eiaproject.service.DepartmentService;
+import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,12 @@ public class adminController {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    RoleService roleService;
+
+    @Autowired
+    DepartmentService departmentService;
+
     /**
      * 重定向到管理页面
      *
@@ -52,8 +60,12 @@ public class adminController {
         Object userObj = session.getAttribute("user");
         User user;
         if (userObj == null) {
+
             user = userMapper.selectByUsername("cairuojin");
+            user.setDepartmentName(departmentService.getDepartmentById(user.getDepartment()).getName());
+            user.setRoleName(roleService.selectByRoleID(user.getRole()).getRolename());
             session.setAttribute("user",user);
+
             //throw BaseException.FAILED(400,"用户未登录");  //todo 身份填充
         } else {
             user = (User)userObj;

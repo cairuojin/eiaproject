@@ -120,7 +120,8 @@ public class adminSystemController {
     @ResponseBody
     public String updatePersonalInfo(MultipartFile file, HttpServletRequest request, User user) throws BaseException, IOException {
         user.setUsername(null);                 //防止接口攻击
-        user.setImgurl(uploadUtil.uploadPic(file,"images/personalImg/"));
+        if(file != null)
+            user.setImgurl(uploadUtil.uploadPic(file,"images/personalImg/"));
         userMapper.updateByPrimaryKeySelective(user);
         return "OK";
     }

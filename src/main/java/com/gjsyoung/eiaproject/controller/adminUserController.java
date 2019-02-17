@@ -62,8 +62,8 @@ public class adminUserController {
         user.setId(((User) userObj).getId());   //从session中获得主键
         user.setUsername(null);                 //防止接口攻击
         user.setPassword(null);
-
-        user.setImgurl(uploadUtil.uploadPic(file, "images/personalImg/"));
+        if(file != null)    //有图片上传图片
+            user.setImgurl(uploadUtil.uploadPic(file, "images/personalImg/"));
         user.setUpdatetime(new Date());
         userMapper.updateByPrimaryKeySelective(user);
         user = userMapper.selectByPrimaryKey(user.getId());

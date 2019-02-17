@@ -4,6 +4,7 @@ import com.gjsyoung.eiaproject.domain.*;
 import com.gjsyoung.eiaproject.mapper.*;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
 import com.gjsyoung.eiaproject.service.ProjectOperationRecordService;
+import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.service.assist.AreasService;
 import com.gjsyoung.eiaproject.utils.UploadUtil;
@@ -64,6 +65,19 @@ public class adminMatterController {
 
     @Autowired
     ProjectManagerUndertakeMapper projectManagerUndertakeMapper;
+
+    @Autowired
+    ContractMessageMapper contractMessageMapper;
+
+    @Autowired
+    ContractLeaderMapper contractLeaderMapper;
+
+    @Autowired
+    RoleService roleService;
+
+    @Autowired
+    ContractFinanceMapper contractFinanceMapper;
+
 
     /* 1、人员分配 */
 
@@ -464,5 +478,256 @@ public class adminMatterController {
             throw BaseException.FAILED(404,"找不到该项目");
         mav.addObject("projectInfo",projectInfo);
         return mav;
+    }
+
+    /**
+     * 合同信息录入
+     * @param contractMessage
+     * @param annexFile
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/contractEntry")
+    @ResponseBody
+    public String contractEntry(ContractMessage contractMessage, MultipartFile annexFile, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(contractMessage.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 7)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入合同信息表
+        User fromSession = userService.getFromSession(session);
+        contractMessage.setEntryuserid(fromSession.getId());
+        contractMessage.setCreatetime(new Date());
+        //上传附件
+        contractMessage.setContractannexurl(uploadUtil.upload(annexFile,"contract/" ));
+        contractMessageMapper.insert(contractMessage);
+
+        //更新主表状态
+        if(projectInfo.getName().contains("(退回)")){
+            projectInfo.setName(projectInfo.getName().replace("(退回)","" ));
+        }
+        projectInfo.setStatus(8);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),7);
+        return "OK";
+    }
+
+    /* 8、合同领导录入 */
+    /**
+     * 进入单个人员合同领导录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/contractLeaderInput")
+    public ModelAndView contractLeaderInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "contractLeaderInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        ContractMessage contractMessage = contractMessageMapper.selectByPrimaryKey(projectInfoId);
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("contractMessage",contractMessage );
+        return mav;
+    }
+
+    /**
+     * 合同领导录入
+     */
+    @RequestMapping("/contractLeader")
+    @ResponseBody
+    public String contractLeader(ContractLeader contractLeader, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(contractLeader.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 8)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入合同领导表
+        User fromSession = userService.getFromSession(session);
+        contractLeader.setLeaderuserid(fromSession.getId());
+        contractLeader.setCreatetime(new Date());
+        contractLeaderMapper.insert(contractLeader);
+
+        //更新主表状态
+        projectInfo.setStatus(9);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),8);
+        return "OK";
+    }
+
+    /**
+     * 合同领导退回
+     * @param projectId
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/contractLeaderBack")
+    @ResponseBody
+    public String contractLeaderBack(Integer projectId, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 8)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //删除合同录入信息
+        contractMessageMapper.deleteByPrimaryKey(projectId);
+
+        //退回合同录入状态
+        projectInfo.setName(projectInfo.getName() + "(退回)");
+        projectInfo.setStatus(7);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),8);
+        return "OK";
+    }
+
+    /* 9、合同财务录入 */
+    /**
+     * 进入单个人员合同财务录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/contractFinanceInput")
+    public ModelAndView contractFinanceInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "contractFinanceInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        ContractMessage contractMessage = contractMessageMapper.selectByPrimaryKey(projectInfoId);
+        ContractLeader contractLeader = contractLeaderMapper.selectByPrimaryKey(projectInfoId);
+        User leaderUser = contractLeader.getUser();
+        leaderUser.setRoleName(roleService.selectByRoleID(leaderUser.getRole()).getRolename());
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("contractMessage",contractMessage );
+        mav.addObject("contractLeader",contractLeader );
+        return mav;
+    }
+
+
+    /**
+     * 合同财务录入
+     * @param contractFinance
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/contractFinance")
+    @ResponseBody
+    public String contractFinance(ContractFinance contractFinance, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(contractFinance.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 9)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入合同财务表
+        User fromSession = userService.getFromSession(session);
+        contractFinance.setFinanceuserid(fromSession.getId());
+        contractFinance.setCreatetime(new Date());
+        contractFinanceMapper.insert(contractFinance);
+
+        //更新主表状态
+        projectInfo.setStatus(10);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),9);
+        return "OK";
+    }
+
+    /**
+     * 合同财务退回
+     * @param projectId
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/contractFinanceBack")
+    @ResponseBody
+    public String contractFinanceBack(Integer projectId, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 9)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //删除合同录入信息  领导录入信息
+        contractMessageMapper.deleteByPrimaryKey(projectId);
+        contractLeaderMapper.deleteByPrimaryKey(projectId);
+
+        //退回合同录入状态
+        projectInfo.setName(projectInfo.getName() + "(退回)");
+        projectInfo.setStatus(7);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),9);
+        return "OK";
+    }
+
+
+    /* 10、合同盖章签名录入 */
+    /**
+     * 进入单个合同盖章签名录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/contractSignatureInput")
+    public ModelAndView contractSignatureInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "contractSignatureInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        ContractMessage contractMessage = contractMessageMapper.selectByPrimaryKey(projectInfoId);
+        ContractLeader contractLeader = contractLeaderMapper.selectByPrimaryKey(projectInfoId);
+        ContractFinance contractFinance = contractFinanceMapper.selectByPrimaryKey(projectInfoId);
+        User leaderUser = contractLeader.getUser();
+        User financeUser = contractFinance.getUser();
+        leaderUser.setRoleName(roleService.selectByRoleID(leaderUser.getRole()).getRolename());
+        financeUser.setRoleName(roleService.selectByRoleID(financeUser.getRole()).getRolename());
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("contractMessage",contractMessage );
+        mav.addObject("contractLeader",contractLeader );
+        mav.addObject("contractFinance",contractFinance );
+        return mav;
+    }
+
+    /**
+     * 合同盖章签名
+     * @param projectInfoId
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/contractSignature")
+    @ResponseBody
+    public String contractSignature(Integer projectInfoId, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 10)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //更新主表状态
+        projectInfo.setStatus(11);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),10);
+        return "OK";
     }
 }

@@ -2,6 +2,8 @@ package com.gjsyoung.eiaproject.controller;
 
 import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
+import com.gjsyoung.eiaproject.service.DepartmentService;
+import com.gjsyoung.eiaproject.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,12 @@ public class IndexController {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    DepartmentService departmentService;
+
+    @Autowired
+    RoleService roleService;
 
     /**
      * 进入首页
@@ -51,6 +59,8 @@ public class IndexController {
     public Boolean login(String username, String password, HttpSession session){
         User user = userMapper.selectByUsername(username);
         if(user.getPassword() .equals(password)){
+            user.setDepartmentName(departmentService.getDepartmentById(user.getDepartment()).getName());
+            user.setRoleName(roleService.selectByRoleID(user.getRole()).getRolename());
             session.setAttribute("user",user);
             return true;
         } else {

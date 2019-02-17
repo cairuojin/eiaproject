@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>合同信息录入</title>
+    <title>合同领导审核</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/maincss.css">
@@ -55,25 +55,23 @@
         </thead>
         <tbody>
             <c:forEach items="${projectListVo.projectInfos}" var="projectInfo">
-                <tr class="odd gradeX">
-                    <td>${projectInfo.id}</td>
-                    <td>[${projectInfo.number}]${projectInfo.name}</td>
-                    <td>${projectInfo.provinceName}-${projectInfo.cityName}-${projectInfo.areaName}</td>
-                    <td class="center">${projectInfo.filetypeName}</td>
-                    <td class="center">${projectInfo.evaluationscopeName}</td>
-                    <td class="center">${projectInfo.projectundertakeruser.name}</td>
-                    <td class="center">${projectInfo.hostuser.name}</td>
-                    <td class="center">${projectInfo.organizinguser.name}</td>
-                    <td class="center"><fmt:formatDate value="${projectInfo.undertaketime}" pattern="yyyy年MM月dd日HH点mm分ss秒" /></td>
-                    <td class="center"> 待录入合同信息</td>
-                    <td class="center">
-                        <a href="/api/admin/matter/contractEntryInput?projectInfoId=${projectInfo.id}">合同录入</a>&nbsp;&nbsp;
-                    </td>
-                </tr>
+            <tr class="odd gradeX">
+                <td>${projectInfo.id}</td>
+                <td>[${projectInfo.number}]${projectInfo.name}</td>
+                <td>${projectInfo.provinceName}-${projectInfo.cityName}-${projectInfo.areaName}</td>
+                <td class="center">${projectInfo.filetypeName}</td>
+                <td class="center">${projectInfo.evaluationscopeName}</td>
+                <td class="center">${projectInfo.projectundertakeruser.name}</td>
+                <td class="center">${projectInfo.hostuser.name}</td>
+                <td class="center">${projectInfo.organizinguser.name}</td>
+                <td class="center"><fmt:formatDate value="${projectInfo.undertaketime}" pattern="yyyy年MM月dd日HH点mm分ss秒" /></td>
+                <td class="center">已录合同信息</td>
+                <td class="center">
+                    <a href="/api/admin/matter/contractLeaderInput?projectInfoId=${projectInfo.id}">领导审核</a>&nbsp;&nbsp;
+                </td>
+            </tr>
             </c:forEach>
         </tbody>
-
-
     </table>
     <div class="block" style="text-align: center">
         <c:forEach begin="1" end="${projectListVo.pageTotal}" var="index">
@@ -94,6 +92,7 @@
 </div>
 </div>
 </body>
+
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <!-- 数据回显与赋值 -->
 <script type="text/javascript">
@@ -111,7 +110,7 @@
         queryname = $('#name').val();
         queryNumber = $('#number').val();
 
-        window.location.href = '/api/admin/iframe/contractEntryList?' +
+        window.location.href = '/api/admin/iframe/contractLeaderList?' +
             'name=' + queryname +
             '&number=' + queryNumber
     }
@@ -122,7 +121,7 @@
     function page(pageNow) {
         queryname = $('#name').val();
         queryNumber = $('#number').val();
-        window.location.href = '/api/admin/iframe/contractEntryList?' +
+        window.location.href = '/api/admin/iframe/contractLeaderList?' +
             'name=' + queryname +
             '&number=' + queryNumber +
             '&pageNow=' + pageNow
