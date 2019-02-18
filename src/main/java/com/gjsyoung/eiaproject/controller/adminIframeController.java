@@ -4,10 +4,7 @@ import com.gjsyoung.eiaproject.domain.*;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
 import com.gjsyoung.eiaproject.domain.assist.Provinces;
-import com.gjsyoung.eiaproject.mapper.CollectionPlanMapper;
-import com.gjsyoung.eiaproject.mapper.DepartmentMapper;
-import com.gjsyoung.eiaproject.mapper.ProjectInfoMapper;
-import com.gjsyoung.eiaproject.mapper.UserMapper;
+import com.gjsyoung.eiaproject.mapper.*;
 import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
 import com.gjsyoung.eiaproject.service.RoleService;
@@ -71,6 +68,9 @@ public class adminIframeController {
 
     @Autowired
     CollectionPlanMapper collectionPlanMapper;
+
+    @Autowired
+    ProjectWorkPlanMapper projectWorkPlanMapper;
 
     /* 1、待办事项 */
 
@@ -143,7 +143,18 @@ public class adminIframeController {
     }
 
 
-
+    /**
+     * 进入落实工作
+     * @param
+     * @return
+     */
+    @RequestMapping("/workPlanImplement")
+    public ModelAndView workPlanImplement() throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "workPlanMakeInput");
+        List<ProjectWorkPlan> projectWorkPlans = projectWorkPlanMapper.selectAllByStatus(0);
+        mav.addObject("projectWorkPlans",projectWorkPlans);
+        return mav;
+    }
 
     /* 2、项目管理 */
 
