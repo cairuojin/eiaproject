@@ -790,7 +790,7 @@ public class adminMatterController {
     }
 
 
-    /* 11、收款记录录入 */
+    /* 12、收款记录录入 */
     /**
      * 进入单个收款记录录入页面
      * @param projectInfoId
@@ -863,9 +863,22 @@ public class adminMatterController {
             projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
             return "OK";
         }
-
     }
 
-
+    /* 13、制定工作计划 */
+    /**
+     * 进入单个制定工作计划页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/workPlanMakeInput")
+    public ModelAndView workPlanMakeInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "workPlanMakeInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        mav.addObject("projectInfo",projectInfo);
+        return mav;
+    }
 
 }
