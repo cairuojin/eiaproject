@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.CollectionRecordMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.CollectionRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="projectId" jdbcType="INTEGER" property="projectid" />
+    <result column="recordUserId" jdbcType="INTEGER" property="recorduserid" />
+    <result column="recordTime" jdbcType="TIMESTAMP" property="recordtime" />
+    <result column="collectionMoney" jdbcType="DOUBLE" property="collectionmoney" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    collectionrecord.id, projectId, recordUserId, recordTime, collectionMoney, remarks, collectionrecord.createTime
+  </sql>
+
+  <sql id="user">
+    user.id as 'user.id',
+    user.username as 'user.username',
+    user.password as 'user.password',
+    user.name as 'user.name',
+    user.sex as 'user.sex',
+    user.department as 'user.department',
+    user.role as 'user.role',
+    user.hiredate as 'user.hiredate',
+    user.contactway as 'user.contactway',
+    user.weChat as 'user.weChat',
+    user.email as 'user.email',
+    user.officelocation as 'user.officelocation',
+    user.imgUrl as 'user.imgUrl',
+    user.status as 'user.status',
+    user.createTime as 'user.createTime',
+    user.updateTime as 'user.updateTime'
+  </sql>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from collectionrecord
+    where collectionrecord.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from collectionrecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.CollectionRecord">
+    insert into collectionrecord (id, projectId, recordUserId, 
+      recordTime, collectionMoney, remarks, 
+      createTime)
+    values (#{id,jdbcType=INTEGER}, #{projectid,jdbcType=INTEGER}, #{recorduserid,jdbcType=INTEGER}, 
+      #{recordtime,jdbcType=TIMESTAMP}, #{collectionmoney,jdbcType=DOUBLE}, #{remarks,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.CollectionRecord">
+    insert into collectionrecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectid != null">
+        projectId,
+      </if>
+      <if test="recorduserid != null">
+        recordUserId,
+      </if>
+      <if test="recordtime != null">
+        recordTime,
+      </if>
+      <if test="collectionmoney != null">
+        collectionMoney,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectid != null">
+        #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="recorduserid != null">
+        #{recorduserid,jdbcType=INTEGER},
+      </if>
+      <if test="recordtime != null">
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectionmoney != null">
+        #{collectionmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.CollectionRecord">
+    update collectionrecord
+    <set>
+      <if test="projectid != null">
+        projectId = #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="recorduserid != null">
+        recordUserId = #{recorduserid,jdbcType=INTEGER},
+      </if>
+      <if test="recordtime != null">
+        recordTime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectionmoney != null">
+        collectionMoney = #{collectionmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.CollectionRecord">
+    update collectionrecord
+    set projectId = #{projectid,jdbcType=INTEGER},
+      recordUserId = #{recorduserid,jdbcType=INTEGER},
+      recordTime = #{recordtime,jdbcType=TIMESTAMP},
+      collectionMoney = #{collectionmoney,jdbcType=DOUBLE},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByProjectId" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.CollectionRecord">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="user"/>
+    from collectionrecord
+    LEFT JOIN user on collectionrecord.recorduserid = user.id
+    where projectId = #{projectId,jdbcType=INTEGER}
+  </select>
+</mapper>
