@@ -3,6 +3,8 @@ package com.gjsyoung.eiaproject.domain;
 import org.springframework.data.annotation.Transient;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 项目主表
@@ -88,6 +90,20 @@ public class ProjectInfo {
 
     @Transient
     private User hostuser;              //主持人对象
+
+    @Transient
+    private Map<String, Object> subObject;  //子表对象Map
+
+    public Map<String, Object> getSubObject() {
+        if(subObject == null){
+            subObject = new HashMap<>();
+        }
+        return subObject;
+    }
+
+    public void setSubObject(Map<String, Object> subObject) {
+        this.subObject = subObject;
+    }
 
     public String getProvinceName() {
         return provinceName;

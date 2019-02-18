@@ -78,6 +78,8 @@ public class adminMatterController {
     @Autowired
     ContractFinanceMapper contractFinanceMapper;
 
+    @Autowired
+    CollectionPlanMapper collectionPlanMapper;
 
     /* 1、人员分配 */
 
@@ -730,4 +732,58 @@ public class adminMatterController {
         projectOperationRecordService.addRecord(session,projectInfo.getId(),10);
         return "OK";
     }
+
+
+    /* 11、收款录入 */
+    /**
+     * 进入单个收款录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/collectionPlanInput")
+    public ModelAndView collectionPlanInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "collectionPlanInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        ContractMessage contractMessage = contractMessageMapper.selectByPrimaryKey(projectInfoId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("contractMessage",contractMessage);
+        return mav;
+    }
+
+    /**
+     * 收款录入签名
+     * @param collectionPlan
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/collectionPlan")
+    @ResponseBody
+    public String collectionPlan(CollectionPlan collectionPlan, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(collectionPlan.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 11)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入收款计划表
+        User fromSession = userService.getFromSession(session);
+        collectionPlan.setCollectionuserid(fromSession.getId());
+        collectionPlan.setCollectionbepaidmoney(collectionPlan.getCollectionmoney());   //待收金额=收款金额
+        collectionPlan.setCreatetime(new Date());
+        collectionPlanMapper.insert(collectionPlan);
+
+        //更新主表状态
+        projectInfo.setStatus(12);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),11);
+        return "OK";
+    }
+
+
 }
