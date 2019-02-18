@@ -7,7 +7,7 @@ public class CollectionPlan {
 
     private Integer collectionuserid;
 
-    private Date collectiontime;
+    private Date collectiontime;    //收款时间
 
     private Double collectionmoney; //收款金额
 

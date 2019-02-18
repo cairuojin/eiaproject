@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -80,6 +81,9 @@ public class adminMatterController {
 
     @Autowired
     CollectionPlanMapper collectionPlanMapper;
+
+    @Autowired
+    CollectionRecordMapper collectionRecordMapper;
 
     /* 1、人员分配 */
 
@@ -734,7 +738,7 @@ public class adminMatterController {
     }
 
 
-    /* 11、收款录入 */
+    /* 11、收款计划录入 */
     /**
      * 进入单个收款录入页面
      * @param projectInfoId
@@ -784,6 +788,84 @@ public class adminMatterController {
         projectOperationRecordService.addRecord(session,projectInfo.getId(),11);
         return "OK";
     }
+
+
+    /* 11、收款记录录入 */
+    /**
+     * 进入单个收款记录录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/collectionManageInput")
+    public ModelAndView collectionManageInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "collectionManageInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        CollectionPlan collectionPlan = collectionPlanMapper.selectByPrimaryKey(projectInfoId); //收款计划
+        List<CollectionRecord> collectionRecords = collectionRecordMapper.selectByProjectId(projectInfoId); //收款记录
+        for (CollectionRecord collectionRecord : collectionRecords){
+            User user = collectionRecord.getUser();
+            user.setRoleName(roleService.selectByRoleID(user.getRole()).getRolename());
+        }
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("collectionPlan",collectionPlan);
+        mav.addObject("collectionRecords",collectionRecords);
+        return mav;
+    }
+
+
+    /**
+     * 收款记录录入
+     * @param collectionRecord
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/collectionManage")
+    @ResponseBody
+    public String collectionManage(CollectionRecord collectionRecord, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(collectionRecord.getProjectid());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 12)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        CollectionPlan collectionPlan = collectionPlanMapper.selectByPrimaryKey(collectionRecord.getProjectid());
+        if(collectionPlan.getCollectionbepaidmoney() < collectionRecord.getCollectionmoney())
+            throw BaseException.FAILED(400,"收款金额不能大于待收款金额");
+
+        //插入收款记录表
+        User fromSession = userService.getFromSession(session);
+        collectionRecord.setRecorduserid(fromSession.getId());
+        collectionRecord.setCreatetime(new Date());
+        collectionRecordMapper.insert(collectionRecord);
+
+        //更新收款记录
+        //待收款金额 = 原来待收款金额 - 本次收款金额
+        BigDecimal subtract = new BigDecimal("" + collectionPlan.getCollectionbepaidmoney()).subtract(new BigDecimal("" + collectionRecord.getCollectionmoney()));
+        collectionPlan.setCollectionbepaidmoney(subtract.doubleValue());
+        collectionPlanMapper.updateByPrimaryKey(collectionPlan);
+
+
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),12);
+
+        //更新主表状态
+        if(collectionPlan.getCollectionbepaidmoney().doubleValue() == 0.0){  //收款完毕
+            projectInfo.setStatus(13);
+            projectInfo.setUpdatetime(new Date());
+            projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+            return "Collectionover";
+        } else {
+            projectInfo.setUpdatetime(new Date());
+            projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+            return "OK";
+        }
+
+    }
+
 
 
 }

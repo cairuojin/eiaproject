@@ -61,8 +61,13 @@
                     <td class="center">${projectInfo.projectundertakeruser.name}</td>
                     <td class="center">${projectInfo.subObject['collectionPlan'].collectionmoney}</td>
                     <td class="center">${projectInfo.subObject['collectionPlan'].collectionmoney - projectInfo.subObject['collectionPlan'].collectionbepaidmoney}</td>
-                    <td class="center">${projectInfo.subObject['collectionPlan'].collectionbepaidmoney}</td>
-                    <td class="center">部分收款</td>
+                    <td class="center"><fmt:formatNumber value="8.8888888E10" pattern="#.##" minFractionDigits="2" > </fmt:formatNumber> </td>
+                    <c:if test="${projectInfo.subObject['collectionPlan'].collectionmoney == projectInfo.subObject['collectionPlan'].collectionbepaidmoney}">
+                        <td class="center">未收款</td>
+                    </c:if>
+                    <c:if test="${projectInfo.subObject['collectionPlan'].collectionmoney != projectInfo.subObject['collectionPlan'].collectionbepaidmoney}">
+                        <td class="center">部分收款</td>
+                    </c:if>
                     <td class="center">
                         <a href="/api/admin/matter/collectionManageInput?projectInfoId=${projectInfo.id}">收款</a>&nbsp;&nbsp;
 

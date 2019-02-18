@@ -184,7 +184,7 @@
             formFile.append("contractnumber", $('#contractnumber').val());
             formFile.append("contractsigntime", $('#contractsigntime').val());
             formFile.append("contractamount", $('#contractamount').val());
-            formFile.append("contractmoney", $('#contractmoney').val());
+            formFile.append("contractmoney", $('#contractmoney').val() * 10000);
             formFile.append("contractsummary", $('#contractsummary').val());
             formFile.append("annexFile", $('#contractannexurl')[0].files[0]); //附件对象
 
