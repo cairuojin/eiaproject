@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.domain;
 
+import org.springframework.data.annotation.Transient;
+
 import java.util.Date;
 
 public class ProjectWorkPlan {
@@ -30,6 +32,17 @@ public class ProjectWorkPlan {
     private String implementsremarks;
 
     private Date updatetime;
+
+    @Transient
+    ProjectInfo projectInfo;
+
+    public ProjectInfo getProjectInfo() {
+        return projectInfo;
+    }
+
+    public void setProjectInfo(ProjectInfo projectInfo) {
+        this.projectInfo = projectInfo;
+    }
 
     public Integer getId() {
         return id;

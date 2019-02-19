@@ -18,10 +18,26 @@
     <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, projectId, status, makePlanUserId, workPlanTime, workPlanContent, partyBperson, 
-    responsibleParty, remarks, createTime, implementsPlanUserId, implementsPlanTime, 
-    implementsRemarks, updateTime
+    projectworkplan.id, projectId, projectworkplan.status, makePlanUserId, workPlanTime, workPlanContent, partyBperson,
+    responsibleParty, projectworkplan.remarks, projectworkplan.createTime, implementsPlanUserId, implementsPlanTime,
+    implementsRemarks, projectworkplan.updateTime
   </sql>
+
+  <sql id="projectInfo">
+    projectinfo.id,
+    projectinfo.number,
+    projectinfo.name,
+    projectinfo.builder,
+    projectinfo.province,
+    projectinfo.city,
+    projectinfo.area,
+    projectinfo.filingDepartment,
+    projectinfo.constructionSite,
+    projectinfo.fileType, projectinfo.evaluationScope, projectinfo.contacts, projectinfo.builderContact, projectinfo.subordinateDepartmentId, projectinfo.projectUndertakerUserId,
+    projectinfo.contractMoney, projectinfo.remarks, projectinfo.status, projectinfo.createUserId, projectinfo.organizingUserId, projectinfo.hostUserId, projectinfo.undertakeTime,
+    projectinfo.createTime, projectinfo.updateTime
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -197,4 +213,14 @@
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAllByStatus" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.ProjectWorkPlan">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="projectInfo" />
+    from projectworkplan
+    LEFT JOIN projectInfo ON projectworkplan.projectId = projectInfo.id
+    where projectworkplan.status = #{status,jdbcType=INTEGER}
+  </select>
 </mapper>

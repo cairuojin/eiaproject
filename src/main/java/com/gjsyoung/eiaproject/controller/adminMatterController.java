@@ -11,6 +11,7 @@ import com.gjsyoung.eiaproject.utils.UploadUtil;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,6 +85,9 @@ public class adminMatterController {
 
     @Autowired
     CollectionRecordMapper collectionRecordMapper;
+
+    @Autowired
+    ProjectWorkPlanMapper projectWorkPlanMapper;
 
     /* 1、人员分配 */
 
@@ -847,8 +851,6 @@ public class adminMatterController {
         collectionPlan.setCollectionbepaidmoney(subtract.doubleValue());
         collectionPlanMapper.updateByPrimaryKey(collectionPlan);
 
-
-
         //插入操作记录表
         projectOperationRecordService.addRecord(session,projectInfo.getId(),12);
 
@@ -880,5 +882,42 @@ public class adminMatterController {
         mav.addObject("projectInfo",projectInfo);
         return mav;
     }
+
+    /**
+     * 制定工作计划
+     */
+    @RequestMapping("/workPlanMake")
+    @ResponseBody
+    public String workPlanMake(@RequestBody ProjectWorkPlan[] projectWorkPlans, HttpSession session) throws BaseException{
+        if(projectWorkPlans.length == 0){
+            return "null";
+        }
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectWorkPlans[0].getProjectid());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 13)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        User fromSession = userService.getFromSession(session);
+        for(ProjectWorkPlan projectWorkPlan : projectWorkPlans){
+            projectWorkPlan.setStatus(0);   //未执行
+            projectWorkPlan.setMakeplanuserid(fromSession.getId());
+            projectWorkPlan.setCreatetime(new Date());
+            projectWorkPlanMapper.insert(projectWorkPlan);
+        }
+
+        //更新主表状态
+        projectInfo.setStatus(14);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),13);
+        return "OK";
+    }
+
+    /* 14、落实工作 */
+
+
 
 }

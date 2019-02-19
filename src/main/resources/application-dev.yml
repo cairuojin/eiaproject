@@ -22,7 +22,7 @@ spring:
     datasource:     # 数据库地址
         url: jdbc:mysql://localhost:3306/eiaproject?useSSL=false
         username: root
-        password: 44052100
+        password: ch595200
         driver-class-name: com.mysql.jdbc.Driver
 
 
