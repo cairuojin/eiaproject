@@ -214,7 +214,11 @@
         append_tr = "<tr class=\"odd gradeX\"><td>" + index + "</td><td id='workplantime'>" + html1 + "</td><td id='workplancontent'>" + html2 + "</td><td class=\"center\" id='partybperson'>" + html3 + "</td><td class=\"center\" id='responsibleparty'>" + html4 + "</td><td class=\"center\" id='remarks'>" + html5 + "</td><td class='center deleteid'>删除</td></tr>";
         // 添加标签
         $("#specialtbody").append(append_tr);
-        hiddenDiv();
+        $(".html1").val('');
+        $(".html2").val('');
+        $(".html3").val('');
+        $(".html4").val('');
+        $(".html5").val('');
     }
 
     //保存到数据库

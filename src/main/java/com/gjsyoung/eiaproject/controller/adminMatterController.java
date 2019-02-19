@@ -89,6 +89,9 @@ public class adminMatterController {
     @Autowired
     ProjectWorkPlanMapper projectWorkPlanMapper;
 
+    @Autowired
+    ProjectMonitoringProgrammeMapper projectMonitoringProgrammeMapper;
+
     /* 1、人员分配 */
 
     /**
@@ -917,7 +920,85 @@ public class adminMatterController {
     }
 
     /* 14、落实工作 */
+    @RequestMapping("/workPlanImplement")
+    @ResponseBody
+    public String workPlanImplement(Integer id, Date implementsplantime, String implementsremarks, HttpSession session) throws BaseException{
+        ProjectWorkPlan projectWorkPlan = projectWorkPlanMapper.selectByPrimaryKey(id);
+        if(projectWorkPlan == null){
+            throw BaseException.FAILED(404,"找不到该工作计划");
+        } else if(projectWorkPlan.getStatus() == 1){
+            throw BaseException.FAILED(400,"该工作计划已经完成");
+        }
 
 
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectWorkPlan.getProjectid());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 14)
+            throw BaseException.FAILED(400,"该项目状态有误");
 
+        User fromSession = userService.getFromSession(session);
+        projectWorkPlan.setImplementsplantime(implementsplantime);
+        projectWorkPlan.setImplementsremarks(implementsremarks);
+        projectWorkPlan.setUpdatetime(new Date());  //当前为落实时间
+        projectWorkPlan.setImplementsplanuserid(fromSession.getId());
+        projectWorkPlan.setStatus(1);
+        projectWorkPlanMapper.updateByPrimaryKey(projectWorkPlan);
+
+
+        //更新主表状态
+        int workBeImplementCount = projectWorkPlanMapper.countBeImplementByProjectid(projectWorkPlan.getProjectid());
+        if(workBeImplementCount == 0){  //全部完成进入下一状态
+            projectInfo.setStatus(15);
+        }
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),14);
+        return "OK";
+    }
+
+    /* 15、监测方案提交 */
+    /**
+     * 进入监测方案录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/monitoringProgrammeInput")
+    public ModelAndView monitoringProgrammeInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "monitoringProgrammeInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        mav.addObject("projectInfo",projectInfo);
+        return mav;
+    }
+
+
+    @RequestMapping("/monitoringProgramme")
+    @ResponseBody
+    public String monitoringProgramme(ProjectMonitoringProgramme projectMonitoringProgramme, MultipartFile annexFile, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectMonitoringProgramme.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 15)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        projectMonitoringProgramme.setAnnux(uploadUtil.upload(annexFile,"contract/" ));
+        User fromSession = userService.getFromSession(session);
+        projectMonitoringProgramme.setMonitoringuserid(fromSession.getId());
+        projectMonitoringProgramme.setCreatetime(new Date());
+        projectMonitoringProgrammeMapper.insert(projectMonitoringProgramme);
+
+
+        //更新主表状态
+        projectInfo.setStatus(16);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),15);
+        return "OK";
+    }
 }

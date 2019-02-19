@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gjsyoung.eiaproject.domain.*;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
@@ -94,7 +96,8 @@ public class adminIframeController {
                     "/contractSignatureList",
                     "/collectionPlanList",
                     "/collectionManageList",
-                    "/workPlanMakeList"
+                    "/workPlanMakeList",
+                    "/monitoringProgrammeList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -128,6 +131,7 @@ public class adminIframeController {
             case "collectionPlanList":projectListVo.setStatus(11);break;
             case "collectionManageList":projectListVo.setStatus(12);break;
             case "workPlanMakeList":projectListVo.setStatus(13);break;
+            case "monitoringProgrammeList":projectListVo.setStatus(15);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
@@ -149,10 +153,15 @@ public class adminIframeController {
      * @return
      */
     @RequestMapping("/workPlanImplement")
-    public ModelAndView workPlanImplement() throws BaseException {
-        ModelAndView mav = new ModelAndView(MATTER + "workPlanMakeInput");
+    public ModelAndView workPlanImplement(@RequestParam(defaultValue = "1") Integer pageNow) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "workPlanImplement");
+        PageHelper.startPage(pageNow, 20,true);
         List<ProjectWorkPlan> projectWorkPlans = projectWorkPlanMapper.selectAllByStatus(0);
+        PageInfo pageInfo = new PageInfo<>(projectWorkPlans,20);  //分页信息
         mav.addObject("projectWorkPlans",projectWorkPlans);
+        mav.addObject("pageInfo",pageInfo);
+        System.out.print("");
+
         return mav;
     }
 
