@@ -1,5 +1,6 @@
 package com.gjsyoung.eiaproject.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.gjsyoung.eiaproject.domain.*;
 import com.gjsyoung.eiaproject.mapper.*;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -94,6 +96,12 @@ public class adminMatterController {
 
     @Autowired
     ProjectInitialReportMapper projectInitialReportMapper;
+
+    @Autowired
+    FirstTrialReportMapper firstTrialReportMapper;
+
+    @Autowired
+    FirstTrialOpinionMapper firstTrialOpinionMapper;
 
     /* 1、人员分配 */
 
@@ -1055,6 +1063,51 @@ public class adminMatterController {
         mav.addObject("projectInfo",projectInfo);
         mav.addObject("projectInitialReport",projectInitialReport);
         return mav;
+    }
+
+    /**
+     * 提交初审意见
+     * @param opinionJson    初审意见数组
+     * @param firstOpinionAnnex 初审意见附件
+     * @param firstAnnotationreport 初审批注版报告
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/firstTrial")
+    @ResponseBody
+    public String firstTrial(String opinionJson, MultipartFile firstOpinionAnnex, MultipartFile firstAnnotationreport, HttpSession session) throws BaseException, IOException {
+
+        FirstTrialOpinion[] firstTrialOpinions = JSON.parseObject(opinionJson, FirstTrialOpinion[].class);
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(firstTrialOpinions[0].getProjectid());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 17)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入初审报告表
+        FirstTrialReport firstTrialReport = new FirstTrialReport();
+        firstTrialReport.setId(firstTrialOpinions[0].getProjectid());   //项目id
+        firstTrialReport.setCreatetime(new Date());
+        firstTrialReport.setFirstopinionannex(uploadUtil.upload(firstOpinionAnnex,"firstOpinionAnnex/" ));
+        firstTrialReport.setFirstannotationreport(uploadUtil.upload(firstAnnotationreport,"firstAnnotationreport/" ));
+        firstTrialReportMapper.insert(firstTrialReport);
+
+        //插入初审意见表
+        for(FirstTrialOpinion firstTrialOpinion : firstTrialOpinions){
+            firstTrialOpinion.setCreatetime(new Date());
+            firstTrialOpinionMapper.insert(firstTrialOpinion);
+        }
+
+        //更新主表状态
+        projectInfo.setStatus(18);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),17);
+        return "OK";
     }
 
 }

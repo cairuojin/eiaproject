@@ -120,10 +120,4 @@
             '&pageNow=' + pageNow
     }
 </script>
-[select C# from CG where G# = (select...神州电脑)  ] a
-inner join
-[select C# from CG where G# = (select...雷柏鼠标)  ] b
-on a.C# = b.C#
-
-select C#,G# group by C#,G# from CG having sum(CT)>5
 </html>

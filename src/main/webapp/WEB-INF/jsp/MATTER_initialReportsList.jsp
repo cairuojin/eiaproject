@@ -62,7 +62,7 @@
                 <td class="center">${projectInfo.hostuser.name}</td>
                 <td class="center">${projectInfo.organizinguser.name}</td>
                 <td class="center">
-                    <a class="box" style="background-color: transparent; cursor: pointer;" onclick="showDiv('${projectInfo.id}','${projectInfo.name}','${projectInfo.createuser.department}')">提交初版报告</a>&nbsp;&nbsp;
+                    <a class="box" style="background-color: transparent; cursor: pointer;" onclick="showDiv('${projectInfo.id}','${projectInfo.name}','${projectInfo.subordinatedepartmentid}')">提交初版报告</a>&nbsp;&nbsp;
                 </td>
             </tr>
         </c:forEach>
@@ -170,7 +170,7 @@
         var arr = new Array();
         arr.push(2);
         arr.push(3);
-        arr.push(4);    //搜索身份为环评经理 部门经理  总工办的人员 ， 加载人员
+        arr.push(4);    //搜索项目所属部门  身份为环评经理 部门经理  总工办的人员 ， 加载人员
         $.ajax({
             "type": "POST",
             "url": "/api/admin/assist/getUserListByDepartmentIdAndRole",	//传输路径

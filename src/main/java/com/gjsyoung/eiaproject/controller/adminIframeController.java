@@ -137,7 +137,7 @@ public class adminIframeController {
             case "initialReportsList":projectListVo.setStatus(16);break;
             case "firstTrialList":{
                 projectListVo.setStatus(17);
-                projectListVo.setFirstTrialUserId(fromSession.getId());   //只查自己的项目
+                projectListVo.setFirstTrialUserId(fromSession.getId());   //初审 只查初审人是自己的项目
                 break;
             }
         }
@@ -170,6 +170,9 @@ public class adminIframeController {
         mav.addObject("pageInfo",pageInfo);
         return mav;
     }
+
+
+
 
     /* 2、项目管理 */
 

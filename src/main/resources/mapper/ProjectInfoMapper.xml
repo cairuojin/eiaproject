@@ -547,9 +547,6 @@
         LEFT JOIN USER hostuser ON projectinfo.hostuserid = hostuser.id               <!-- 主持人 -->
 
         <where>
-            <if test="firstTrialUserId != null">
-                projectinfo.firstTrialUserId = #{firstTrialUserId,jdbcType=INTEGER}
-            </if>
             <if test="number != null">
                 projectinfo.number = #{number,jdbcType=VARCHAR}
             </if>
@@ -583,6 +580,9 @@
             </if>
             <if test="area != null">
                 AND projectinfo.area = #{area,jdbcType=VARCHAR}
+            </if>
+            <if test="firstTrialUserId != -1">
+                AND projectinfo.firstTrialUserId = #{firstTrialUserId,jdbcType=INTEGER}
             </if>
         </where>
     </select>

@@ -28,7 +28,7 @@ public class ProjectListVo {
 
     //todo 合同编号  档案编号 承接时间
 
-    private Integer firstTrialUserId; //初审人id
+    private Integer firstTrialUserId = -1; //初审人id
 
     //分页字段
     private Integer pageSize = 10;   //单页显示多个
