@@ -92,6 +92,9 @@ public class adminMatterController {
     @Autowired
     ProjectMonitoringProgrammeMapper projectMonitoringProgrammeMapper;
 
+    @Autowired
+    ProjectInitialReportMapper projectInitialReportMapper;
+
     /* 1、人员分配 */
 
     /**
@@ -1001,4 +1004,32 @@ public class adminMatterController {
         projectOperationRecordService.addRecord(session,projectInfo.getId(),15);
         return "OK";
     }
+
+    //16、提交初版报告
+    @RequestMapping("/initialReport")
+    @ResponseBody
+    public String initialReport(ProjectInitialReport projectInitialReport, MultipartFile firstTrialFile, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInitialReport.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 16)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        projectInitialReport.setFirsttrialreportannex(uploadUtil.upload(firstTrialFile,"initialReport/" ));
+        User fromSession = userService.getFromSession(session);
+        projectInitialReport.setInitialreportuserid(fromSession.getId());
+        projectInitialReport.setCreatetime(new Date());
+        projectInitialReportMapper.insert(projectInitialReport);
+
+
+        //更新主表状态
+        projectInfo.setStatus(17);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),16);
+        return "OK";
+    }
+
 }
