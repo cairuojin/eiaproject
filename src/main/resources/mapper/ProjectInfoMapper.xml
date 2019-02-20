@@ -2,33 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gjsyoung.eiaproject.mapper.ProjectInfoMapper">
     <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="number" jdbcType="VARCHAR" property="number" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="builder" jdbcType="VARCHAR" property="builder" />
-        <result column="province" jdbcType="VARCHAR" property="province" />
-        <result column="city" jdbcType="VARCHAR" property="city" />
-        <result column="area" jdbcType="VARCHAR" property="area" />
-        <result column="filingDepartment" jdbcType="VARCHAR" property="filingdepartment" />
-        <result column="constructionSite" jdbcType="VARCHAR" property="constructionsite" />
-        <result column="fileType" jdbcType="INTEGER" property="filetype" />
-        <result column="evaluationScope" jdbcType="INTEGER" property="evaluationscope" />
-        <result column="contacts" jdbcType="VARCHAR" property="contacts" />
-        <result column="builderContact" jdbcType="VARCHAR" property="buildercontact" />
-        <result column="subordinateDepartmentId" jdbcType="INTEGER" property="subordinatedepartmentid" />
-        <result column="projectUndertakerUserId" jdbcType="INTEGER" property="projectundertakeruserid" />
-        <result column="contractMoney" jdbcType="VARCHAR" property="contractmoney" />
-        <result column="remarks" jdbcType="VARCHAR" property="remarks" />
-        <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="createUserId" jdbcType="INTEGER" property="createuserid" />
-        <result column="organizingUserId" jdbcType="INTEGER" property="organizinguserid" />
-        <result column="hostUserId" jdbcType="INTEGER" property="hostuserid" />
-        <result column="undertakeTime" jdbcType="TIMESTAMP" property="undertaketime" />
-        <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
-        <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="builder" jdbcType="VARCHAR" property="builder"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="area" jdbcType="VARCHAR" property="area"/>
+        <result column="filingDepartment" jdbcType="VARCHAR" property="filingdepartment"/>
+        <result column="constructionSite" jdbcType="VARCHAR" property="constructionsite"/>
+        <result column="fileType" jdbcType="INTEGER" property="filetype"/>
+        <result column="evaluationScope" jdbcType="INTEGER" property="evaluationscope"/>
+        <result column="contacts" jdbcType="VARCHAR" property="contacts"/>
+        <result column="builderContact" jdbcType="VARCHAR" property="buildercontact"/>
+        <result column="subordinateDepartmentId" jdbcType="INTEGER" property="subordinatedepartmentid"/>
+        <result column="projectUndertakerUserId" jdbcType="INTEGER" property="projectundertakeruserid"/>
+        <result column="contractMoney" jdbcType="VARCHAR" property="contractmoney"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="createUserId" jdbcType="INTEGER" property="createuserid"/>
+        <result column="organizingUserId" jdbcType="INTEGER" property="organizinguserid"/>
+        <result column="hostUserId" jdbcType="INTEGER" property="hostuserid"/>
+        <result column="undertakeTime" jdbcType="TIMESTAMP" property="undertaketime"/>
+        <result column="firstTrialUserId" jdbcType="INTEGER" property="firsttrialuserid"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime"/>
     </resultMap>
 
-
+    <!-- 非数据库字段 -->
     <resultMap id="ResultMapWithQuery" extends="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ProjectInfo">
         <result column="provinceName" jdbcType="VARCHAR" property="provinceName"/>
         <result column="cityName" jdbcType="VARCHAR" property="cityName"/>
@@ -114,7 +115,7 @@
         projectinfo.id, projectinfo.number, projectinfo.name, projectinfo.builder, projectinfo.province, projectinfo.city, projectinfo.area, projectinfo.filingDepartment, projectinfo.constructionSite,
         projectinfo.fileType, projectinfo.evaluationScope, projectinfo.contacts, projectinfo.builderContact, projectinfo.subordinateDepartmentId, projectinfo.projectUndertakerUserId,
         projectinfo.contractMoney, projectinfo.remarks, projectinfo.status, projectinfo.createUserId, projectinfo.organizingUserId, projectinfo.hostUserId, projectinfo.undertakeTime,
-        projectinfo.createTime, projectinfo.updateTime
+        projectinfo.firstTrialUserId, projectinfo.createTime, projectinfo.updateTime
     </sql>
 
     <sql id="projectundertakeruser">
@@ -228,25 +229,27 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        insert into projectinfo (id, number, name,
-        builder, province, city,
-        area, filingDepartment, constructionSite,
-        fileType, evaluationScope, contacts,
-        builderContact, subordinateDepartmentId,
-        projectUndertakerUserId, contractMoney,
-        remarks, status, createUserId,
-        organizingUserId, hostUserId, undertakeTime,
-        createTime, updateTime)
-        values (#{id,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-        #{builder,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
-        #{area,jdbcType=VARCHAR}, #{filingdepartment,jdbcType=VARCHAR}, #{constructionsite,jdbcType=VARCHAR},
-        #{filetype,jdbcType=INTEGER}, #{evaluationscope,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR},
-        #{buildercontact,jdbcType=VARCHAR}, #{subordinatedepartmentid,jdbcType=INTEGER},
-        #{projectundertakeruserid,jdbcType=INTEGER}, #{contractmoney,jdbcType=VARCHAR},
-        #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createuserid,jdbcType=INTEGER},
-        #{organizinguserid,jdbcType=INTEGER}, #{hostuserid,jdbcType=INTEGER}, #{undertaketime,jdbcType=TIMESTAMP},
-        #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
-    </insert>
+    insert into projectinfo (id, number, name,
+      builder, province, city,
+      area, filingDepartment, constructionSite,
+      fileType, evaluationScope, contacts,
+      builderContact, subordinateDepartmentId,
+      projectUndertakerUserId, contractMoney,
+      remarks, status, createUserId,
+      organizingUserId, hostUserId, undertakeTime,
+      firstTrialUserId, createTime, updateTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{builder,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+      #{area,jdbcType=VARCHAR}, #{filingdepartment,jdbcType=VARCHAR}, #{constructionsite,jdbcType=VARCHAR},
+      #{filetype,jdbcType=INTEGER}, #{evaluationscope,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR},
+      #{buildercontact,jdbcType=VARCHAR}, #{subordinatedepartmentid,jdbcType=INTEGER},
+      #{projectundertakeruserid,jdbcType=INTEGER}, #{contractmoney,jdbcType=VARCHAR},
+      #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createuserid,jdbcType=INTEGER},
+      #{organizinguserid,jdbcType=INTEGER}, #{hostuserid,jdbcType=INTEGER}, #{undertaketime,jdbcType=TIMESTAMP},
+      #{firsttrialuserid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
     <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
         insert into projectinfo
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -315,6 +318,9 @@
             </if>
             <if test="undertaketime != null">
                 undertakeTime,
+            </if>
+            <if test="firsttrialuserid != null">
+                firstTrialUserId,
             </if>
             <if test="createtime != null">
                 createTime,
@@ -390,6 +396,9 @@
             <if test="undertaketime != null">
                 #{undertaketime,jdbcType=TIMESTAMP},
             </if>
+            <if test="firsttrialuserid != null">
+                #{firsttrialuserid,jdbcType=INTEGER},
+            </if>
             <if test="createtime != null">
                 #{createtime,jdbcType=TIMESTAMP},
             </if>
@@ -464,6 +473,9 @@
             <if test="undertaketime != null">
                 undertakeTime = #{undertaketime,jdbcType=TIMESTAMP},
             </if>
+            <if test="firsttrialuserid != null">
+                firstTrialUserId = #{firsttrialuserid,jdbcType=INTEGER},
+            </if>
             <if test="createtime != null">
                 createTime = #{createtime,jdbcType=TIMESTAMP},
             </if>
@@ -474,32 +486,33 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        update projectinfo
-        set number = #{number,jdbcType=VARCHAR},
-        name = #{name,jdbcType=VARCHAR},
-        builder = #{builder,jdbcType=VARCHAR},
-        province = #{province,jdbcType=VARCHAR},
-        city = #{city,jdbcType=VARCHAR},
-        area = #{area,jdbcType=VARCHAR},
-        filingDepartment = #{filingdepartment,jdbcType=VARCHAR},
-        constructionSite = #{constructionsite,jdbcType=VARCHAR},
-        fileType = #{filetype,jdbcType=INTEGER},
-        evaluationScope = #{evaluationscope,jdbcType=INTEGER},
-        contacts = #{contacts,jdbcType=VARCHAR},
-        builderContact = #{buildercontact,jdbcType=VARCHAR},
-        subordinateDepartmentId = #{subordinatedepartmentid,jdbcType=INTEGER},
-        projectUndertakerUserId = #{projectundertakeruserid,jdbcType=INTEGER},
-        contractMoney = #{contractmoney,jdbcType=VARCHAR},
-        remarks = #{remarks,jdbcType=VARCHAR},
-        status = #{status,jdbcType=INTEGER},
-        createUserId = #{createuserid,jdbcType=INTEGER},
-        organizingUserId = #{organizinguserid,jdbcType=INTEGER},
-        hostUserId = #{hostuserid,jdbcType=INTEGER},
-        undertakeTime = #{undertaketime,jdbcType=TIMESTAMP},
-        createTime = #{createtime,jdbcType=TIMESTAMP},
-        updateTime = #{updatetime,jdbcType=TIMESTAMP}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
+    update projectinfo
+    set number = #{number,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      builder = #{builder,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      filingDepartment = #{filingdepartment,jdbcType=VARCHAR},
+      constructionSite = #{constructionsite,jdbcType=VARCHAR},
+      fileType = #{filetype,jdbcType=INTEGER},
+      evaluationScope = #{evaluationscope,jdbcType=INTEGER},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      builderContact = #{buildercontact,jdbcType=VARCHAR},
+      subordinateDepartmentId = #{subordinatedepartmentid,jdbcType=INTEGER},
+      projectUndertakerUserId = #{projectundertakeruserid,jdbcType=INTEGER},
+      contractMoney = #{contractmoney,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      createUserId = #{createuserid,jdbcType=INTEGER},
+      organizingUserId = #{organizinguserid,jdbcType=INTEGER},
+      hostUserId = #{hostuserid,jdbcType=INTEGER},
+      undertakeTime = #{undertaketime,jdbcType=TIMESTAMP},
+      firstTrialUserId = #{firsttrialuserid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 
     <select id="selectAndQuery" parameterType="com.gjsyoung.eiaproject.vo.ProjectListVo" resultMap="ResultMapWithQuery">
         select
@@ -534,6 +547,9 @@
         LEFT JOIN USER hostuser ON projectinfo.hostuserid = hostuser.id               <!-- 主持人 -->
 
         <where>
+            <if test="firstTrialUserId != null">
+                projectinfo.firstTrialUserId = #{firstTrialUserId,jdbcType=INTEGER}
+            </if>
             <if test="number != null">
                 projectinfo.number = #{number,jdbcType=VARCHAR}
             </if>
@@ -550,7 +566,8 @@
                 AND projectinfo.organizinguserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
             </if>
             <if test="roleType == 1">
-                AND projectinfo.projectundertakeruserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
+                AND projectinfo.projectundertakeruserid in (select id from user where name =
+                #{roleName,jdbcType=VARCHAR})
             </if>
             <if test="roleType == 2">
                 AND projectinfo.hostuserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})

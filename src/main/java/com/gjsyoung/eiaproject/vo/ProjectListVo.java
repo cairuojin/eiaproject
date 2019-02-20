@@ -28,7 +28,7 @@ public class ProjectListVo {
 
     //todo 合同编号  档案编号 承接时间
 
-
+    private Integer firstTrialUserId; //初审人id
 
     //分页字段
     private Integer pageSize = 10;   //单页显示多个
@@ -36,6 +36,14 @@ public class ProjectListVo {
     private Integer pageTotal = 0;  //总页码
     private Long sizeTotal = 0L;  //总个数
     private List<ProjectInfo> projectInfos = null;  //结果
+
+    public Integer getFirstTrialUserId() {
+        return firstTrialUserId;
+    }
+
+    public void setFirstTrialUserId(Integer firstTrialUserId) {
+        this.firstTrialUserId = firstTrialUserId;
+    }
 
     public List<ProjectInfo> getProjectInfos() {
         return projectInfos;

@@ -1023,6 +1023,10 @@ public class adminMatterController {
 
 
         //更新主表状态
+        if(projectInfo.getName().contains("(退回)")){
+            projectInfo.setName(projectInfo.getName().replace("(退回)","" ));
+        }
+        projectInfo.setFirsttrialuserid(projectInitialReport.getFirsttrialuserid());   //更新初审人到主表中
         projectInfo.setStatus(17);
         projectInfo.setUpdatetime(new Date());
         projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
@@ -1030,6 +1034,27 @@ public class adminMatterController {
         //插入操作记录表
         projectOperationRecordService.addRecord(session,projectInfo.getId(),16);
         return "OK";
+    }
+
+
+    /* 17、初审 */
+    /**
+     * 进入监测方案录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/firstTrialInput")
+    public ModelAndView firstTrialInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "firstTrialInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        ProjectInitialReport projectInitialReport = projectInitialReportMapper.selectByPrimaryKey(projectInfoId);
+        if(projectInitialReport == null)
+            throw BaseException.FAILED(404,"找不到该初版报告");
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("projectInitialReport",projectInitialReport);
+        return mav;
     }
 
 }
