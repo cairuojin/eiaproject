@@ -52,7 +52,11 @@ public class ProjectInfo {
 
     private Date undertaketime; //承接时间
 
-    private Integer firsttrialuserid;
+    private Integer initialreportuserid;    //项目报告提交人
+
+    private Integer firsttrialuserid;       //初审人
+
+    private Integer finaltrialuserid;       //复审人
 
     private Date createtime;
 
@@ -371,12 +375,28 @@ public class ProjectInfo {
         this.undertaketime = undertaketime;
     }
 
+    public Integer getInitialreportuserid() {
+        return initialreportuserid;
+    }
+
+    public void setInitialreportuserid(Integer initialreportuserid) {
+        this.initialreportuserid = initialreportuserid;
+    }
+
     public Integer getFirsttrialuserid() {
         return firsttrialuserid;
     }
 
     public void setFirsttrialuserid(Integer firsttrialuserid) {
         this.firsttrialuserid = firsttrialuserid;
+    }
+
+    public Integer getFinaltrialuserid() {
+        return finaltrialuserid;
+    }
+
+    public void setFinaltrialuserid(Integer finaltrialuserid) {
+        this.finaltrialuserid = finaltrialuserid;
     }
 
     public Date getCreatetime() {

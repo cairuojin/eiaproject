@@ -4,6 +4,8 @@ import com.gjsyoung.eiaproject.domain.FirstTrialOpinion;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface FirstTrialOpinionMapper {
@@ -18,4 +20,6 @@ public interface FirstTrialOpinionMapper {
     int updateByPrimaryKeySelective(FirstTrialOpinion record);
 
     int updateByPrimaryKey(FirstTrialOpinion record);
+
+    List<FirstTrialOpinion> selectByProjectId(Integer projectId);
 }

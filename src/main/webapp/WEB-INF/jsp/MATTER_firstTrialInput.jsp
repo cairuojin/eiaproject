@@ -68,7 +68,7 @@
     <div class="btnnew" style="margin-bottom: 10px;">
         <input type="submit" class="btn btn-primary" value="提交" onclick="firstTrialSave()"/>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="submit" class="btn btn-primary" value="退回" onclick="firstTrialBack"/>
+        <input type="submit" class="btn btn-primary" value="退回" onclick="firstTrialBack()"/>
     </div>
 </div>
 
@@ -182,7 +182,25 @@
                 alert(data);
             }
         })
+    }
 
+    //退回
+    function firstTrialBack() {
+        if (!confirm("您确定退回该初审吗?")) {
+            return
+        }
+        $.ajax({
+            "url": "/api/admin/matter/firstTrialBack?projectId=${projectInfo.id}",	//传输路径
+            "success": function (data) {
+                if (data == "OK") {
+                    alert("您已退回该初审");
+                    window.location.href = "/api/admin/iframe/firstTrialList";
+                }
+            },
+            "error": function (data) {
+                alert(data);
+            }
+        })
     }
 </script>
 

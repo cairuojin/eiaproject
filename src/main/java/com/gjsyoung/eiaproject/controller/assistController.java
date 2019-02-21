@@ -87,15 +87,6 @@ public class assistController {
     @RequestMapping("/getUserListByDepartmentIdAndRole")
     @ResponseBody
     public List getUserListByDepartmentIdAndRole(String departmentId, @RequestParam("roleList[]") Integer[] roleList){
-        List<User> userListByDepartment = userService.getUserListByDepartment(departmentId);
-        List<Integer> userListRole = Arrays.asList(roleList);
-        List<User> userList = new ArrayList<>();
-        for(User user : userListByDepartment){
-            if(userListRole.contains(user.getRole())){
-                userList.add(user);
-            }
-
-        }
-        return userList;
+        return userService.getUserListByDepartmentAndRole(departmentId,roleList);
     }
 }
