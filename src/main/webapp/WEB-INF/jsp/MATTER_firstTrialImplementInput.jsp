@@ -19,18 +19,18 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="" var="">
+    <c:forEach items="${firstTrialOpinions}" var="firstTrialOpinion" varStatus="index">
         <tr class="odd gradeX">
-            <td>1</td>
-            <td class="center"> hua大范甘迪iaoxin</td>
-            <td class="center">huangi电饭锅xoa</td>
+            <td>${index.index + 1}</td>
+            <td class="center">${firstTrialOpinion.firstopinion}</td>
+            <td class="center">${firstTrialOpinion.updateopinion}</td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
 <div class="opinion_css_vice">
     <div  >
-        <form>
+        <form id="editForm">
             <table class="form">
                 <tr  >
                     <td class="col11 tdcss1"  >
@@ -39,7 +39,7 @@
                     </td>
 
                     <td class="col2 tdcss2" style="padding-left: 30px;" >
-                        <a style="font-size: 14px;" href="" download="">下载初版报告</a>
+                        <a style="font-size: 14px;" href="/${projectInitialReport.firsttrialreportannex}" download="/${projectInitialReport.firsttrialreportannex}">下载初审版报告</a>
                     </td>
                 </tr>
                 <tr  >
@@ -49,7 +49,7 @@
                     </td>
 
                     <td class="col2 tdcss2" style="padding-left: 30px;" >
-                        <a style="font-size: 14px;" href="" download="">下载初版报告</a>
+                        <a style="font-size: 14px;" href="/${firstTrialReport.firstopinionannex}" download="/${firstTrialReport.firstopinionannex}">下载初审意见</a>
                     </td>
                 </tr>
                 <tr>
@@ -59,7 +59,7 @@
                     </td>
 
                     <td class="col2 tdcss2" style="padding-left: 30px;" >
-                        <a style="font-size: 14px;" href="" download="">下载初版报告</a>
+                        <a style="font-size: 14px;" href="/${firstTrialReport.firstannotationreport}" download="/${firstTrialReport.firstannotationreport}">下载初审版批注版报告</a>
                     </td>
                 </tr>
                 <tr>
@@ -69,7 +69,7 @@
                     </td>
 
                     <td class="col2 tdcss2" style="padding-left: 30px;" >
-                        <a style="font-size: 14px;" href="" download="">下载初版报告</a>
+                        <a style="font-size: 14px;" href="/${firstTrialReport.finalopinionannex}" download="/${firstTrialReport.finalopinionannex}">下载初版报告</a>
                     </td>
                 </tr>
                 <tr>
@@ -79,8 +79,8 @@
                     </td>
 
                     <td class="col2 tdcss2" style="padding-left: 30px;" >
-                        <input type="radio" name="choose1"  /><font size="14px">已落实</font>
-                        <input type="radio" name="choose1"  id="fatalreal"  /><font size="14px">未落实</font>
+                        <input type="radio" name="status"  value="0"/><font size="14px">已落实</font>
+                        <input type="radio" name="status" value="1"/><font size="14px">未落实</font>
                     </td>
                 </tr>
                 <tr>
@@ -90,16 +90,73 @@
                     </td>
 
                     <td class="col2 tdcss2" style="padding-left: 30px;" >
-                        <input type="text" class="large">
+                        <input type="text" class="large" id="remarks" name="remarks">
                     </td>
                 </tr>
             </table>
         </form>
     </div>
     <div class="btnnew" style="margin-bottom: 10px;">
-        <input type="submit" class="btn btn-primary" value="提交"  >
-        </input>&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" class="btn btn-primary" value="提交"  onclick="savefirstTrialImplement()"/>
+        &nbsp;&nbsp;&nbsp;&nbsp;
     </div>
 </div>
 </body>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+
+<!-- 表单校验 -->
+<script>
+    $(document).ready(function() {
+        //添加表单校验
+        $('#editForm').validate({
+            rules:{
+                status:{
+                    required:true,
+                },
+                remarks:{
+                    required:true
+                }
+            },
+            messages:{
+                status:{
+                    required:"该项为必填",
+                },
+                remarks:{
+                    required:"该项为必填",
+                }
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    function savefirstTrialImplement() {
+        if(!$("#editForm").valid()){
+            return;
+        }
+        if (!confirm("您确定提交初审修改情况落实吗?")) {
+            return
+        }
+        $.ajax({
+            "type": "GET",
+            "url": "/api/admin/matter/firstTrialImplement",	//传输路径
+            "data": {
+                "id":${projectInfo.id},
+                "status":$("input[name='status']:checked").val(),
+                "remarks":$('#remarks').val()
+            },
+            "success": function (data) {
+                if (data == "OK") {
+                    alert("提交初审修改情况落实成功");
+                    window.location.href = "/api/admin/iframe/firstTrialImplementList";
+                }
+            },
+            "error": function (data) {
+                alert(data);
+            }
+        })
+    }
+</script>
 </html>

@@ -101,7 +101,9 @@ public class adminIframeController {
                     "/initialReportsList",
                     "/firstTrialList",
                     "/firstTrialEditList",
-                    "/firstTrialImplementList"
+                    "/firstTrialImplementList",
+                    "/finalTrialList",
+                    "/finalTrialEditList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -150,8 +152,18 @@ public class adminIframeController {
             case "firstTrialImplementList":{
                 projectListVo.setStatus(19);
                 projectListVo.setFirstTrialUserId(fromSession.getId());   //初审落实 只查初审人是自己的项目
+                break;
             }
-
+            case "finalTrialList":{
+                projectListVo.setStatus(20);
+                projectListVo.setFinalTrialUserId(fromSession.getId());   //复审 只查复审人是自己的项目
+                break;
+            }
+            case "finalTrialEditList":{
+                projectListVo.setStatus(21);
+                projectListVo.setInitialReportUserId(fromSession.getId());//复审修改情况，只查提交报告人是自己的项目
+                break;
+            }
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 

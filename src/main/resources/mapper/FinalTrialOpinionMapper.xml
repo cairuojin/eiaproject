@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gjsyoung.eiaproject.mapper.FirstTrialOpinionMapper">
-  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.FirstTrialOpinion">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.FinalTrialOpinionMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.FinalTrialOpinion">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="projectId" jdbcType="INTEGER" property="projectid" />
-    <result column="firstOpinion" jdbcType="VARCHAR" property="firstopinion" />
+    <result column="finalOpinion" jdbcType="VARCHAR" property="finalopinion" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updateOpinion" jdbcType="VARCHAR" property="updateopinion" />
     <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, projectId, firstOpinion, createTime, updateOpinion, updateTime
+    id, projectId, finalOpinion, createTime, updateOpinion, updateTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from firsttrialopinion
+    from finaltrialopinion
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from firsttrialopinion
+    delete from finaltrialopinion
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.FirstTrialOpinion">
-    insert into firsttrialopinion (id, projectId, firstOpinion, 
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.FinalTrialOpinion">
+    insert into finaltrialopinion (id, projectId, finalOpinion, 
       createTime, updateOpinion, updateTime
       )
-    values (#{id,jdbcType=INTEGER}, #{projectid,jdbcType=INTEGER}, #{firstopinion,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{projectid,jdbcType=INTEGER}, #{finalopinion,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP}, #{updateopinion,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.FirstTrialOpinion">
-    insert into firsttrialopinion
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.FinalTrialOpinion">
+    insert into finaltrialopinion
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -39,8 +39,8 @@
       <if test="projectid != null">
         projectId,
       </if>
-      <if test="firstopinion != null">
-        firstOpinion,
+      <if test="finalopinion != null">
+        finalOpinion,
       </if>
       <if test="createtime != null">
         createTime,
@@ -59,8 +59,8 @@
       <if test="projectid != null">
         #{projectid,jdbcType=INTEGER},
       </if>
-      <if test="firstopinion != null">
-        #{firstopinion,jdbcType=VARCHAR},
+      <if test="finalopinion != null">
+        #{finalopinion,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -73,14 +73,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.FirstTrialOpinion">
-    update firsttrialopinion
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.FinalTrialOpinion">
+    update finaltrialopinion
     <set>
       <if test="projectid != null">
         projectId = #{projectid,jdbcType=INTEGER},
       </if>
-      <if test="firstopinion != null">
-        firstOpinion = #{firstopinion,jdbcType=VARCHAR},
+      <if test="finalopinion != null">
+        finalOpinion = #{finalopinion,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
         createTime = #{createtime,jdbcType=TIMESTAMP},
@@ -94,26 +94,25 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.FirstTrialOpinion">
-    update firsttrialopinion
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.FinalTrialOpinion">
+    update finaltrialopinion
     set projectId = #{projectid,jdbcType=INTEGER},
-      firstOpinion = #{firstopinion,jdbcType=VARCHAR},
+      finalOpinion = #{finalopinion,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateOpinion = #{updateopinion,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
   <select id="selectByProjectId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from firsttrialopinion
+    from finaltrialopinion
     where projectId = #{projectId,jdbcType=INTEGER}
   </select>
 
   <delete id="deleteByProjectId" parameterType="java.lang.Integer">
-    delete from firsttrialopinion
+    delete from finaltrialopinion
     where projectId = #{projectId,jdbcType=INTEGER}
   </delete>
 </mapper>

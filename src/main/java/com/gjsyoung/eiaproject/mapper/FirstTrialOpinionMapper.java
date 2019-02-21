@@ -21,5 +21,8 @@ public interface FirstTrialOpinionMapper {
 
     int updateByPrimaryKey(FirstTrialOpinion record);
 
+
     List<FirstTrialOpinion> selectByProjectId(Integer projectId);
+
+    int deleteByProjectId(Integer projectId);
 }

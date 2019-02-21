@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.FinalTrialReportMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.FinalTrialReport">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="finalOpinionAnnex" jdbcType="VARCHAR" property="finalopinionannex" />
+    <result column="finalAnnotationreport" jdbcType="VARCHAR" property="finalannotationreport" />
+    <result column="approvalOpinionAnnex" jdbcType="VARCHAR" property="approvalopinionannex" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, createTime, finalOpinionAnnex, finalAnnotationreport, approvalOpinionAnnex, status, 
+    remarks
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from finaltrialreport
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from finaltrialreport
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.FinalTrialReport">
+    insert into finaltrialreport (id, createTime, finalOpinionAnnex, 
+      finalAnnotationreport, approvalOpinionAnnex, 
+      status, remarks)
+    values (#{id,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{finalopinionannex,jdbcType=VARCHAR}, 
+      #{finalannotationreport,jdbcType=VARCHAR}, #{approvalopinionannex,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.FinalTrialReport">
+    insert into finaltrialreport
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="finalopinionannex != null">
+        finalOpinionAnnex,
+      </if>
+      <if test="finalannotationreport != null">
+        finalAnnotationreport,
+      </if>
+      <if test="approvalopinionannex != null">
+        approvalOpinionAnnex,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalopinionannex != null">
+        #{finalopinionannex,jdbcType=VARCHAR},
+      </if>
+      <if test="finalannotationreport != null">
+        #{finalannotationreport,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalopinionannex != null">
+        #{approvalopinionannex,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.FinalTrialReport">
+    update finaltrialreport
+    <set>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalopinionannex != null">
+        finalOpinionAnnex = #{finalopinionannex,jdbcType=VARCHAR},
+      </if>
+      <if test="finalannotationreport != null">
+        finalAnnotationreport = #{finalannotationreport,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalopinionannex != null">
+        approvalOpinionAnnex = #{approvalopinionannex,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.FinalTrialReport">
+    update finaltrialreport
+    set createTime = #{createtime,jdbcType=TIMESTAMP},
+      finalOpinionAnnex = #{finalopinionannex,jdbcType=VARCHAR},
+      finalAnnotationreport = #{finalannotationreport,jdbcType=VARCHAR},
+      approvalOpinionAnnex = #{approvalopinionannex,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
