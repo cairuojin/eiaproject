@@ -74,6 +74,9 @@ public class adminIframeController {
     @Autowired
     ProjectWorkPlanMapper projectWorkPlanMapper;
 
+    @Autowired
+    ApprovalAnnexOpinionMapper approvalAnnexOpinionMapper;
+
     /* 1、待办事项 */
 
     //项目列表
@@ -104,7 +107,11 @@ public class adminIframeController {
                     "/firstTrialImplementList",
                     "/finalTrialList",
                     "/finalTrialEditList",
-                    "/finalTrialImplementList"
+                    "/finalTrialImplementList",
+                    "/approvalTrialQualificationsList",
+                    "/approvalMettingList",
+                    "/approvalReportList",
+                    "/approvalOpinionList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -170,6 +177,10 @@ public class adminIframeController {
                 projectListVo.setFinalTrialUserId(fromSession.getId());   //复审落实 只查初审人是自己的项目
                 break;
             }
+            case "approvalTrialQualificationsList":projectListVo.setStatus(23);break;
+            case "approvalMettingList":projectListVo.setStatus(24);break;
+            case "approvalReportList":projectListVo.setStatus(25);break;
+            case "approvalOpinionList":projectListVo.setStatus(26);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
@@ -177,6 +188,13 @@ public class adminIframeController {
             for (ProjectInfo projectInfo : projectListVo.getProjectInfos()){
                 CollectionPlan collectionPlan = collectionPlanMapper.selectByPrimaryKey(projectInfo.getId());
                 projectInfo.getSubObject().put("collectionPlan",collectionPlan );
+            }
+        }
+
+        if("approvalOpinionList".equals(requestURI)){    //评委会意见落实必须查报审附件表
+            for(ProjectInfo projectInfo : projectListVo.getProjectInfos()){
+                ApprovalAnnexOpinion approvalAnnexOpinion = approvalAnnexOpinionMapper.selectByPrimaryKey(projectInfo.getId());
+                projectInfo.getSubObject().put("approvalAnnexOpinion",approvalAnnexOpinion);
             }
         }
 

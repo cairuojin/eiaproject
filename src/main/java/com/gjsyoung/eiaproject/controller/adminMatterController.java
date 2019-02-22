@@ -109,6 +109,11 @@ public class adminMatterController {
     @Autowired
     FinalTrialReportMapper finalTrialReportMapper;
 
+    @Autowired
+    ApprovalTrialQualificationsMapper approvalTrialQualificationsMapper;
+
+    @Autowired
+    ApprovalAnnexOpinionMapper approvalAnnexOpinionMapper;
 
     /* 1、人员分配 */
 
@@ -1500,6 +1505,132 @@ public class adminMatterController {
 
         //插入操作记录表
         projectOperationRecordService.addRecord(session,projectInfo.getId(),22);
+        return "OK";
+    }
+
+    /* 23 报审资质申请 */
+
+    /**
+     * 提交报审资质申请
+     */
+    @RequestMapping("/approvalTrialQualifications")
+    @ResponseBody
+    public String approvalTrialQualifications(ApprovalTrialQualifications approvalTrialQualifications, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(approvalTrialQualifications.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 23)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        User fromSession = userService.getFromSession(session);
+        approvalTrialQualifications.setApprovaluserid(fromSession.getId());
+        approvalTrialQualifications.setCreatetime(new Date());
+        approvalTrialQualificationsMapper.insert(approvalTrialQualifications);
+
+        projectInfo.setStatus(24);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),23);
+        return "OK";
+    }
+
+
+    /* 24 会议总结附件 */
+
+    /**
+     * 提交会议总结附件
+     */
+    @RequestMapping("/approvalMetting")
+    @ResponseBody
+    public String approvalMetting(ApprovalAnnexOpinion approvalAnnexOpinion, MultipartFile mettingSummaryAnnex, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(approvalAnnexOpinion.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 24)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        User fromSession = userService.getFromSession(session);
+        approvalAnnexOpinion.setMettingsummaryannex(uploadUtil.upload(mettingSummaryAnnex,"mettingSummaryAnnex/"));
+        approvalAnnexOpinion.setMettinguserid(fromSession.getId());
+        approvalAnnexOpinion.setMettingtime(new Date());
+        approvalAnnexOpinionMapper.insert(approvalAnnexOpinion);
+
+        //更新主表状态
+        projectInfo.setStatus(25);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),24);
+        return "OK";
+    }
+
+
+    /* 25 下一版报告 */
+
+    /**
+     * 提交下一版报告附件
+     */
+    @RequestMapping("/approvalReport")
+    @ResponseBody
+    public String approvalReport(Integer projectId, MultipartFile approvalreportannex, MultipartFile approvalexpertopinionsannex, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 25)
+            throw BaseException.FAILED(400,"该项目状态有误");
+        ApprovalAnnexOpinion approvalAnnexOpinion = approvalAnnexOpinionMapper.selectByPrimaryKey(projectId);
+        if(approvalAnnexOpinion == null)
+            throw BaseException.FAILED(500,"该项目状态有误，找不到会议总结对象");
+
+        User fromSession = userService.getFromSession(session);
+        approvalAnnexOpinion.setApprovalreportannex(uploadUtil.upload(approvalreportannex,"approvalreportannex/"));
+        approvalAnnexOpinion.setApprovalexpertopinionsannex(uploadUtil.upload(approvalexpertopinionsannex,"approvalexpertopinionsannex/"));
+        approvalAnnexOpinion.setApprovaluserid(fromSession.getId());
+        approvalAnnexOpinion.setApprovaltime(new Date());
+        approvalAnnexOpinionMapper.updateByPrimaryKeySelective(approvalAnnexOpinion);
+
+        //更新主表状态
+        projectInfo.setStatus(26);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),25);
+        return "OK";
+    }
+
+
+    /* 26 评委会意见 */
+
+    /**
+     * 提交评委会意见
+     */
+    @RequestMapping("/approvalOpinion")
+    @ResponseBody
+    public String approvalOpinion(ApprovalAnnexOpinion approvalAnnexOpinion, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(approvalAnnexOpinion.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 26)
+            throw BaseException.FAILED(400,"该项目状态有误");
+        if(approvalAnnexOpinionMapper.selectByPrimaryKey(approvalAnnexOpinion.getId()) == null)
+            throw BaseException.FAILED(500,"该项目状态有误，找不到会议总结对象");
+
+        User fromSession = userService.getFromSession(session);
+        approvalAnnexOpinion.setImplementuserid(fromSession.getId());
+        approvalAnnexOpinion.setImplementtime(new Date());
+        approvalAnnexOpinionMapper.updateByPrimaryKeySelective(approvalAnnexOpinion);
+
+        //更新主表状态
+        projectInfo.setStatus(27);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),26);
         return "OK";
     }
 }
