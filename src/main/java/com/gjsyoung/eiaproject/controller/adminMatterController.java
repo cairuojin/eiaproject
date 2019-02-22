@@ -1,5 +1,6 @@
 package com.gjsyoung.eiaproject.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.gjsyoung.eiaproject.domain.*;
 import com.gjsyoung.eiaproject.mapper.*;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -88,6 +90,25 @@ public class adminMatterController {
 
     @Autowired
     ProjectWorkPlanMapper projectWorkPlanMapper;
+
+    @Autowired
+    ProjectMonitoringProgrammeMapper projectMonitoringProgrammeMapper;
+
+    @Autowired
+    ProjectInitialReportMapper projectInitialReportMapper;
+
+    @Autowired
+    FirstTrialReportMapper firstTrialReportMapper;
+
+    @Autowired
+    FirstTrialOpinionMapper firstTrialOpinionMapper;
+
+    @Autowired
+    FinalTrialOpinionMapper finalTrialOpinionMapper;
+
+    @Autowired
+    FinalTrialReportMapper finalTrialReportMapper;
+
 
     /* 1、人员分配 */
 
@@ -917,7 +938,568 @@ public class adminMatterController {
     }
 
     /* 14、落实工作 */
+    @RequestMapping("/workPlanImplement")
+    @ResponseBody
+    public String workPlanImplement(Integer id, Date implementsplantime, String implementsremarks, HttpSession session) throws BaseException{
+        ProjectWorkPlan projectWorkPlan = projectWorkPlanMapper.selectByPrimaryKey(id);
+        if(projectWorkPlan == null){
+            throw BaseException.FAILED(404,"找不到该工作计划");
+        } else if(projectWorkPlan.getStatus() == 1){
+            throw BaseException.FAILED(400,"该工作计划已经完成");
+        }
 
 
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectWorkPlan.getProjectid());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 14)
+            throw BaseException.FAILED(400,"该项目状态有误");
 
+        User fromSession = userService.getFromSession(session);
+        projectWorkPlan.setImplementsplantime(implementsplantime);
+        projectWorkPlan.setImplementsremarks(implementsremarks);
+        projectWorkPlan.setUpdatetime(new Date());  //当前为落实时间
+        projectWorkPlan.setImplementsplanuserid(fromSession.getId());
+        projectWorkPlan.setStatus(1);
+        projectWorkPlanMapper.updateByPrimaryKey(projectWorkPlan);
+
+
+        //更新主表状态
+        int workBeImplementCount = projectWorkPlanMapper.countBeImplementByProjectid(projectWorkPlan.getProjectid());
+        if(workBeImplementCount == 0){  //全部完成进入下一状态
+            projectInfo.setStatus(15);
+        }
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),14);
+        return "OK";
+    }
+
+    /* 15、监测方案提交 */
+    /**
+     * 进入监测方案录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/monitoringProgrammeInput")
+    public ModelAndView monitoringProgrammeInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "monitoringProgrammeInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        mav.addObject("projectInfo",projectInfo);
+        return mav;
+    }
+
+
+    @RequestMapping("/monitoringProgramme")
+    @ResponseBody
+    public String monitoringProgramme(ProjectMonitoringProgramme projectMonitoringProgramme, MultipartFile annexFile, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectMonitoringProgramme.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 15)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        projectMonitoringProgramme.setAnnux(uploadUtil.upload(annexFile,"contract/" ));
+        User fromSession = userService.getFromSession(session);
+        projectMonitoringProgramme.setMonitoringuserid(fromSession.getId());
+        projectMonitoringProgramme.setCreatetime(new Date());
+        projectMonitoringProgrammeMapper.insert(projectMonitoringProgramme);
+
+
+        //更新主表状态
+        projectInfo.setStatus(16);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),15);
+        return "OK";
+    }
+
+    //16、提交初版报告
+    @RequestMapping("/initialReport")
+    @ResponseBody
+    public String initialReport(ProjectInitialReport projectInitialReport, MultipartFile firstTrialFile, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInitialReport.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 16)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        projectInitialReport.setFirsttrialreportannex(uploadUtil.upload(firstTrialFile,"initialReport/" ));
+        User fromSession = userService.getFromSession(session);
+        projectInitialReport.setInitialreportuserid(fromSession.getId());
+        projectInitialReport.setCreatetime(new Date());
+        projectInitialReportMapper.insert(projectInitialReport);
+
+
+        //更新主表状态
+        projectInfo.setFirsttrialuserid(projectInitialReport.getFirsttrialuserid());   //更新初审人到主表中
+        projectInfo.setStatus(17);
+        projectInfo.setUpdatetime(new Date());
+        projectInfo.setInitialreportuserid(fromSession.getId());    //项目报告提交人  初审/复审第二个环节查
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),16);
+        return "OK";
+    }
+
+
+    /* 17、初审 */
+    /**
+     * 进入初审录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/firstTrialInput")
+    public ModelAndView firstTrialInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "firstTrialInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        ProjectInitialReport projectInitialReport = projectInitialReportMapper.selectByPrimaryKey(projectInfoId);
+        if(projectInitialReport == null)
+            throw BaseException.FAILED(404,"找不到该初版报告");
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("projectInitialReport",projectInitialReport);
+        return mav;
+    }
+
+
+    /**
+     * 提交初审意见
+     * @param opinionJson    初审意见数组
+     * @param firstOpinionAnnex 初审意见附件
+     * @param firstAnnotationreport 初审批注版报告
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/firstTrial")
+    @ResponseBody
+    public String firstTrial(String opinionJson, MultipartFile firstOpinionAnnex, MultipartFile firstAnnotationreport, HttpSession session) throws BaseException, IOException {
+
+        FirstTrialOpinion[] firstTrialOpinions = JSON.parseObject(opinionJson, FirstTrialOpinion[].class);
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(firstTrialOpinions[0].getProjectid());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 17)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入初审报告表
+        FirstTrialReport firstTrialReport = new FirstTrialReport();
+        firstTrialReport.setId(firstTrialOpinions[0].getProjectid());   //项目id
+        firstTrialReport.setCreatetime(new Date());
+        firstTrialReport.setFirstopinionannex(uploadUtil.upload(firstOpinionAnnex,"firstOpinionAnnex/" ));
+        firstTrialReport.setFirstannotationreport(uploadUtil.upload(firstAnnotationreport,"firstAnnotationreport/" ));
+        firstTrialReportMapper.insert(firstTrialReport);
+
+        //插入初审意见表
+        for(FirstTrialOpinion firstTrialOpinion : firstTrialOpinions){
+            firstTrialOpinion.setCreatetime(new Date());
+            firstTrialOpinionMapper.insert(firstTrialOpinion);
+        }
+
+        //更新主表状态
+        if(projectInfo.getName().contains("(退回)")){
+            projectInfo.setName(projectInfo.getName().replace("(退回)","" ));
+        }
+        projectInfo.setStatus(18);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),17);
+        return "OK";
+    }
+
+    /**
+     * 退回初审
+     * @param projectId
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/firstTrialBack")
+    @ResponseBody
+    public String firstTrialBack(Integer projectId, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 17)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //删除初版项目报告
+        projectInitialReportMapper.deleteByPrimaryKey(projectId);
+
+        //退回合同录入状态
+        projectInfo.setName(projectInfo.getName() + "(退回)");
+        projectInfo.setStatus(16);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),17);
+        return "OK";
+    }
+
+    /* 18、初审修改情况 */
+    /**
+     * 进入监测方案录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/firstTrialEditInput")
+    public ModelAndView firstTrialEditInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "firstTrialEditInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+
+        FirstTrialReport firstTrialReport = firstTrialReportMapper.selectByPrimaryKey(projectInfoId);
+        if(firstTrialReport == null)
+            throw BaseException.FAILED(404,"找不到该初审报告");
+        List<FirstTrialOpinion> firstTrialOpinions = firstTrialOpinionMapper.selectByProjectId(projectInfoId);
+        List<User> userList = userService.getUserListByDepartmentAndRole(projectInfo.getSubordinatedepartmentid().toString(), new Integer[]{2, 3});
+
+
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("firstTrialReport",firstTrialReport);
+        mav.addObject("firstTrialOpinions",firstTrialOpinions);
+        mav.addObject("userList",userList);
+        return mav;
+    }
+
+
+    /**
+     * 提交初审修改情况
+     * @param opinionJson    初审意见数组
+     * @param finaltrialuserid 定稿复审人
+     * @param finalopinionannex 定稿审核报告
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/firstTrialEdit")
+    @ResponseBody
+    public String firstTrialEdit(String opinionJson,Integer projectId, Integer finaltrialuserid, MultipartFile finalopinionannex, HttpSession session) throws BaseException, IOException {
+
+        FirstTrialOpinion[] firstTrialOpinions = JSON.parseObject(opinionJson, FirstTrialOpinion[].class);
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 18)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入初审报告表
+        FirstTrialReport firstTrialReport = firstTrialReportMapper.selectByPrimaryKey(projectId);
+        if(firstTrialReport == null)
+            throw BaseException.FAILED(500,"找不到该初审报告表");
+        firstTrialReport.setFinalopinionannex(uploadUtil.upload(finalopinionannex,"finalopinionreport/" ));
+        firstTrialReport.setFinaltrialuserid(finaltrialuserid);
+        firstTrialReportMapper.updateByPrimaryKeySelective(firstTrialReport);
+
+        //插入初审意见表
+        for(FirstTrialOpinion firstTrialOpinion : firstTrialOpinions){
+            firstTrialOpinion.setUpdatetime(new Date());
+            firstTrialOpinionMapper.updateByPrimaryKeySelective(firstTrialOpinion);
+        }
+
+
+        projectInfo.setStatus(19);
+        projectInfo.setUpdatetime(new Date());
+        projectInfo.setFinaltrialuserid(finaltrialuserid);//插入复审人
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),18);
+        return "OK";
+    }
+
+
+    /* 19、初审落实 */
+    /**
+     * 进入初审落实页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/firstTrialImplementInput")
+    public ModelAndView firstTrialImplementInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "firstTrialImplementInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+
+        ProjectInitialReport projectInitialReport = projectInitialReportMapper.selectByPrimaryKey(projectInfoId);  //初版报告
+        FirstTrialReport firstTrialReport = firstTrialReportMapper.selectByPrimaryKey(projectInfoId);   //初审报告
+        List<FirstTrialOpinion> firstTrialOpinions = firstTrialOpinionMapper.selectByProjectId(projectInfoId);//初审意见
+        if (projectInitialReport == null || firstTrialReport == null || firstTrialOpinions == null){
+
+            throw BaseException.FAILED(500,"该项目有误");
+        }
+
+        if(projectInitialReport == null)
+            throw BaseException.FAILED(404,"找不到该初版报告");
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("projectInitialReport",projectInitialReport);
+        mav.addObject("firstTrialReport",firstTrialReport);
+        mav.addObject("firstTrialOpinions",firstTrialOpinions);
+        return mav;
+    }
+
+
+    /**
+     * 提交初审修改情况
+     */
+    @RequestMapping("/firstTrialImplement")
+    @ResponseBody
+    public String firstTrialImplement(FirstTrialReport firstTrialReport, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(firstTrialReport.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 19)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        firstTrialReportMapper.updateByPrimaryKeySelective(firstTrialReport);
+
+        projectInfo.setStatus(20);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),19);
+        return "OK";
+    }
+
+
+    /* 20、复审 */
+    /**
+     * 进入复审录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/finalTrialInput")
+    public ModelAndView finalTrialInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "finalTrialInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        FirstTrialReport firstTrialReport = firstTrialReportMapper.selectByPrimaryKey(projectInfoId);
+        if(firstTrialReport == null)
+            throw BaseException.FAILED(404,"找不到该定稿版报告");
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("firstTrialReport",firstTrialReport);
+        return mav;
+    }
+
+    /**
+     * 提交复审意见
+     * @param opinionJson    复审意见数组
+     * @param finalOpinionAnnex 复审意见附件
+     * @param finalAnnotationreport 复审批注版报告
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/finalTrial")
+    @ResponseBody
+    public String finalTrial(String opinionJson, MultipartFile finalOpinionAnnex, MultipartFile finalAnnotationreport, HttpSession session) throws BaseException, IOException {
+
+        FinalTrialOpinion[] finalTrialOpinions = JSON.parseObject(opinionJson, FinalTrialOpinion[].class);
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(finalTrialOpinions[0].getProjectid());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 20)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入复审报告表
+        FinalTrialReport finalTrialReport = new FinalTrialReport();
+        finalTrialReport.setId(finalTrialOpinions[0].getProjectid());   //项目id
+        finalTrialReport.setCreatetime(new Date());
+        finalTrialReport.setFinalopinionannex(uploadUtil.upload(finalOpinionAnnex,"finalOpinionAnnex/" ));
+        finalTrialReport.setFinalannotationreport(uploadUtil.upload(finalAnnotationreport,"finalAnnotationreport/" ));
+        finalTrialReportMapper.insert(finalTrialReport);
+
+        //插入初审意见表
+        for(FinalTrialOpinion finalTrialOpinion : finalTrialOpinions){
+            finalTrialOpinion.setCreatetime(new Date());
+            finalTrialOpinionMapper.insert(finalTrialOpinion);
+        }
+
+        //更新主表状态
+        if(projectInfo.getName().contains("(退回)")){
+            projectInfo.setName(projectInfo.getName().replace("(退回)","" ));
+        }
+        projectInfo.setStatus(21);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),20);
+        return "OK";
+    }
+
+    /**
+     * 退回复审
+     * @param projectId
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/finalTrialBack")
+    @ResponseBody
+    public String finalTrialBack(Integer projectId, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 20)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        projectInitialReportMapper.deleteByPrimaryKey(projectId);//删除初版项目报告
+        firstTrialReportMapper.deleteByPrimaryKey(projectId);   //删除初审报告表
+        firstTrialOpinionMapper.deleteByProjectId(projectId);   //删除初审意见
+
+        //退回合同录入状态
+        projectInfo.setName(projectInfo.getName() + "(退回)");
+        projectInfo.setStatus(16);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),20);
+        return "OK";
+    }
+
+
+    /* 21、复审修改情况 */
+    /**
+     * 进入复审录入页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/finalTrialEditInput")
+    public ModelAndView finalTrialEditInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "finalTrialEditInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+
+        FinalTrialReport finalTrialReport = finalTrialReportMapper.selectByPrimaryKey(projectInfoId);
+        if(finalTrialReport == null)
+            throw BaseException.FAILED(404,"找不到该复审报告");
+
+        List<FinalTrialOpinion> finalTrialOpinions = finalTrialOpinionMapper.selectByProjectId(projectInfoId);
+
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("finalTrialReport",finalTrialReport);
+        mav.addObject("finalTrialOpinions",finalTrialOpinions);
+        return mav;
+    }
+
+
+    /**
+     * 提交复审修改情况
+     * @param opinionJson    初审意见数组
+     * @param approvalopinionannex 报审版报告
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/finalTrialEdit")
+    @ResponseBody
+    public String finalTrialEdit(String opinionJson,Integer projectId, MultipartFile approvalopinionannex, HttpSession session) throws BaseException, IOException {
+
+        FinalTrialOpinion[] finalTrialOpinions = JSON.parseObject(opinionJson, FinalTrialOpinion[].class);
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 21)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //插入复审报告表
+        FinalTrialReport finalTrialReport = finalTrialReportMapper.selectByPrimaryKey(projectId);
+        if(finalTrialReport == null)
+            throw BaseException.FAILED(500,"找不到该复审报告表");
+        finalTrialReport.setApprovalopinionannex(uploadUtil.upload(approvalopinionannex,"approvalopinionannex/" ));
+        finalTrialReportMapper.updateByPrimaryKeySelective(finalTrialReport);
+
+        //插入复审意见表
+        for(FinalTrialOpinion finalTrialOpinion : finalTrialOpinions){
+            finalTrialOpinion.setUpdatetime(new Date());
+            finalTrialOpinionMapper.updateByPrimaryKeySelective(finalTrialOpinion);
+        }
+
+
+        projectInfo.setStatus(22);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),21);
+        return "OK";
+    }
+
+
+    /* 22、复审落实 */
+    /**
+     * 进入复审落实页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/finalTrialImplementInput")
+    public ModelAndView finalTrialImplementInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "finalTrialImplementInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+
+
+        FirstTrialReport firstTrialReport = firstTrialReportMapper.selectByPrimaryKey(projectInfoId);   //定稿版报告
+        List<FinalTrialOpinion> finalTrialOpinions = finalTrialOpinionMapper.selectByProjectId(projectInfoId);  //复审意见
+        FinalTrialReport finalTrialReport = finalTrialReportMapper.selectByPrimaryKey(projectInfoId);   //复审报告
+        if (finalTrialReport == null || finalTrialOpinions == null){
+            throw BaseException.FAILED(500,"该项目有误");
+        }
+
+        if(firstTrialReport == null)
+            throw BaseException.FAILED(404,"找不到该初版报告");
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("firstTrialReport",firstTrialReport);
+        mav.addObject("finalTrialOpinions",finalTrialOpinions);
+        mav.addObject("finalTrialReport",finalTrialReport);
+        return mav;
+    }
+
+
+    /**
+     * 提交初审修改情况
+     */
+    @RequestMapping("/finalTrialImplement")
+    @ResponseBody
+    public String finalTrialImplement(FinalTrialReport finalTrialReport, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(finalTrialReport.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 22)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        finalTrialReportMapper.updateByPrimaryKeySelective(finalTrialReport);
+
+        projectInfo.setStatus(23);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),22);
+        return "OK";
+    }
 }

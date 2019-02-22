@@ -456,14 +456,14 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <span class="spancss">用&nbsp;户&nbsp;名&nbsp;&nbsp;</span>
-                                <input type="text" name="username" id="username" class="form-control" placeholder="请输入用户名">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="请输入用户名" value="cairuojin">
                             </div>
                         </div>
                         <div class="clearfix" style="height: 110px"></div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <span class="spancss">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;&nbsp;</span>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="请输入密码">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="请输入密码" value="123123">
                             </div>
                         </div>
                         <div class="clearfix" style="height: 110px"></div>

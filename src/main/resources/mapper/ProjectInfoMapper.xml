@@ -1,572 +1,626 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gjsyoung.eiaproject.mapper.ProjectInfoMapper">
-    <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="number" jdbcType="VARCHAR" property="number" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="builder" jdbcType="VARCHAR" property="builder" />
-        <result column="province" jdbcType="VARCHAR" property="province" />
-        <result column="city" jdbcType="VARCHAR" property="city" />
-        <result column="area" jdbcType="VARCHAR" property="area" />
-        <result column="filingDepartment" jdbcType="VARCHAR" property="filingdepartment" />
-        <result column="constructionSite" jdbcType="VARCHAR" property="constructionsite" />
-        <result column="fileType" jdbcType="INTEGER" property="filetype" />
-        <result column="evaluationScope" jdbcType="INTEGER" property="evaluationscope" />
-        <result column="contacts" jdbcType="VARCHAR" property="contacts" />
-        <result column="builderContact" jdbcType="VARCHAR" property="buildercontact" />
-        <result column="subordinateDepartmentId" jdbcType="INTEGER" property="subordinatedepartmentid" />
-        <result column="projectUndertakerUserId" jdbcType="INTEGER" property="projectundertakeruserid" />
-        <result column="contractMoney" jdbcType="VARCHAR" property="contractmoney" />
-        <result column="remarks" jdbcType="VARCHAR" property="remarks" />
-        <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="createUserId" jdbcType="INTEGER" property="createuserid" />
-        <result column="organizingUserId" jdbcType="INTEGER" property="organizinguserid" />
-        <result column="hostUserId" jdbcType="INTEGER" property="hostuserid" />
-        <result column="undertakeTime" jdbcType="TIMESTAMP" property="undertaketime" />
-        <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
-        <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
-    </resultMap>
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ProjectInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="builder" jdbcType="VARCHAR" property="builder" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="filingDepartment" jdbcType="VARCHAR" property="filingdepartment" />
+    <result column="constructionSite" jdbcType="VARCHAR" property="constructionsite" />
+    <result column="fileType" jdbcType="INTEGER" property="filetype" />
+    <result column="evaluationScope" jdbcType="INTEGER" property="evaluationscope" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="builderContact" jdbcType="VARCHAR" property="buildercontact" />
+    <result column="subordinateDepartmentId" jdbcType="INTEGER" property="subordinatedepartmentid" />
+    <result column="projectUndertakerUserId" jdbcType="INTEGER" property="projectundertakeruserid" />
+    <result column="contractMoney" jdbcType="VARCHAR" property="contractmoney" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createUserId" jdbcType="INTEGER" property="createuserid" />
+    <result column="organizingUserId" jdbcType="INTEGER" property="organizinguserid" />
+    <result column="hostUserId" jdbcType="INTEGER" property="hostuserid" />
+    <result column="undertakeTime" jdbcType="TIMESTAMP" property="undertaketime" />
+    <result column="initialReportUserId" jdbcType="INTEGER" property="initialreportuserid" />
+    <result column="firstTrialUserId" jdbcType="INTEGER" property="firsttrialuserid" />
+    <result column="finalTrialUserId" jdbcType="INTEGER" property="finaltrialuserid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
 
 
-    <resultMap id="ResultMapWithQuery" extends="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        <result column="provinceName" jdbcType="VARCHAR" property="provinceName"/>
-        <result column="cityName" jdbcType="VARCHAR" property="cityName"/>
-        <result column="areaName" jdbcType="VARCHAR" property="areaName"/>
-        <result column="statusName" jdbcType="VARCHAR" property="statusName"/>
-        <result column="filetypeName" jdbcType="VARCHAR" property="filetypeName"/>
-        <result column="evaluationscopeName" jdbcType="VARCHAR" property="evaluationscopeName"/>
-        <association property="projectundertakeruser" javaType="com.gjsyoung.eiaproject.domain.User">
-            <id column="uid" jdbcType="INTEGER" property="id"/>
-            <result column="uusername" jdbcType="VARCHAR" property="username"/>
-            <result column="upassword" jdbcType="VARCHAR" property="password"/>
-            <result column="uname" jdbcType="VARCHAR" property="name"/>
-            <result column="usex" jdbcType="INTEGER" property="sex"/>
-            <result column="udepartment" jdbcType="INTEGER" property="department"/>
-            <result column="urole" jdbcType="INTEGER" property="role"/>
-            <result column="uhiredate" jdbcType="DATE" property="hiredate"/>
-            <result column="ucontactway" jdbcType="VARCHAR" property="contactway"/>
-            <result column="uweChat" jdbcType="VARCHAR" property="wechat"/>
-            <result column="uemail" jdbcType="VARCHAR" property="email"/>
-            <result column="uofficelocation" jdbcType="VARCHAR" property="officelocation"/>
-            <result column="uimgUrl" jdbcType="VARCHAR" property="imgurl"/>
-            <result column="ustatus" jdbcType="INTEGER" property="status"/>
-            <result column="ucreateTime" jdbcType="TIMESTAMP" property="createtime"/>
-            <result column="uupdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
-        </association>
-        <association property="createuser" javaType="com.gjsyoung.eiaproject.domain.User">
-            <id column="cid" jdbcType="INTEGER" property="id"/>
-            <result column="cusername" jdbcType="VARCHAR" property="username"/>
-            <result column="cpassword" jdbcType="VARCHAR" property="password"/>
-            <result column="cname" jdbcType="VARCHAR" property="name"/>
-            <result column="csex" jdbcType="INTEGER" property="sex"/>
-            <result column="cdepartment" jdbcType="INTEGER" property="department"/>
-            <result column="crole" jdbcType="INTEGER" property="role"/>
-            <result column="chiredate" jdbcType="DATE" property="hiredate"/>
-            <result column="ccontactway" jdbcType="VARCHAR" property="contactway"/>
-            <result column="cweChat" jdbcType="VARCHAR" property="wechat"/>
-            <result column="cemail" jdbcType="VARCHAR" property="email"/>
-            <result column="cofficelocation" jdbcType="VARCHAR" property="officelocation"/>
-            <result column="cimgUrl" jdbcType="VARCHAR" property="imgurl"/>
-            <result column="cstatus" jdbcType="INTEGER" property="status"/>
-            <result column="ccreateTime" jdbcType="TIMESTAMP" property="createtime"/>
-            <result column="cupdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
-        </association>
-        <association property="organizinguser" javaType="com.gjsyoung.eiaproject.domain.User">
-            <id column="oid" jdbcType="INTEGER" property="id"/>
-            <result column="ousername" jdbcType="VARCHAR" property="username"/>
-            <result column="opassword" jdbcType="VARCHAR" property="password"/>
-            <result column="oname" jdbcType="VARCHAR" property="name"/>
-            <result column="osex" jdbcType="INTEGER" property="sex"/>
-            <result column="odepartment" jdbcType="INTEGER" property="department"/>
-            <result column="orole" jdbcType="INTEGER" property="role"/>
-            <result column="ohiredate" jdbcType="DATE" property="hiredate"/>
-            <result column="ocontactway" jdbcType="VARCHAR" property="contactway"/>
-            <result column="oweChat" jdbcType="VARCHAR" property="wechat"/>
-            <result column="oemail" jdbcType="VARCHAR" property="email"/>
-            <result column="oofficelocation" jdbcType="VARCHAR" property="officelocation"/>
-            <result column="oimgUrl" jdbcType="VARCHAR" property="imgurl"/>
-            <result column="ostatus" jdbcType="INTEGER" property="status"/>
-            <result column="ocreateTime" jdbcType="TIMESTAMP" property="createtime"/>
-            <result column="oupdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
-        </association>
-        <association property="hostuser" javaType="com.gjsyoung.eiaproject.domain.User">
-            <id column="hid" jdbcType="INTEGER" property="id"/>
-            <result column="husername" jdbcType="VARCHAR" property="username"/>
-            <result column="hpassword" jdbcType="VARCHAR" property="password"/>
-            <result column="hname" jdbcType="VARCHAR" property="name"/>
-            <result column="hsex" jdbcType="INTEGER" property="sex"/>
-            <result column="hdepartment" jdbcType="INTEGER" property="department"/>
-            <result column="hrole" jdbcType="INTEGER" property="role"/>
-            <result column="hhiredate" jdbcType="DATE" property="hiredate"/>
-            <result column="hcontactway" jdbcType="VARCHAR" property="contactway"/>
-            <result column="hweChat" jdbcType="VARCHAR" property="wechat"/>
-            <result column="hemail" jdbcType="VARCHAR" property="email"/>
-            <result column="hofficelocation" jdbcType="VARCHAR" property="officelocation"/>
-            <result column="himgUrl" jdbcType="VARCHAR" property="imgurl"/>
-            <result column="hstatus" jdbcType="INTEGER" property="status"/>
-            <result column="hcreateTime" jdbcType="TIMESTAMP" property="createtime"/>
-            <result column="hupdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
-        </association>
-    </resultMap>
+  <!-- 非数据库字段 -->
+  <resultMap id="ResultMapWithQuery" extends="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ProjectInfo">
+    <result column="provinceName" jdbcType="VARCHAR" property="provinceName"/>
+    <result column="cityName" jdbcType="VARCHAR" property="cityName"/>
+    <result column="areaName" jdbcType="VARCHAR" property="areaName"/>
+    <result column="statusName" jdbcType="VARCHAR" property="statusName"/>
+    <result column="filetypeName" jdbcType="VARCHAR" property="filetypeName"/>
+    <result column="evaluationscopeName" jdbcType="VARCHAR" property="evaluationscopeName"/>
+    <association property="projectundertakeruser" javaType="com.gjsyoung.eiaproject.domain.User">
+      <id column="uid" jdbcType="INTEGER" property="id"/>
+      <result column="uusername" jdbcType="VARCHAR" property="username"/>
+      <result column="upassword" jdbcType="VARCHAR" property="password"/>
+      <result column="uname" jdbcType="VARCHAR" property="name"/>
+      <result column="usex" jdbcType="INTEGER" property="sex"/>
+      <result column="udepartment" jdbcType="INTEGER" property="department"/>
+      <result column="urole" jdbcType="INTEGER" property="role"/>
+      <result column="uhiredate" jdbcType="DATE" property="hiredate"/>
+      <result column="ucontactway" jdbcType="VARCHAR" property="contactway"/>
+      <result column="uweChat" jdbcType="VARCHAR" property="wechat"/>
+      <result column="uemail" jdbcType="VARCHAR" property="email"/>
+      <result column="uofficelocation" jdbcType="VARCHAR" property="officelocation"/>
+      <result column="uimgUrl" jdbcType="VARCHAR" property="imgurl"/>
+      <result column="ustatus" jdbcType="INTEGER" property="status"/>
+      <result column="ucreateTime" jdbcType="TIMESTAMP" property="createtime"/>
+      <result column="uupdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+    </association>
+    <association property="createuser" javaType="com.gjsyoung.eiaproject.domain.User">
+      <id column="cid" jdbcType="INTEGER" property="id"/>
+      <result column="cusername" jdbcType="VARCHAR" property="username"/>
+      <result column="cpassword" jdbcType="VARCHAR" property="password"/>
+      <result column="cname" jdbcType="VARCHAR" property="name"/>
+      <result column="csex" jdbcType="INTEGER" property="sex"/>
+      <result column="cdepartment" jdbcType="INTEGER" property="department"/>
+      <result column="crole" jdbcType="INTEGER" property="role"/>
+      <result column="chiredate" jdbcType="DATE" property="hiredate"/>
+      <result column="ccontactway" jdbcType="VARCHAR" property="contactway"/>
+      <result column="cweChat" jdbcType="VARCHAR" property="wechat"/>
+      <result column="cemail" jdbcType="VARCHAR" property="email"/>
+      <result column="cofficelocation" jdbcType="VARCHAR" property="officelocation"/>
+      <result column="cimgUrl" jdbcType="VARCHAR" property="imgurl"/>
+      <result column="cstatus" jdbcType="INTEGER" property="status"/>
+      <result column="ccreateTime" jdbcType="TIMESTAMP" property="createtime"/>
+      <result column="cupdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+    </association>
+    <association property="organizinguser" javaType="com.gjsyoung.eiaproject.domain.User">
+      <id column="oid" jdbcType="INTEGER" property="id"/>
+      <result column="ousername" jdbcType="VARCHAR" property="username"/>
+      <result column="opassword" jdbcType="VARCHAR" property="password"/>
+      <result column="oname" jdbcType="VARCHAR" property="name"/>
+      <result column="osex" jdbcType="INTEGER" property="sex"/>
+      <result column="odepartment" jdbcType="INTEGER" property="department"/>
+      <result column="orole" jdbcType="INTEGER" property="role"/>
+      <result column="ohiredate" jdbcType="DATE" property="hiredate"/>
+      <result column="ocontactway" jdbcType="VARCHAR" property="contactway"/>
+      <result column="oweChat" jdbcType="VARCHAR" property="wechat"/>
+      <result column="oemail" jdbcType="VARCHAR" property="email"/>
+      <result column="oofficelocation" jdbcType="VARCHAR" property="officelocation"/>
+      <result column="oimgUrl" jdbcType="VARCHAR" property="imgurl"/>
+      <result column="ostatus" jdbcType="INTEGER" property="status"/>
+      <result column="ocreateTime" jdbcType="TIMESTAMP" property="createtime"/>
+      <result column="oupdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+    </association>
+    <association property="hostuser" javaType="com.gjsyoung.eiaproject.domain.User">
+      <id column="hid" jdbcType="INTEGER" property="id"/>
+      <result column="husername" jdbcType="VARCHAR" property="username"/>
+      <result column="hpassword" jdbcType="VARCHAR" property="password"/>
+      <result column="hname" jdbcType="VARCHAR" property="name"/>
+      <result column="hsex" jdbcType="INTEGER" property="sex"/>
+      <result column="hdepartment" jdbcType="INTEGER" property="department"/>
+      <result column="hrole" jdbcType="INTEGER" property="role"/>
+      <result column="hhiredate" jdbcType="DATE" property="hiredate"/>
+      <result column="hcontactway" jdbcType="VARCHAR" property="contactway"/>
+      <result column="hweChat" jdbcType="VARCHAR" property="wechat"/>
+      <result column="hemail" jdbcType="VARCHAR" property="email"/>
+      <result column="hofficelocation" jdbcType="VARCHAR" property="officelocation"/>
+      <result column="himgUrl" jdbcType="VARCHAR" property="imgurl"/>
+      <result column="hstatus" jdbcType="INTEGER" property="status"/>
+      <result column="hcreateTime" jdbcType="TIMESTAMP" property="createtime"/>
+      <result column="hupdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+    </association>
+  </resultMap>
 
-    <sql id="Base_Column_List">
+
+  <sql id="Base_Column_List">
         projectinfo.id, projectinfo.number, projectinfo.name, projectinfo.builder, projectinfo.province, projectinfo.city, projectinfo.area, projectinfo.filingDepartment, projectinfo.constructionSite,
         projectinfo.fileType, projectinfo.evaluationScope, projectinfo.contacts, projectinfo.builderContact, projectinfo.subordinateDepartmentId, projectinfo.projectUndertakerUserId,
         projectinfo.contractMoney, projectinfo.remarks, projectinfo.status, projectinfo.createUserId, projectinfo.organizingUserId, projectinfo.hostUserId, projectinfo.undertakeTime,
-        projectinfo.createTime, projectinfo.updateTime
+        projectinfo.initialReportUserId, projectinfo.firstTrialUserId, projectinfo.finalTrialUserId, projectinfo.createTime, projectinfo.updateTime
     </sql>
 
-    <sql id="projectundertakeruser">
-        undertaker.id AS uid,
-        undertaker.username AS uusername,
-        undertaker.password AS upassword,
-        undertaker.name AS uname,
-        undertaker.sex AS usex,
-        undertaker.department AS udepartment,
-        undertaker.role AS urole,
-        undertaker.hiredate AS uhiredate,
-        undertaker.contactway AS ucontactway,
-        undertaker.weChat AS uweChat,
-        undertaker.email AS uemail,
-        undertaker.officelocation AS uofficelocation,
-        undertaker.imgUrl AS uimgUrl,
-        undertaker.status AS ustatus,
-        undertaker.createTime AS ucreateTime,
-        undertaker.updateTime AS uupdateTime
-    </sql>
-    <sql id="createuser">
-        createuser.id AS cid,
-        createuser.username AS cusername,
-        createuser.password AS cpassword,
-        createuser.name AS cname,
-        createuser.sex AS csex,
-        createuser.department AS cdepartment,
-        createuser.role AS crole,
-        createuser.hiredate AS chiredate,
-        createuser.contactway AS ccontactway,
-        createuser.weChat AS cweChat,
-        createuser.email AS cemail,
-        createuser.officelocation AS cofficelocation,
-        createuser.imgUrl AS cimgUrl,
-        createuser.status AS cstatus,
-        createuser.createTime AS ccreateTime,
-        createuser.updateTime AS cupdateTime
-    </sql>
-    <sql id="organizinguser">
-        organizinguser.id AS oid,
-        organizinguser.username AS ousername,
-        organizinguser.password AS opassword,
-        organizinguser.name AS oname,
-        organizinguser.sex AS osex,
-        organizinguser.department AS odepartment,
-        organizinguser.role AS orole,
-        organizinguser.hiredate AS ohiredate,
-        organizinguser.contactway AS ocontactway,
-        organizinguser.weChat AS oweChat,
-        organizinguser.email AS oemail,
-        organizinguser.officelocation AS oofficelocation,
-        organizinguser.imgUrl AS oimgUrl,
-        organizinguser.status AS ostatus,
-        organizinguser.createTime AS ocreateTime,
-        organizinguser.updateTime AS oupdateTime
-    </sql>
-    <sql id="hostuser">
-        hostuser.id AS hid,
-        hostuser.username AS husername,
-        hostuser.password AS hpassword,
-        hostuser.name AS hname,
-        hostuser.sex AS hsex,
-        hostuser.department AS hdepartment,
-        hostuser.role AS hrole,
-        hostuser.hiredate AS hhiredate,
-        hostuser.contactway AS hcontactway,
-        hostuser.weChat AS hweChat,
-        hostuser.email AS hemail,
-        hostuser.officelocation AS hofficelocation,
-        hostuser.imgUrl AS himgUrl,
-        hostuser.status AS hstatus,
-        hostuser.createTime AS hcreateTime,
-        hostuser.updateTime AS hupdateTime
-    </sql>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithQuery">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        provinces.province as provinceName,
-        cities.city as cityName,
-        areas.area as areaName
-        ,
-        projectinfostatus.name as statusName,
-        projectinfofiletype.name as filetypeName,
-        projectinfoscope.name as evaluationscopeName,
-        <include refid="projectundertakeruser"/>  <!-- 承接人 -->
-        ,
-        <include refid="createuser"/>    <!-- 创建人 -->
-        ,
-        <include refid="organizinguser"/>    <!-- 组织人 -->
-        ,
-        <include refid="hostuser"/>    <!-- 主持人 -->
 
-        from projectinfo
 
-        LEFT JOIN provinces on projectinfo.province = provinces.provinceid
-        LEFT JOIN cities on projectinfo.city = cities.cityid
-        LEFT JOIN areas on projectinfo.area = areas.areaid
-        LEFT JOIN projectinfostatus on projectinfo.status = projectinfostatus.id    <!-- 状态名 -->
-        LEFT JOIN projectinfofiletype ON projectinfo.fileType = projectinfofiletype.id    <!-- 文件类型名 -->
-        LEFT JOIN projectinfoscope ON projectinfo.evaluationScope = projectinfoscope.id    <!-- 评价范围名 -->
-        LEFT JOIN USER undertaker ON projectinfo.projectUndertakerUserId = undertaker.id    <!-- 承接人 -->
-        LEFT JOIN USER createuser ON projectinfo.createuserid = createuser.id               <!-- 创建人 -->
-        LEFT JOIN USER organizinguser ON projectinfo.organizingUserId = organizinguser.id <!-- 组织人 -->
-        LEFT JOIN USER hostuser ON projectinfo.hostuserid = hostuser.id               <!-- 主持人 -->
-        where projectinfo.id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from projectinfo
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        insert into projectinfo (id, number, name,
-        builder, province, city,
-        area, filingDepartment, constructionSite,
-        fileType, evaluationScope, contacts,
-        builderContact, subordinateDepartmentId,
-        projectUndertakerUserId, contractMoney,
-        remarks, status, createUserId,
-        organizingUserId, hostUserId, undertakeTime,
-        createTime, updateTime)
-        values (#{id,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-        #{builder,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
-        #{area,jdbcType=VARCHAR}, #{filingdepartment,jdbcType=VARCHAR}, #{constructionsite,jdbcType=VARCHAR},
-        #{filetype,jdbcType=INTEGER}, #{evaluationscope,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR},
-        #{buildercontact,jdbcType=VARCHAR}, #{subordinatedepartmentid,jdbcType=INTEGER},
-        #{projectundertakeruserid,jdbcType=INTEGER}, #{contractmoney,jdbcType=VARCHAR},
-        #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createuserid,jdbcType=INTEGER},
-        #{organizinguserid,jdbcType=INTEGER}, #{hostuserid,jdbcType=INTEGER}, #{undertaketime,jdbcType=TIMESTAMP},
-        #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
-    </insert>
-    <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        insert into projectinfo
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="number != null">
-                number,
-            </if>
-            <if test="name != null">
-                name,
-            </if>
-            <if test="builder != null">
-                builder,
-            </if>
-            <if test="province != null">
-                province,
-            </if>
-            <if test="city != null">
-                city,
-            </if>
-            <if test="area != null">
-                area,
-            </if>
-            <if test="filingdepartment != null">
-                filingDepartment,
-            </if>
-            <if test="constructionsite != null">
-                constructionSite,
-            </if>
-            <if test="filetype != null">
-                fileType,
-            </if>
-            <if test="evaluationscope != null">
-                evaluationScope,
-            </if>
-            <if test="contacts != null">
-                contacts,
-            </if>
-            <if test="buildercontact != null">
-                builderContact,
-            </if>
-            <if test="subordinatedepartmentid != null">
-                subordinateDepartmentId,
-            </if>
-            <if test="projectundertakeruserid != null">
-                projectUndertakerUserId,
-            </if>
-            <if test="contractmoney != null">
-                contractMoney,
-            </if>
-            <if test="remarks != null">
-                remarks,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="createuserid != null">
-                createUserId,
-            </if>
-            <if test="organizinguserid != null">
-                organizingUserId,
-            </if>
-            <if test="hostuserid != null">
-                hostUserId,
-            </if>
-            <if test="undertaketime != null">
-                undertakeTime,
-            </if>
-            <if test="createtime != null">
-                createTime,
-            </if>
-            <if test="updatetime != null">
-                updateTime,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="number != null">
-                #{number,jdbcType=VARCHAR},
-            </if>
-            <if test="name != null">
-                #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="builder != null">
-                #{builder,jdbcType=VARCHAR},
-            </if>
-            <if test="province != null">
-                #{province,jdbcType=VARCHAR},
-            </if>
-            <if test="city != null">
-                #{city,jdbcType=VARCHAR},
-            </if>
-            <if test="area != null">
-                #{area,jdbcType=VARCHAR},
-            </if>
-            <if test="filingdepartment != null">
-                #{filingdepartment,jdbcType=VARCHAR},
-            </if>
-            <if test="constructionsite != null">
-                #{constructionsite,jdbcType=VARCHAR},
-            </if>
-            <if test="filetype != null">
-                #{filetype,jdbcType=INTEGER},
-            </if>
-            <if test="evaluationscope != null">
-                #{evaluationscope,jdbcType=INTEGER},
-            </if>
-            <if test="contacts != null">
-                #{contacts,jdbcType=VARCHAR},
-            </if>
-            <if test="buildercontact != null">
-                #{buildercontact,jdbcType=VARCHAR},
-            </if>
-            <if test="subordinatedepartmentid != null">
-                #{subordinatedepartmentid,jdbcType=INTEGER},
-            </if>
-            <if test="projectundertakeruserid != null">
-                #{projectundertakeruserid,jdbcType=INTEGER},
-            </if>
-            <if test="contractmoney != null">
-                #{contractmoney,jdbcType=VARCHAR},
-            </if>
-            <if test="remarks != null">
-                #{remarks,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=INTEGER},
-            </if>
-            <if test="createuserid != null">
-                #{createuserid,jdbcType=INTEGER},
-            </if>
-            <if test="organizinguserid != null">
-                #{organizinguserid,jdbcType=INTEGER},
-            </if>
-            <if test="hostuserid != null">
-                #{hostuserid,jdbcType=INTEGER},
-            </if>
-            <if test="undertaketime != null">
-                #{undertaketime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="createtime != null">
-                #{createtime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatetime != null">
-                #{updatetime,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        update projectinfo
-        <set>
-            <if test="number != null">
-                number = #{number,jdbcType=VARCHAR},
-            </if>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="builder != null">
-                builder = #{builder,jdbcType=VARCHAR},
-            </if>
-            <if test="province != null">
-                province = #{province,jdbcType=VARCHAR},
-            </if>
-            <if test="city != null">
-                city = #{city,jdbcType=VARCHAR},
-            </if>
-            <if test="area != null">
-                area = #{area,jdbcType=VARCHAR},
-            </if>
-            <if test="filingdepartment != null">
-                filingDepartment = #{filingdepartment,jdbcType=VARCHAR},
-            </if>
-            <if test="constructionsite != null">
-                constructionSite = #{constructionsite,jdbcType=VARCHAR},
-            </if>
-            <if test="filetype != null">
-                fileType = #{filetype,jdbcType=INTEGER},
-            </if>
-            <if test="evaluationscope != null">
-                evaluationScope = #{evaluationscope,jdbcType=INTEGER},
-            </if>
-            <if test="contacts != null">
-                contacts = #{contacts,jdbcType=VARCHAR},
-            </if>
-            <if test="buildercontact != null">
-                builderContact = #{buildercontact,jdbcType=VARCHAR},
-            </if>
-            <if test="subordinatedepartmentid != null">
-                subordinateDepartmentId = #{subordinatedepartmentid,jdbcType=INTEGER},
-            </if>
-            <if test="projectundertakeruserid != null">
-                projectUndertakerUserId = #{projectundertakeruserid,jdbcType=INTEGER},
-            </if>
-            <if test="contractmoney != null">
-                contractMoney = #{contractmoney,jdbcType=VARCHAR},
-            </if>
-            <if test="remarks != null">
-                remarks = #{remarks,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=INTEGER},
-            </if>
-            <if test="createuserid != null">
-                createUserId = #{createuserid,jdbcType=INTEGER},
-            </if>
-            <if test="organizinguserid != null">
-                organizingUserId = #{organizinguserid,jdbcType=INTEGER},
-            </if>
-            <if test="hostuserid != null">
-                hostUserId = #{hostuserid,jdbcType=INTEGER},
-            </if>
-            <if test="undertaketime != null">
-                undertakeTime = #{undertaketime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="createtime != null">
-                createTime = #{createtime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatetime != null">
-                updateTime = #{updatetime,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
-        update projectinfo
-        set number = #{number,jdbcType=VARCHAR},
+  <sql id="projectundertakeruser">
+    undertaker.id AS uid,
+    undertaker.username AS uusername,
+    undertaker.password AS upassword,
+    undertaker.name AS uname,
+    undertaker.sex AS usex,
+    undertaker.department AS udepartment,
+    undertaker.role AS urole,
+    undertaker.hiredate AS uhiredate,
+    undertaker.contactway AS ucontactway,
+    undertaker.weChat AS uweChat,
+    undertaker.email AS uemail,
+    undertaker.officelocation AS uofficelocation,
+    undertaker.imgUrl AS uimgUrl,
+    undertaker.status AS ustatus,
+    undertaker.createTime AS ucreateTime,
+    undertaker.updateTime AS uupdateTime
+  </sql>
+  <sql id="createuser">
+    createuser.id AS cid,
+    createuser.username AS cusername,
+    createuser.password AS cpassword,
+    createuser.name AS cname,
+    createuser.sex AS csex,
+    createuser.department AS cdepartment,
+    createuser.role AS crole,
+    createuser.hiredate AS chiredate,
+    createuser.contactway AS ccontactway,
+    createuser.weChat AS cweChat,
+    createuser.email AS cemail,
+    createuser.officelocation AS cofficelocation,
+    createuser.imgUrl AS cimgUrl,
+    createuser.status AS cstatus,
+    createuser.createTime AS ccreateTime,
+    createuser.updateTime AS cupdateTime
+  </sql>
+  <sql id="organizinguser">
+    organizinguser.id AS oid,
+    organizinguser.username AS ousername,
+    organizinguser.password AS opassword,
+    organizinguser.name AS oname,
+    organizinguser.sex AS osex,
+    organizinguser.department AS odepartment,
+    organizinguser.role AS orole,
+    organizinguser.hiredate AS ohiredate,
+    organizinguser.contactway AS ocontactway,
+    organizinguser.weChat AS oweChat,
+    organizinguser.email AS oemail,
+    organizinguser.officelocation AS oofficelocation,
+    organizinguser.imgUrl AS oimgUrl,
+    organizinguser.status AS ostatus,
+    organizinguser.createTime AS ocreateTime,
+    organizinguser.updateTime AS oupdateTime
+  </sql>
+  <sql id="hostuser">
+    hostuser.id AS hid,
+    hostuser.username AS husername,
+    hostuser.password AS hpassword,
+    hostuser.name AS hname,
+    hostuser.sex AS hsex,
+    hostuser.department AS hdepartment,
+    hostuser.role AS hrole,
+    hostuser.hiredate AS hhiredate,
+    hostuser.contactway AS hcontactway,
+    hostuser.weChat AS hweChat,
+    hostuser.email AS hemail,
+    hostuser.officelocation AS hofficelocation,
+    hostuser.imgUrl AS himgUrl,
+    hostuser.status AS hstatus,
+    hostuser.createTime AS hcreateTime,
+    hostuser.updateTime AS hupdateTime
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithQuery">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    provinces.province as provinceName,
+    cities.city as cityName,
+    areas.area as areaName
+    ,
+    projectinfostatus.name as statusName,
+    projectinfofiletype.name as filetypeName,
+    projectinfoscope.name as evaluationscopeName,
+    <include refid="projectundertakeruser"/>  <!-- 承接人 -->
+    ,
+    <include refid="createuser"/>    <!-- 创建人 -->
+    ,
+    <include refid="organizinguser"/>    <!-- 组织人 -->
+    ,
+    <include refid="hostuser"/>    <!-- 主持人 -->
+
+    from projectinfo
+
+    LEFT JOIN provinces on projectinfo.province = provinces.provinceid
+    LEFT JOIN cities on projectinfo.city = cities.cityid
+    LEFT JOIN areas on projectinfo.area = areas.areaid
+    LEFT JOIN projectinfostatus on projectinfo.status = projectinfostatus.id    <!-- 状态名 -->
+    LEFT JOIN projectinfofiletype ON projectinfo.fileType = projectinfofiletype.id    <!-- 文件类型名 -->
+    LEFT JOIN projectinfoscope ON projectinfo.evaluationScope = projectinfoscope.id    <!-- 评价范围名 -->
+    LEFT JOIN USER undertaker ON projectinfo.projectUndertakerUserId = undertaker.id    <!-- 承接人 -->
+    LEFT JOIN USER createuser ON projectinfo.createuserid = createuser.id               <!-- 创建人 -->
+    LEFT JOIN USER organizinguser ON projectinfo.organizingUserId = organizinguser.id <!-- 组织人 -->
+    LEFT JOIN USER hostuser ON projectinfo.hostuserid = hostuser.id               <!-- 主持人 -->
+    where projectinfo.id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from projectinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
+    insert into projectinfo (id, number, name, 
+      builder, province, city, 
+      area, filingDepartment, constructionSite, 
+      fileType, evaluationScope, contacts, 
+      builderContact, subordinateDepartmentId, 
+      projectUndertakerUserId, contractMoney, 
+      remarks, status, createUserId, 
+      organizingUserId, hostUserId, undertakeTime, 
+      initialReportUserId, firstTrialUserId, 
+      finalTrialUserId, createTime, updateTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{builder,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+      #{area,jdbcType=VARCHAR}, #{filingdepartment,jdbcType=VARCHAR}, #{constructionsite,jdbcType=VARCHAR},
+      #{filetype,jdbcType=INTEGER}, #{evaluationscope,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR},
+      #{buildercontact,jdbcType=VARCHAR}, #{subordinatedepartmentid,jdbcType=INTEGER},
+      #{projectundertakeruserid,jdbcType=INTEGER}, #{contractmoney,jdbcType=VARCHAR},
+      #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createuserid,jdbcType=INTEGER},
+      #{organizinguserid,jdbcType=INTEGER}, #{hostuserid,jdbcType=INTEGER}, #{undertaketime,jdbcType=TIMESTAMP},
+      #{initialreportuserid,jdbcType=INTEGER}, #{firsttrialuserid,jdbcType=INTEGER},
+      #{finaltrialuserid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
+    insert into projectinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="builder != null">
+        builder,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="filingdepartment != null">
+        filingDepartment,
+      </if>
+      <if test="constructionsite != null">
+        constructionSite,
+      </if>
+      <if test="filetype != null">
+        fileType,
+      </if>
+      <if test="evaluationscope != null">
+        evaluationScope,
+      </if>
+      <if test="contacts != null">
+        contacts,
+      </if>
+      <if test="buildercontact != null">
+        builderContact,
+      </if>
+      <if test="subordinatedepartmentid != null">
+        subordinateDepartmentId,
+      </if>
+      <if test="projectundertakeruserid != null">
+        projectUndertakerUserId,
+      </if>
+      <if test="contractmoney != null">
+        contractMoney,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createuserid != null">
+        createUserId,
+      </if>
+      <if test="organizinguserid != null">
+        organizingUserId,
+      </if>
+      <if test="hostuserid != null">
+        hostUserId,
+      </if>
+      <if test="undertaketime != null">
+        undertakeTime,
+      </if>
+      <if test="initialreportuserid != null">
+        initialReportUserId,
+      </if>
+      <if test="firsttrialuserid != null">
+        firstTrialUserId,
+      </if>
+      <if test="finaltrialuserid != null">
+        finalTrialUserId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="builder != null">
+        #{builder,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="filingdepartment != null">
+        #{filingdepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionsite != null">
+        #{constructionsite,jdbcType=VARCHAR},
+      </if>
+      <if test="filetype != null">
+        #{filetype,jdbcType=INTEGER},
+      </if>
+      <if test="evaluationscope != null">
+        #{evaluationscope,jdbcType=INTEGER},
+      </if>
+      <if test="contacts != null">
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="buildercontact != null">
+        #{buildercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="subordinatedepartmentid != null">
+        #{subordinatedepartmentid,jdbcType=INTEGER},
+      </if>
+      <if test="projectundertakeruserid != null">
+        #{projectundertakeruserid,jdbcType=INTEGER},
+      </if>
+      <if test="contractmoney != null">
+        #{contractmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createuserid != null">
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="organizinguserid != null">
+        #{organizinguserid,jdbcType=INTEGER},
+      </if>
+      <if test="hostuserid != null">
+        #{hostuserid,jdbcType=INTEGER},
+      </if>
+      <if test="undertaketime != null">
+        #{undertaketime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="initialreportuserid != null">
+        #{initialreportuserid,jdbcType=INTEGER},
+      </if>
+      <if test="firsttrialuserid != null">
+        #{firsttrialuserid,jdbcType=INTEGER},
+      </if>
+      <if test="finaltrialuserid != null">
+        #{finaltrialuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
+    update projectinfo
+    <set>
+      <if test="number != null">
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="builder != null">
         builder = #{builder,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
         province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
         city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
         area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="filingdepartment != null">
         filingDepartment = #{filingdepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionsite != null">
         constructionSite = #{constructionsite,jdbcType=VARCHAR},
+      </if>
+      <if test="filetype != null">
         fileType = #{filetype,jdbcType=INTEGER},
+      </if>
+      <if test="evaluationscope != null">
         evaluationScope = #{evaluationscope,jdbcType=INTEGER},
+      </if>
+      <if test="contacts != null">
         contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="buildercontact != null">
         builderContact = #{buildercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="subordinatedepartmentid != null">
         subordinateDepartmentId = #{subordinatedepartmentid,jdbcType=INTEGER},
+      </if>
+      <if test="projectundertakeruserid != null">
         projectUndertakerUserId = #{projectundertakeruserid,jdbcType=INTEGER},
+      </if>
+      <if test="contractmoney != null">
         contractMoney = #{contractmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
         remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
         status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createuserid != null">
         createUserId = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="organizinguserid != null">
         organizingUserId = #{organizinguserid,jdbcType=INTEGER},
+      </if>
+      <if test="hostuserid != null">
         hostUserId = #{hostuserid,jdbcType=INTEGER},
+      </if>
+      <if test="undertaketime != null">
         undertakeTime = #{undertaketime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="initialreportuserid != null">
+        initialReportUserId = #{initialreportuserid,jdbcType=INTEGER},
+      </if>
+      <if test="firsttrialuserid != null">
+        firstTrialUserId = #{firsttrialuserid,jdbcType=INTEGER},
+      </if>
+      <if test="finaltrialuserid != null">
+        finalTrialUserId = #{finaltrialuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
         createTime = #{createtime,jdbcType=TIMESTAMP},
-        updateTime = #{updatetime,jdbcType=TIMESTAMP}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ProjectInfo">
+    update projectinfo
+    set number = #{number,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      builder = #{builder,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      filingDepartment = #{filingdepartment,jdbcType=VARCHAR},
+      constructionSite = #{constructionsite,jdbcType=VARCHAR},
+      fileType = #{filetype,jdbcType=INTEGER},
+      evaluationScope = #{evaluationscope,jdbcType=INTEGER},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      builderContact = #{buildercontact,jdbcType=VARCHAR},
+      subordinateDepartmentId = #{subordinatedepartmentid,jdbcType=INTEGER},
+      projectUndertakerUserId = #{projectundertakeruserid,jdbcType=INTEGER},
+      contractMoney = #{contractmoney,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      createUserId = #{createuserid,jdbcType=INTEGER},
+      organizingUserId = #{organizinguserid,jdbcType=INTEGER},
+      hostUserId = #{hostuserid,jdbcType=INTEGER},
+      undertakeTime = #{undertaketime,jdbcType=TIMESTAMP},
+      initialReportUserId = #{initialreportuserid,jdbcType=INTEGER},
+      firstTrialUserId = #{firsttrialuserid,jdbcType=INTEGER},
+      finalTrialUserId = #{finaltrialuserid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 
-    <select id="selectAndQuery" parameterType="com.gjsyoung.eiaproject.vo.ProjectListVo" resultMap="ResultMapWithQuery">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        provinces.province as provinceName,
-        cities.city as cityName,
-        areas.area as areaName
-        ,
-        projectinfostatus.name as statusName,
-        projectinfofiletype.name as filetypeName,
-        projectinfoscope.name as evaluationscopeName,
-        <include refid="projectundertakeruser"/>  <!-- 承接人 -->
-        ,
-        <include refid="createuser"/>    <!-- 创建人 -->
-        ,
-        <include refid="organizinguser"/>    <!-- 组织人 -->
-        ,
-        <include refid="hostuser"/>    <!-- 主持人 -->
 
-        from projectinfo
+  <select id="selectAndQuery" parameterType="com.gjsyoung.eiaproject.vo.ProjectListVo" resultMap="ResultMapWithQuery">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    provinces.province as provinceName,
+    cities.city as cityName,
+    areas.area as areaName
+    ,
+    projectinfostatus.name as statusName,
+    projectinfofiletype.name as filetypeName,
+    projectinfoscope.name as evaluationscopeName,
+    <include refid="projectundertakeruser"/>  <!-- 承接人 -->
+    ,
+    <include refid="createuser"/>    <!-- 创建人 -->
+    ,
+    <include refid="organizinguser"/>    <!-- 组织人 -->
+    ,
+    <include refid="hostuser"/>    <!-- 主持人 -->
 
-        LEFT JOIN provinces on projectinfo.province = provinces.provinceid
-        LEFT JOIN cities on projectinfo.city = cities.cityid
-        LEFT JOIN areas on projectinfo.area = areas.areaid
-        LEFT JOIN projectinfostatus on projectinfo.status = projectinfostatus.id    <!-- 状态名 -->
-        LEFT JOIN projectinfofiletype ON projectinfo.fileType = projectinfofiletype.id    <!-- 文件类型名 -->
-        LEFT JOIN projectinfoscope ON projectinfo.evaluationScope = projectinfoscope.id    <!-- 评价范围名 -->
-        LEFT JOIN USER undertaker ON projectinfo.projectUndertakerUserId = undertaker.id    <!-- 承接人 -->
-        LEFT JOIN USER createuser ON projectinfo.createuserid = createuser.id               <!-- 创建人 -->
-        LEFT JOIN USER organizinguser ON projectinfo.organizingUserId = organizinguser.id <!-- 组织人 -->
-        LEFT JOIN USER hostuser ON projectinfo.hostuserid = hostuser.id               <!-- 主持人 -->
+    from projectinfo
 
-        <where>
-            <if test="number != null">
-                projectinfo.number = #{number,jdbcType=VARCHAR}
-            </if>
-            <if test="name != null">
-                AND projectinfo.name = #{name,jdbcType=VARCHAR}
-            </if>
-            <if test="filetype != -1">
-                AND projectinfo.filetype = #{filetype,jdbcType=INTEGER}
-            </if>
-            <if test="status != -1">
-                AND projectinfo.status = #{status,jdbcType=INTEGER}
-            </if>
-            <if test="roleType == 0">
-                AND projectinfo.organizinguserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
-            </if>
-            <if test="roleType == 1">
-                AND projectinfo.projectundertakeruserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
-            </if>
-            <if test="roleType == 2">
-                AND projectinfo.hostuserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
-            </if>
-            <if test="subordinateDepartmentId != -1">
-                AND projectinfo.subordinatedepartmentid = #{subordinateDepartmentId,jdbcType=INTEGER}
-            </if>
-            <if test="province != null">
-                AND projectinfo.province = #{province,jdbcType=VARCHAR}
-            </if>
-            <if test="city != null">
-                AND projectinfo.city = #{city,jdbcType=VARCHAR}
-            </if>
-            <if test="area != null">
-                AND projectinfo.area = #{area,jdbcType=VARCHAR}
-            </if>
-        </where>
-    </select>
+    LEFT JOIN provinces on projectinfo.province = provinces.provinceid
+    LEFT JOIN cities on projectinfo.city = cities.cityid
+    LEFT JOIN areas on projectinfo.area = areas.areaid
+    LEFT JOIN projectinfostatus on projectinfo.status = projectinfostatus.id    <!-- 状态名 -->
+    LEFT JOIN projectinfofiletype ON projectinfo.fileType = projectinfofiletype.id    <!-- 文件类型名 -->
+    LEFT JOIN projectinfoscope ON projectinfo.evaluationScope = projectinfoscope.id    <!-- 评价范围名 -->
+    LEFT JOIN USER undertaker ON projectinfo.projectUndertakerUserId = undertaker.id    <!-- 承接人 -->
+    LEFT JOIN USER createuser ON projectinfo.createuserid = createuser.id               <!-- 创建人 -->
+    LEFT JOIN USER organizinguser ON projectinfo.organizingUserId = organizinguser.id <!-- 组织人 -->
+    LEFT JOIN USER hostuser ON projectinfo.hostuserid = hostuser.id               <!-- 主持人 -->
+
+    <where>
+      <if test="number != null">
+        projectinfo.number = #{number,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        AND projectinfo.name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="filetype != -1">
+        AND projectinfo.filetype = #{filetype,jdbcType=INTEGER}
+      </if>
+      <if test="status != -1">
+        AND projectinfo.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="roleType == 0">
+        AND projectinfo.organizinguserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
+      </if>
+      <if test="roleType == 1">
+        AND projectinfo.projectundertakeruserid in (select id from user where name =
+        #{roleName,jdbcType=VARCHAR})
+      </if>
+      <if test="roleType == 2">
+        AND projectinfo.hostuserid in (select id from user where name = #{roleName,jdbcType=VARCHAR})
+      </if>
+      <if test="subordinateDepartmentId != -1">
+        AND projectinfo.subordinatedepartmentid = #{subordinateDepartmentId,jdbcType=INTEGER}
+      </if>
+      <if test="province != null">
+        AND projectinfo.province = #{province,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null">
+        AND projectinfo.city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="area != null">
+        AND projectinfo.area = #{area,jdbcType=VARCHAR}
+      </if>
+      <if test="initialReportUserId != -1">
+        AND projectinfo.initialReportUserId = #{initialReportUserId,jdbcType=INTEGER}
+      </if>
+      <if test="firstTrialUserId != -1">
+        AND projectinfo.firstTrialUserId = #{firstTrialUserId,jdbcType=INTEGER}
+      </if>
+      <if test="finalTrialUserId != -1">
+        AND projectinfo.finalTrialUserId = #{finalTrialUserId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
 </mapper>

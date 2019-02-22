@@ -19,4 +19,6 @@ public interface UserService {
     public void queryRoleName(List<User> users);
 
     public List<User> getUserListByDepartment(String departmentId);
+
+    public List<User> getUserListByDepartmentAndRole(String departmentId, Integer[]roleList);
 }

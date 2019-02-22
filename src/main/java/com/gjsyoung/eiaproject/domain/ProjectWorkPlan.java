@@ -34,14 +34,14 @@ public class ProjectWorkPlan {
     private Date updatetime;
 
     @Transient
-    ProjectInfo projectInfo;
+    ProjectInfo projectinfo;
 
-    public ProjectInfo getProjectInfo() {
-        return projectInfo;
+    public ProjectInfo getProjectinfo() {
+        return projectinfo;
     }
 
-    public void setProjectInfo(ProjectInfo projectInfo) {
-        this.projectInfo = projectInfo;
+    public void setProjectinfo(ProjectInfo projectinfo) {
+        this.projectinfo = projectinfo;
     }
 
     public Integer getId() {

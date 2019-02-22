@@ -22,4 +22,6 @@ public interface ProjectWorkPlanMapper {
     int updateByPrimaryKey(ProjectWorkPlan record);
 
     List<ProjectWorkPlan> selectAllByStatus(Integer status);
+
+    int countBeImplementByProjectid(Integer projectid);
 }

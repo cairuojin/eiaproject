@@ -52,6 +52,12 @@ public class ProjectInfo {
 
     private Date undertaketime; //承接时间
 
+    private Integer initialreportuserid;    //项目报告提交人
+
+    private Integer firsttrialuserid;       //初审人
+
+    private Integer finaltrialuserid;       //复审人
+
     private Date createtime;
 
     private Date updatetime;
@@ -321,6 +327,14 @@ public class ProjectInfo {
         this.contractmoney = contractmoney == null ? null : contractmoney.trim();
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
+    }
+
     public Integer getStatus() {
         return status;
     }
@@ -353,6 +367,38 @@ public class ProjectInfo {
         this.hostuserid = hostuserid;
     }
 
+    public Date getUndertaketime() {
+        return undertaketime;
+    }
+
+    public void setUndertaketime(Date undertaketime) {
+        this.undertaketime = undertaketime;
+    }
+
+    public Integer getInitialreportuserid() {
+        return initialreportuserid;
+    }
+
+    public void setInitialreportuserid(Integer initialreportuserid) {
+        this.initialreportuserid = initialreportuserid;
+    }
+
+    public Integer getFirsttrialuserid() {
+        return firsttrialuserid;
+    }
+
+    public void setFirsttrialuserid(Integer firsttrialuserid) {
+        this.firsttrialuserid = firsttrialuserid;
+    }
+
+    public Integer getFinaltrialuserid() {
+        return finaltrialuserid;
+    }
+
+    public void setFinaltrialuserid(Integer finaltrialuserid) {
+        this.finaltrialuserid = finaltrialuserid;
+    }
+
     public Date getCreatetime() {
         return createtime;
     }
@@ -367,21 +413,5 @@ public class ProjectInfo {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
-    }
-
-    public Date getUndertaketime() {
-        return undertaketime;
-    }
-
-    public void setUndertaketime(Date undertaketime) {
-        this.undertaketime = undertaketime;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks == null ? null : remarks.trim();
     }
 }

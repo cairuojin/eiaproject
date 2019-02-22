@@ -1,13 +1,18 @@
 package com.gjsyoung.eiaproject.controller;
 
+import com.gjsyoung.eiaproject.domain.User;
+import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.service.assist.AreasService;
 import com.gjsyoung.eiaproject.service.assist.ProjectInfoAssistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /** assist Controller
@@ -22,6 +27,9 @@ public class assistController {
 
     @Autowired
     ProjectInfoAssistService projectInfoAssistService;
+
+    @Autowired
+    UserService userService;
 
     /**
      * 根据省份获得城市
@@ -67,5 +75,18 @@ public class assistController {
         mav.addObject("lng",lng);
         mav.addObject("lat",lat);
         return mav;
+    }
+
+
+    /**
+     * 根据部门id获得该部门下的属于该角色的用户
+     * @param departmentId 部门id
+     * @param roleList  角色列表
+     * @return
+     */
+    @RequestMapping("/getUserListByDepartmentIdAndRole")
+    @ResponseBody
+    public List getUserListByDepartmentIdAndRole(String departmentId, @RequestParam("roleList[]") Integer[] roleList){
+        return userService.getUserListByDepartmentAndRole(departmentId,roleList);
     }
 }

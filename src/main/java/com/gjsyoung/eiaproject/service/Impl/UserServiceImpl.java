@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -115,6 +117,26 @@ public class UserServiceImpl implements UserService {
             redisCache.putObjectWithTimeParam(UserListByDepartmentId + departmentId,userList, 1L , TimeUnit.MINUTES);
         } else {
             userList = (List<User>) object;
+        }
+        return userList;
+    }
+
+    /**
+     * 获得该部门用户下  身份为...的用户列表
+     * @param departmentId
+     * @param roleList
+     * @return
+     */
+    @Override
+    public List<User> getUserListByDepartmentAndRole(String departmentId, Integer[]roleList) {
+        List<User> userListByDepartment = getUserListByDepartment(departmentId);
+        List<Integer> userListRole = Arrays.asList(roleList);
+        List<User> userList = new ArrayList<>();
+        for(User user : userListByDepartment){
+            if(userListRole.contains(user.getRole())){
+                userList.add(user);
+            }
+
         }
         return userList;
     }

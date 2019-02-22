@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gjsyoung.eiaproject.domain.*;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
@@ -94,7 +96,15 @@ public class adminIframeController {
                     "/contractSignatureList",
                     "/collectionPlanList",
                     "/collectionManageList",
-                    "/workPlanMakeList"
+                    "/workPlanMakeList",
+                    "/monitoringProgrammeList",
+                    "/initialReportsList",
+                    "/firstTrialList",
+                    "/firstTrialEditList",
+                    "/firstTrialImplementList",
+                    "/finalTrialList",
+                    "/finalTrialEditList",
+                    "/finalTrialImplementList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -128,6 +138,38 @@ public class adminIframeController {
             case "collectionPlanList":projectListVo.setStatus(11);break;
             case "collectionManageList":projectListVo.setStatus(12);break;
             case "workPlanMakeList":projectListVo.setStatus(13);break;
+            case "monitoringProgrammeList":projectListVo.setStatus(15);break;
+            case "initialReportsList":projectListVo.setStatus(16);break;
+            case "firstTrialList":{
+                projectListVo.setStatus(17);
+                projectListVo.setFirstTrialUserId(fromSession.getId());   //初审 只查初审人是自己的项目
+                break;
+            }
+            case "firstTrialEditList":{
+                projectListVo.setStatus(18);
+                projectListVo.setInitialReportUserId(fromSession.getId());//初审修改情况，只查提交报告人是自己的项目
+                break;
+            }
+            case "firstTrialImplementList":{
+                projectListVo.setStatus(19);
+                projectListVo.setFirstTrialUserId(fromSession.getId());   //初审落实 只查初审人是自己的项目
+                break;
+            }
+            case "finalTrialList":{
+                projectListVo.setStatus(20);
+                projectListVo.setFinalTrialUserId(fromSession.getId());   //复审 只查复审人是自己的项目
+                break;
+            }
+            case "finalTrialEditList":{
+                projectListVo.setStatus(21);
+                projectListVo.setInitialReportUserId(fromSession.getId());//复审修改情况，只查提交报告人是自己的项目
+                break;
+            }
+            case "finalTrialImplementList":{
+                projectListVo.setStatus(22);
+                projectListVo.setFinalTrialUserId(fromSession.getId());   //复审落实 只查初审人是自己的项目
+                break;
+            }
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
@@ -149,12 +191,18 @@ public class adminIframeController {
      * @return
      */
     @RequestMapping("/workPlanImplement")
-    public ModelAndView workPlanImplement() throws BaseException {
-        ModelAndView mav = new ModelAndView(MATTER + "workPlanMakeInput");
+    public ModelAndView workPlanImplement(@RequestParam(defaultValue = "1") Integer pageNow){
+        ModelAndView mav = new ModelAndView(MATTER + "workPlanImplement");
+        PageHelper.startPage(pageNow, 20,true);
         List<ProjectWorkPlan> projectWorkPlans = projectWorkPlanMapper.selectAllByStatus(0);
+        PageInfo pageInfo = new PageInfo<>(projectWorkPlans,20);  //分页信息
         mav.addObject("projectWorkPlans",projectWorkPlans);
+        mav.addObject("pageInfo",pageInfo);
         return mav;
     }
+
+
+
 
     /* 2、项目管理 */
 

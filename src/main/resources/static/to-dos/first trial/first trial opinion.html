@@ -12,6 +12,10 @@
         $(document).ready(function() {
 
             $("#txt1").keyup(function(event){
+                if($("#txt1").val().trim()==''){
+                    return;
+                }
+
                 if(event.keyCode ==13){
                     count++;
                     var index=count.toString();
@@ -20,13 +24,9 @@
                     $("#txt1").val("");
 
                     $(".deleteid").bind("click",function () {
-                        alert(index);
-                        $("#"+"'+index+'").remove();
+                        $(this).parent().parent().remove();
 
                     })
-
-
-
         }
         })
 
