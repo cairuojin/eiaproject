@@ -62,7 +62,7 @@
             <td class="center">${projectInfo.hostuser.name}</td>
             <td class="center">${projectInfo.organizinguser.name}</td>
             <td class="center">
-                <a href="/api/admin/matter/firstTrialImplementInput?projectInfoId=${projectInfo.id}" >初审意见落实</a>&nbsp;&nbsp;
+                <a href="/api/admin/matter/finalTrialImplementInput?projectInfoId=${projectInfo.id}" >定稿审核修改落实</a>&nbsp;&nbsp;
             </td>
         </tr>
         </c:forEach>
@@ -103,7 +103,7 @@
         queryname = $('#name').val();
         queryNumber = $('#number').val();
 
-        window.location.href = '/api/admin/iframe/firstTrialImplementList?' +
+        window.location.href = '/api/admin/iframe/finalTrialImplementList?' +
             'name=' + queryname +
             '&number=' + queryNumber
     }
@@ -114,7 +114,7 @@
     function page(pageNow) {
         queryname = $('#name').val();
         queryNumber = $('#number').val();
-        window.location.href = '/api/admin/iframe/firstTrialImplementList?' +
+        window.location.href = '/api/admin/iframe/finalTrialImplementList?' +
             'name=' + queryname +
             '&number=' + queryNumber +
             '&pageNow=' + pageNow

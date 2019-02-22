@@ -1448,4 +1448,58 @@ public class adminMatterController {
         return "OK";
     }
 
+
+    /* 22、复审落实 */
+    /**
+     * 进入复审落实页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/finalTrialImplementInput")
+    public ModelAndView finalTrialImplementInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "finalTrialImplementInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+
+
+        FirstTrialReport firstTrialReport = firstTrialReportMapper.selectByPrimaryKey(projectInfoId);   //定稿版报告
+        List<FinalTrialOpinion> finalTrialOpinions = finalTrialOpinionMapper.selectByProjectId(projectInfoId);  //复审意见
+        FinalTrialReport finalTrialReport = finalTrialReportMapper.selectByPrimaryKey(projectInfoId);   //复审报告
+        if (finalTrialReport == null || finalTrialOpinions == null){
+            throw BaseException.FAILED(500,"该项目有误");
+        }
+
+        if(firstTrialReport == null)
+            throw BaseException.FAILED(404,"找不到该初版报告");
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("firstTrialReport",firstTrialReport);
+        mav.addObject("finalTrialOpinions",finalTrialOpinions);
+        mav.addObject("finalTrialReport",finalTrialReport);
+        return mav;
+    }
+
+
+    /**
+     * 提交初审修改情况
+     */
+    @RequestMapping("/finalTrialImplement")
+    @ResponseBody
+    public String finalTrialImplement(FinalTrialReport finalTrialReport, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(finalTrialReport.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 22)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        finalTrialReportMapper.updateByPrimaryKeySelective(finalTrialReport);
+
+        projectInfo.setStatus(23);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),22);
+        return "OK";
+    }
 }
