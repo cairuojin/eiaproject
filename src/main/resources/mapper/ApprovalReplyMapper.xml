@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.ApprovalReplyMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ApprovalReply">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="createUserId" jdbcType="INTEGER" property="createuserid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="replyNumber" jdbcType="VARCHAR" property="replynumber" />
+    <result column="replyTime" jdbcType="TIMESTAMP" property="replytime" />
+    <result column="replyMessageAnnex" jdbcType="VARCHAR" property="replymessageannex" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, createUserId, createTime, replyNumber, replyTime, replyMessageAnnex, remarks
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from approvalreply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from approvalreply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ApprovalReply">
+    insert into approvalreply (id, createUserId, createTime, 
+      replyNumber, replyTime, replyMessageAnnex, 
+      remarks)
+    values (#{id,jdbcType=INTEGER}, #{createuserid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{replynumber,jdbcType=VARCHAR}, #{replytime,jdbcType=TIMESTAMP}, #{replymessageannex,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalReply">
+    insert into approvalreply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createuserid != null">
+        createUserId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="replynumber != null">
+        replyNumber,
+      </if>
+      <if test="replytime != null">
+        replyTime,
+      </if>
+      <if test="replymessageannex != null">
+        replyMessageAnnex,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createuserid != null">
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replynumber != null">
+        #{replynumber,jdbcType=VARCHAR},
+      </if>
+      <if test="replytime != null">
+        #{replytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replymessageannex != null">
+        #{replymessageannex,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalReply">
+    update approvalreply
+    <set>
+      <if test="createuserid != null">
+        createUserId = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replynumber != null">
+        replyNumber = #{replynumber,jdbcType=VARCHAR},
+      </if>
+      <if test="replytime != null">
+        replyTime = #{replytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replymessageannex != null">
+        replyMessageAnnex = #{replymessageannex,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ApprovalReply">
+    update approvalreply
+    set createUserId = #{createuserid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      replyNumber = #{replynumber,jdbcType=VARCHAR},
+      replyTime = #{replytime,jdbcType=TIMESTAMP},
+      replyMessageAnnex = #{replymessageannex,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

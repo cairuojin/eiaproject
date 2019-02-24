@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gjsyoung.eiaproject.mapper.ApprovalTrialQualificationsMapper">
-  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.ApprovalAgreelQualificationsMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ApprovalAgreelQualifications">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="approvalUserId" jdbcType="INTEGER" property="approvaluserid" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
@@ -12,7 +12,7 @@
     <result column="qualificationSerialTime" jdbcType="TIMESTAMP" property="qualificationserialtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    approvaltrialqualifications.id, approvalUserId, approvaltrialqualifications.createTime, qualificationNumber, qualificationRemarks, qualificationSerialNumber,
+    approvalagreelqualifications.id, approvalUserId, approvalagreelqualifications.createTime, qualificationNumber, qualificationRemarks, qualificationSerialNumber,
     qualificationSerialUserId, qualificationSerialTime
   </sql>
 
@@ -35,21 +35,21 @@
     user.updateTime as 'user.updateTime'
   </sql>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="user"/>
-    from approvaltrialqualifications
-    LEFT JOIN user on approvaltrialqualifications.approvalUserId = user.id
-    where approvaltrialqualifications.id = #{id,jdbcType=INTEGER}
+    from approvalagreelqualifications
+    LEFT JOIN user on approvalagreelqualifications.approvalUserId = user.id
+    where approvalagreelqualifications.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from approvaltrialqualifications
+    delete from approvalagreelqualifications
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
-    insert into approvaltrialqualifications (id, approvalUserId, createTime, 
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ApprovalAgreelQualifications">
+    insert into approvalagreelqualifications (id, approvalUserId, createTime, 
       qualificationNumber, qualificationRemarks, 
       qualificationSerialNumber, qualificationSerialUserId, 
       qualificationSerialTime)
@@ -58,8 +58,8 @@
       #{qualificationserialnumber,jdbcType=VARCHAR}, #{qualificationserialuserid,jdbcType=INTEGER}, 
       #{qualificationserialtime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
-    insert into approvaltrialqualifications
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalAgreelQualifications">
+    insert into approvalagreelqualifications
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -113,8 +113,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
-    update approvaltrialqualifications
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalAgreelQualifications">
+    update approvalagreelqualifications
     <set>
       <if test="approvaluserid != null">
         approvalUserId = #{approvaluserid,jdbcType=INTEGER},
@@ -140,8 +140,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
-    update approvaltrialqualifications
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ApprovalAgreelQualifications">
+    update approvalagreelqualifications
     set approvalUserId = #{approvaluserid,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       qualificationNumber = #{qualificationnumber,jdbcType=INTEGER},
@@ -153,7 +153,7 @@
   </update>
 
   <select id="countByQualificationserialNumber" parameterType="java.lang.String" resultType="java.lang.Integer">
-    select count(id) from approvaltrialqualifications
+    select count(id) from approvalagreelqualifications
     where qualificationSerialNumber = #{qualificationserialnumber,jdbcType=INTEGER}
   </select>
 </mapper>

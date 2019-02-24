@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * create by chenguitao on 2017/12/4
+ * 获得AplicationContext
  */
 @Component
 public class ApplicationContextHolder implements ApplicationContextAware {
 
     private static ApplicationContext context;
-
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

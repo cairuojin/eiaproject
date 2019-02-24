@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Transient;
 
 import java.util.Date;
 
-public class ApprovalTrialQualifications {
+public class ApprovalAgreelQualifications {
     private Integer id;
 
     private Integer approvaluserid;
@@ -22,7 +22,7 @@ public class ApprovalTrialQualifications {
     private Date qualificationserialtime;
 
     @Transient
-    private Integer status = 0;
+    private Integer status = 1;
 
     @Transient
     private User user;

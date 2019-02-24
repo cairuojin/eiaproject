@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tbume</title>
+    <title>项目信息</title>
     <link rel="stylesheet" type="text/css" href="/css/maincss.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
 

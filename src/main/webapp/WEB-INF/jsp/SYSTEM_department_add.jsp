@@ -4,11 +4,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tbume</title>
+    <title>添加部门</title>
     <link rel="stylesheet" type="text/css" href="/css/maincss.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
 
-    <script src="/js/jquery.min.js" type="text/javascript"></script>
+
 </head>
 <body>
 <div class="firminfo_3"  id="abc">

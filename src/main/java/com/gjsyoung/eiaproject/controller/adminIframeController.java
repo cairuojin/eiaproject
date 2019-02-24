@@ -77,6 +77,12 @@ public class adminIframeController {
     @Autowired
     ApprovalAnnexOpinionMapper approvalAnnexOpinionMapper;
 
+    @Autowired
+    ApprovalAgreelQualificationsMapper approvalAgreelQualificationsMapper;
+
+    @Autowired
+    ApprovalTrialQualificationsMapper approvalTrialQualificationsMapper;
+
     /* 1、待办事项 */
 
     //项目列表
@@ -111,7 +117,10 @@ public class adminIframeController {
                     "/approvalTrialQualificationsList",
                     "/approvalMettingList",
                     "/approvalReportList",
-                    "/approvalOpinionList"
+                    "/approvalOpinionList",
+                    "/approvalAgreelQualificationsList",
+                    "/approvalReplyList",
+                    "/projectQualificationsList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -181,6 +190,9 @@ public class adminIframeController {
             case "approvalMettingList":projectListVo.setStatus(24);break;
             case "approvalReportList":projectListVo.setStatus(25);break;
             case "approvalOpinionList":projectListVo.setStatus(26);break;
+            case "approvalAgreelQualificationsList":projectListVo.setStatus(27);break;
+            case "approvalReplyList":projectListVo.setStatus(28);break;
+            case "projectQualificationsList":projectListVo.setStatus(29);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
@@ -197,6 +209,32 @@ public class adminIframeController {
                 projectInfo.getSubObject().put("approvalAnnexOpinion",approvalAnnexOpinion);
             }
         }
+
+        if("projectQualificationsList".equals(requestURI)){ //出资质必须查询两个表都是否有资质
+            List<ProjectInfo> projectInfos = new ArrayList<>();
+            for (ProjectInfo projectInfo : projectListVo.getProjectInfos()){
+                ApprovalAgreelQualifications approvalAgreelQualifications = approvalAgreelQualificationsMapper.selectByPrimaryKey(projectInfo.getId()); //报批版资质
+                ApprovalTrialQualifications approvalTrialQualifications = approvalTrialQualificationsMapper.selectByPrimaryKey(projectInfo.getId());    //报审版资质
+                if(approvalTrialQualifications.getQualificationserialnumber() == null){
+                    projectInfo.getSubObject().put("qualifications", approvalTrialQualifications);
+                    projectInfos.add(projectInfo);
+                }
+                try {
+                    projectInfo = (ProjectInfo) projectInfo.clone();    //克隆对象
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                if(approvalAgreelQualifications.getQualificationserialnumber() == null){
+                    projectInfo.getSubObject().put("qualifications", approvalAgreelQualifications);
+                    projectInfos.add(projectInfo);
+                }
+
+            }
+            projectListVo.setProjectInfos(projectInfos);
+        }
+
+
+
 
         mav.addObject("projectListVo",projectListVo);
         return mav;

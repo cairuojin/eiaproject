@@ -18,4 +18,6 @@ public interface ApprovalTrialQualificationsMapper {
     int updateByPrimaryKeySelective(ApprovalTrialQualifications record);
 
     int updateByPrimaryKey(ApprovalTrialQualifications record);
+
+    int countByQualificationserialNumber(String qualificationserialnumber);
 }

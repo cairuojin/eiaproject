@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>评审会意见落实</title>
+    <title>录入批复信息</title>
     <link rel="stylesheet" href="/css/maincss.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
@@ -64,11 +64,8 @@
             <td class="center">${projectInfo.organizinguser.name}</td>
             <td class="center">
                 <a class="box" style="background-color: transparent; cursor: pointer;" onclick="showDiv(
-                    '${projectInfo.id}','${projectInfo.number}','${projectInfo.name}',
-                        '/${projectInfo.subObject.approvalAnnexOpinion.mettingsummaryannex}',
-                        '/${projectInfo.subObject.approvalAnnexOpinion.approvalreportannex}',
-                        '/${projectInfo.subObject.approvalAnnexOpinion.approvalexpertopinionsannex}'
-                        )">评审会意见落实</a>&nbsp;&nbsp;
+                    '${projectInfo.id}','${projectInfo.number}','${projectInfo.name}','${projectInfo.filingdepartment}'
+                        )">录入</a>&nbsp;&nbsp;
             </td>
         </tr>
         </c:forEach>
@@ -79,18 +76,14 @@
         <div class="dialogTop">
             <a href="javascript:0" class="claseDialogBtn" onclick="hiddenDiv()">关闭</a>
         </div>
-        <form action="" method="post" id="editForm">
+        <form id="editForm">
             <ul class="editInfos">
-                <li><div style="width:40%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;" id="projectName">绑定数据</div></li>
-                <li><div style="width:40%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>会议总结：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><a href="" download="" id="mettingsummaryannex">下载附件</a></div></li>
-                <li ><div style="width:40%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>报批版报告：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><a href="" download="" id="approvalreportannex">下载附件</a></div></li>
-                <li ><div style="width:40%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>专家意见修改清单：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><a href="" download="" id="approvalexpertopinionsannex">下载附件</a></div></li>
-                <li ><div style="width:40%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>落实情况：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;">
-                    <input class="t1" type="radio" name="implementstatus"  value="0"/><font size="14px">已落实</font>&nbsp;&nbsp;
-                    <input class="t1" type="radio" name="implementstatus" value="1"/>未落实</div></li>
-                <li><div style="width:40%; float:left; text-align:right; margin-top: 10px; font-weight: bold;">未落实原因：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;">
-                    <textarea  style="width: 99%; height: 50px; border: 1px solid rgba(144,144,144,.8); " id="implementremarks" name="implementremarks"> </textarea>
-                </div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;" id="projectName">绑定数据</div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>审批/备案部门：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;" id="projectfilingdepartment">绑定数据</div></li>
+                <li ><div style="width:30%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>批准文号：</div ><div style="width:70%; float:left; text-align:left; margin-top: 10px;"><input placeholder="如无批准文号请输入：“无文号”" style="width: 99%; height: 20px; border: 1px solid rgba(144,144,144,.8); " id="replyNumber" name="replyNumber"/></div></li>
+                <li ><div style="width:30%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>批复时间：</div ><div style="width:70%; float:left; text-align:left; margin-top: 10px;"><input type="date" style="width: 99%; height: 20px; border: 1px solid rgba(144,144,144,.8); " id="replyTime" name="replyTime"/></div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>批复信息附件：</div ><div style="width:70%; float:left; text-align:left; margin-top: 10px;"><input type="file" style="width: 99%; height: 26px; border: 1px solid rgba(144,144,144,.8); " id="replyMessageAnnex" name="replyMessageAnnex"/> </div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;">备注：</div ><div style="width:70%; float:left; text-align:left; margin-top: 10px;"><textarea  style="width: 99%; height: 50px; border: 1px solid rgba(144,144,144,.8); " id="remarks" name="remarks"> </textarea></div></li>
                 <li  style="margin-top: 10px;"><input type="button" value="提交" class="submitBtn" id="saveButton"/></li>
             </ul>
         </form>
@@ -124,12 +117,26 @@
         //添加表单校验
         $('#editForm').validate({
             rules:{
-                implementstatus:{
+                replyNumber:{
+                    required:true,
+                },
+                replyTime:{
+                    required:true,
+                    dateISO:true
+                },
+                replyMessageAnnex:{
                     required:true,
                 }
             },
             messages:{
-                implementstatus:{
+                replyNumber:{
+                    required:"该项为必填",
+                },
+                replyTime:{
+                    required:"该项为必填",
+                    dateISO:"请输入正确格式的日期"
+                },
+                replyMessageAnnex:{
                     required:"该项为必填",
                 }
             }
@@ -155,14 +162,12 @@
     });
 
     //显示弹框
-    function showDiv(id,number,name,mettingsummaryannex,approvalreportannex,approvalexpertopinionsannex) {
+    function showDiv(id,number,name,filingdepartment) {
         className = $(this).attr('class');
         $('#dialogBg').fadeIn(300);
         $('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
         $('#projectName').text('[' + number + ']' + name);  //取值
-        $('#mettingsummaryannex').attr('href',mettingsummaryannex).attr('download',mettingsummaryannex); //添加附件对象
-        $('#approvalreportannex').attr('href',approvalreportannex).attr('download',approvalreportannex); //添加附件对象
-        $('#approvalexpertopinionsannex').attr('href',approvalexpertopinionsannex).attr('download',approvalexpertopinionsannex); //添加附件对象
+        $('#projectfilingdepartment').text(filingdepartment);
         $('#saveButton').attr('onclick','save(' + id + ')');
     }
 
@@ -178,23 +183,29 @@
         if (!$("#editForm").valid()) {
             return;
         }
-        if (!confirm("您确定提交评委会意见吗?")) {
+        if (!confirm("您确定录入批复信息吗?")) {
             return;
         }
+
+        var formFile = new FormData();
+        formFile.append("id",id);
+        formFile.append("action", "UploadVMKImagePath");    //必须
+        formFile.append("approvalreplyMessageAnnex", $('#replyMessageAnnex')[0].files[0]);
+        formFile.append("replynumber", $('#replyNumber').val());
+        formFile.append("replytime", $('#replyTime').val());
+        formFile.append("remarks", $('#remarks').val());
 
 
         $.ajax({
             "type": "POST",
-            "url": "/api/admin/matter/approvalOpinion",	//传输路径
-            "data": {
-                "id":id,
-                "implementstatus":$('input:radio[name="implementstatus"]:checked').val(),
-                "implementremarks":$('#implementremarks').val()
-            },
+            "url": "/api/admin/matter/approvalReply",	//传输路径
+            "data": formFile,
+            "processData": false,//用于对data参数进行序列化处理 这里必须false
+            "contentType": false, //必须
             "success": function (data) {
                 if (data == "OK") {
                     alert("您已提交评委会意见吗");
-                    window.location.href = "/api/admin/iframe/approvalOpinionList?pageNow="+'${projectListVo.pageNow}';
+                    window.location.href = "/api/admin/iframe/approvalReplyList?pageNow="+'${projectListVo.pageNow}';
                 }
             },
             "error": function (data) {
@@ -223,7 +234,7 @@
         queryname = $('#name').val();
         queryNumber = $('#number').val();
 
-        window.location.href = '/api/admin/iframe/approvalOpinionList?' +
+        window.location.href = '/api/admin/iframe/approvalReplyList?' +
             'name=' + queryname +
             '&number=' + queryNumber
     }
@@ -234,7 +245,7 @@
     function page(pageNow) {
         queryname = $('#name').val();
         queryNumber = $('#number').val();
-        window.location.href = '/api/admin/iframe/approvalOpinionList?' +
+        window.location.href = '/api/admin/iframe/approvalReplyList?' +
             'name=' + queryname +
             '&number=' + queryNumber +
             '&pageNow=' + pageNow

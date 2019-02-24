@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
     <!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
-    <script src="js/jquery.min.js" type="text/javascript"></script>
+
 </head>
 <body>
 <div class="info">

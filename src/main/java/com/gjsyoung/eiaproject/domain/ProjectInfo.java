@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * 项目主表
  */
-public class ProjectInfo {
+public class ProjectInfo implements Cloneable{
     private Integer id;
 
     private String number;
@@ -413,5 +413,12 @@ public class ProjectInfo {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        ProjectInfo projectInfo = (ProjectInfo) super.clone();
+        projectInfo.setSubObject(new HashMap<>());
+        return projectInfo;
     }
 }

@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * @Classname UploadUtil
- * @Description TODO
+ * @Description 上传工具
  * @Date 2019/2/12 16:23
  * @Created by cairuojin
  */
@@ -29,10 +29,10 @@ public class UploadUtil {
      * @throws IOException
      */
     public String uploadPic(MultipartFile file, String uploadPath) throws BaseException, IOException {
-        //图片上传
+        //图片上传校验后缀
         if(file != null && !"undefined".equals(file)){
             String fileName = file.getOriginalFilename();
-            String type=fileName.indexOf(".")!=-1?fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()):null;
+            String type= fileName.indexOf(".")!=-1 ? fileName.substring(fileName.lastIndexOf(".")+1 , fileName.length()):null;
             if(type == null){
                 throw BaseException.FAILED(400,"上传的类型有误！" );
             }else{
@@ -59,7 +59,7 @@ public class UploadUtil {
      * @throws BaseException
      * @throws IOException
      */
-    public String upload(MultipartFile file, String uploadPath) throws BaseException, IOException {
+    public String upload(MultipartFile file, String uploadPath) throws IOException {
         if (file != null && !"undefined".equals(file)) {
             String fileName = file.getOriginalFilename();
             if (fileName.length() > 20)

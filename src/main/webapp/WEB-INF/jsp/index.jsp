@@ -1,12 +1,10 @@
 ﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!-- 首页 -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>环评管理系统</title>
     <link rel="stylesheet" href="css/drag.css">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.slideunlock.js"></script>    <!-- 滑动解锁js -->
-    <script src="js/sign.js"></script>                    <!-- 滑动解锁注册：需要配置 -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/bootstrap-modal-carousel.css">
@@ -495,6 +493,11 @@
     </div>
 </section>
 
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.slideunlock.js"></script>    <!-- 滑动解锁js -->
+<script src="js/sign.js"></script>                    <!-- 滑动解锁注册：需要配置 -->
+
 
 <script src="assets/js/bootstrap.min.js"></script>
 <!-- form validation -->
@@ -535,6 +538,5 @@
         }
     }
 </script>
-</body>
 </html>
                                                                                                                                                                                                                                                                                                                                                                                                                               

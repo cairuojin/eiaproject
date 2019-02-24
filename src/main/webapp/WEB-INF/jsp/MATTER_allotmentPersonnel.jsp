@@ -4,10 +4,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>人员分配</title>
     <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
-    <script src="/js/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="info" >
@@ -98,6 +97,8 @@
 
 </div>
 </body>
+
+<script src="/js/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     function allotment() {
         var hostUserName = $('#hostUserId option:selected').text();//选中的文本

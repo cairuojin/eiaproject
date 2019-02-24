@@ -10,8 +10,7 @@
 
     <link rel="stylesheet" href="/css/jsTree/style.min.css"/>
 
-    <script src="/js/jquery.min.js" type="text/javascript"></script>
-    <script src="/js/jstree.min.js"></script>
+
 </head>
 <body>
 
@@ -34,6 +33,8 @@
 </div>
 
 </body>
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+<script src="/js/jstree.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $('#jstree').jstree

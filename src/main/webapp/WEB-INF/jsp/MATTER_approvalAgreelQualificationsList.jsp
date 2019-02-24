@@ -1,11 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>评审会意见落实</title>
+    <title>报批资质</title>
     <link rel="stylesheet" href="/css/maincss.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
@@ -40,14 +39,15 @@
     <table class="data display datatable table1">
         <thead>
         <tr>
+
             <th class="sorting" style="width: 5%;">序号</th>
             <th class="sorting" style="width: 15%;">项目名称</th>
             <th class="sorting" style="width: 15%;">文件类型</th>
             <th class="sorting" style="width:15%;">评价范围类别 </th>
-            <th class="sorting" style="width: 10%;">承接时间</th>
             <th class="sorting" style="width:10%;">承接人 </th>
             <th class="sorting" style="width:10%;">主持人 </th>
             <th class="sorting" style="width: 10%;">组织人</th>
+            <th class="sorting" style="width: 10%;">资质状态</th>
             <th class="sorting" style="width:10%;">操作</th>
         </tr>
         </thead>
@@ -58,17 +58,12 @@
             <td>[${projectInfo.number}]${projectInfo.name}</td>
             <td class="center">${projectInfo.filetypeName}</td>
             <td class="center">${projectInfo.evaluationscopeName}</td>
-            <td class="center"><fmt:formatDate value='${projectInfo.undertaketime}' pattern='yyyy年MM月dd日'></fmt:formatDate></td>
             <td class="center">${projectInfo.projectundertakeruser.name}</td>
             <td class="center">${projectInfo.hostuser.name}</td>
             <td class="center">${projectInfo.organizinguser.name}</td>
+            <td class="center">未提交</td>
             <td class="center">
-                <a class="box" style="background-color: transparent; cursor: pointer;" onclick="showDiv(
-                    '${projectInfo.id}','${projectInfo.number}','${projectInfo.name}',
-                        '/${projectInfo.subObject.approvalAnnexOpinion.mettingsummaryannex}',
-                        '/${projectInfo.subObject.approvalAnnexOpinion.approvalreportannex}',
-                        '/${projectInfo.subObject.approvalAnnexOpinion.approvalexpertopinionsannex}'
-                        )">评审会意见落实</a>&nbsp;&nbsp;
+                <a class="box" style="background-color: transparent; cursor: pointer;" onclick="showDiv('${projectInfo.id}','${projectInfo.number}','${projectInfo.name}','${projectInfo.filingdepartment}')">申请</a>&nbsp;&nbsp;
             </td>
         </tr>
         </c:forEach>
@@ -79,18 +74,14 @@
         <div class="dialogTop">
             <a href="javascript:0" class="claseDialogBtn" onclick="hiddenDiv()">关闭</a>
         </div>
-        <form action="" method="post" id="editForm">
+        <form id="editForm">
             <ul class="editInfos">
-                <li><div style="width:40%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;" id="projectName">绑定数据</div></li>
-                <li><div style="width:40%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>会议总结：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><a href="" download="" id="mettingsummaryannex">下载附件</a></div></li>
-                <li ><div style="width:40%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>报批版报告：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><a href="" download="" id="approvalreportannex">下载附件</a></div></li>
-                <li ><div style="width:40%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>专家意见修改清单：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><a href="" download="" id="approvalexpertopinionsannex">下载附件</a></div></li>
-                <li ><div style="width:40%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>落实情况：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;">
-                    <input class="t1" type="radio" name="implementstatus"  value="0"/><font size="14px">已落实</font>&nbsp;&nbsp;
-                    <input class="t1" type="radio" name="implementstatus" value="1"/>未落实</div></li>
-                <li><div style="width:40%; float:left; text-align:right; margin-top: 10px; font-weight: bold;">未落实原因：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;">
-                    <textarea  style="width: 99%; height: 50px; border: 1px solid rgba(144,144,144,.8); " id="implementremarks" name="implementremarks"> </textarea>
-                </div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;" id="projectName">绑定数据</div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>审批/备案部门：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;" id="projectfilingdepartment">绑定数据</div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>资质版本：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;">报批版</div></li>
+                <li ><div style="width:30%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>资质份数：</div ><div style="width:70%; float:left; text-align:left; margin-top: 10px;"><input style="width: 99%; height: 20px; border: 1px solid rgba(144,144,144,.8); " id="qualificationNumber" name="qualificationNumber"/></div></li>
+                <%--<li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"></div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><font color="#ff0000">份数可选范围为1到30</font></div></li>--%>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>申请说明：</div ><div style="width:70%; float:left; text-align:left; margin-top: 10px;"><textarea style="width: 99%; height: 50px; border: 1px solid rgba(144,144,144,.8); " id="qualificationRemarks" name="qualificationRemarks"></textarea></div></li>
                 <li  style="margin-top: 10px;"><input type="button" value="提交" class="submitBtn" id="saveButton"/></li>
             </ul>
         </form>
@@ -124,12 +115,22 @@
         //添加表单校验
         $('#editForm').validate({
             rules:{
-                implementstatus:{
+                qualificationNumber:{
+                    required:true,
+                    min:1,
+                    max:30
+                },
+                qualificationRemarks:{
                     required:true,
                 }
             },
             messages:{
-                implementstatus:{
+                qualificationNumber:{
+                    required:"该项为必填",
+                    min:"份数可选范围为1到30",
+                    max:"份数可选范围为1到30"
+                },
+                qualificationRemarks:{
                     required:"该项为必填",
                 }
             }
@@ -155,14 +156,12 @@
     });
 
     //显示弹框
-    function showDiv(id,number,name,mettingsummaryannex,approvalreportannex,approvalexpertopinionsannex) {
+    function showDiv(id,number,name,projectfilingdepartment) {
         className = $(this).attr('class');
         $('#dialogBg').fadeIn(300);
         $('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
         $('#projectName').text('[' + number + ']' + name);  //取值
-        $('#mettingsummaryannex').attr('href',mettingsummaryannex).attr('download',mettingsummaryannex); //添加附件对象
-        $('#approvalreportannex').attr('href',approvalreportannex).attr('download',approvalreportannex); //添加附件对象
-        $('#approvalexpertopinionsannex').attr('href',approvalexpertopinionsannex).attr('download',approvalexpertopinionsannex); //添加附件对象
+        $('#projectfilingdepartment').text(projectfilingdepartment);  //取值
         $('#saveButton').attr('onclick','save(' + id + ')');
     }
 
@@ -178,23 +177,21 @@
         if (!$("#editForm").valid()) {
             return;
         }
-        if (!confirm("您确定提交评委会意见吗?")) {
+        if (!confirm("您确定申请报批资质吗?")) {
             return;
         }
-
-
         $.ajax({
             "type": "POST",
-            "url": "/api/admin/matter/approvalOpinion",	//传输路径
+            "url": "/api/admin/matter/approvalAgreelQualifications",	//传输路径
             "data": {
                 "id":id,
-                "implementstatus":$('input:radio[name="implementstatus"]:checked').val(),
-                "implementremarks":$('#implementremarks').val()
+                "qualificationnumber":$('#qualificationNumber').val(),
+                "qualificationremarks":$('#qualificationRemarks').val()
             },
             "success": function (data) {
                 if (data == "OK") {
-                    alert("您已提交评委会意见吗");
-                    window.location.href = "/api/admin/iframe/approvalOpinionList?pageNow="+'${projectListVo.pageNow}';
+                    alert("申请报批资质成功");
+                    window.location.href = "/api/admin/iframe/approvalAgreelQualificationsList?pageNow="+'${projectListVo.pageNow}';
                 }
             },
             "error": function (data) {
@@ -223,7 +220,7 @@
         queryname = $('#name').val();
         queryNumber = $('#number').val();
 
-        window.location.href = '/api/admin/iframe/approvalOpinionList?' +
+        window.location.href = '/api/admin/iframe/approvalAgreelQualificationsList?' +
             'name=' + queryname +
             '&number=' + queryNumber
     }
@@ -234,7 +231,7 @@
     function page(pageNow) {
         queryname = $('#name').val();
         queryNumber = $('#number').val();
-        window.location.href = '/api/admin/iframe/approvalOpinionList?' +
+        window.location.href = '/api/admin/iframe/approvalAgreelQualificationsList?' +
             'name=' + queryname +
             '&number=' + queryNumber +
             '&pageNow=' + pageNow

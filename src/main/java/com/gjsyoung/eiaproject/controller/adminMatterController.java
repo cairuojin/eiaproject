@@ -115,6 +115,12 @@ public class adminMatterController {
     @Autowired
     ApprovalAnnexOpinionMapper approvalAnnexOpinionMapper;
 
+    @Autowired
+    ApprovalAgreelQualificationsMapper approvalAgreelQualificationsMapper;
+
+    @Autowired
+    ApprovalReplyMapper approvalReplyMapper;
+
     /* 1、人员分配 */
 
     /**
@@ -1509,7 +1515,6 @@ public class adminMatterController {
     }
 
     /* 23 报审资质申请 */
-
     /**
      * 提交报审资质申请
      */
@@ -1633,4 +1638,104 @@ public class adminMatterController {
         projectOperationRecordService.addRecord(session,projectInfo.getId(),26);
         return "OK";
     }
+
+    /* 27 报批资质申请 */
+    /**
+     * 提交报批资质申请
+     */
+    @RequestMapping("/approvalAgreelQualifications")
+    @ResponseBody
+    public String approvalAgreelQualifications(ApprovalAgreelQualifications approvalAgreelQualifications, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(approvalAgreelQualifications.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 27)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        User fromSession = userService.getFromSession(session);
+        approvalAgreelQualifications.setApprovaluserid(fromSession.getId());
+        approvalAgreelQualifications.setCreatetime(new Date());
+        approvalAgreelQualificationsMapper.insert(approvalAgreelQualifications);
+
+        projectInfo.setStatus(28);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),27);
+        return "OK";
+    }
+
+    /* 28 录入批复信息 */
+    /**
+     * 录入批复信息
+     */
+    @RequestMapping("/approvalReply")
+    @ResponseBody
+    public String approvalReply(ApprovalReply approvalReply,MultipartFile approvalreplyMessageAnnex, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(approvalReply.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 28)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        User fromSession = userService.getFromSession(session);
+        approvalReply.setCreateuserid(fromSession.getId());
+        approvalReply.setCreatetime(new Date());
+        approvalReply.setReplymessageannex(uploadUtil.upload(approvalreplyMessageAnnex,"approvalreplyMessageAnnex/" ));
+        approvalReplyMapper.insert(approvalReply);
+
+        projectInfo.setStatus(29);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),28);
+        return "OK";
+    }
+
+    /* 29 出资质 */
+    /**
+     * 出资质
+     */
+    @RequestMapping("/projectQualifications")
+    @ResponseBody
+    public String projectQualifications(Integer id, String qualificationserialnumber, Integer qualificationsStatus, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(id);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 29)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        User fromSession = userService.getFromSession(session);
+        ApprovalTrialQualifications approvalTrialQualifications = approvalTrialQualificationsMapper.selectByPrimaryKey(id);
+        ApprovalAgreelQualifications approvalAgreelQualifications = approvalAgreelQualificationsMapper.selectByPrimaryKey(id);
+        if(qualificationsStatus == 0){
+            if(approvalTrialQualifications.getQualificationserialnumber() == null){
+                approvalTrialQualifications.setQualificationserialnumber(qualificationserialnumber);
+                approvalTrialQualifications.setQualificationserialtime(new Date());
+                approvalTrialQualifications.setQualificationserialuserid(fromSession.getId());
+                approvalTrialQualificationsMapper.updateByPrimaryKeySelective(approvalTrialQualifications);
+            } else {
+                throw BaseException.FAILED(400,"该项目状态有误");
+            }
+        } else {
+            if(approvalAgreelQualifications.getQualificationserialnumber() == null){
+                approvalAgreelQualifications.setQualificationserialnumber(qualificationserialnumber);
+                approvalAgreelQualifications.setQualificationserialtime(new Date());
+                approvalAgreelQualifications.setQualificationserialuserid(fromSession.getId());
+                approvalAgreelQualificationsMapper.updateByPrimaryKeySelective(approvalAgreelQualifications);
+            }
+        }
+
+        if(approvalTrialQualifications.getQualificationserialnumber() != null && approvalAgreelQualifications.getQualificationserialnumber() != null){
+            projectInfo.setStatus(30);
+            projectInfo.setUpdatetime(new Date());
+            projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+            //插入操作记录表
+            projectOperationRecordService.addRecord(session,projectInfo.getId(),29);
+        }
+        return "OK";
+    }
+
 }

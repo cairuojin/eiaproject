@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>报审报批 会议总结</title>
     <link rel="stylesheet" href="/css/maincss.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
@@ -66,6 +66,7 @@
             </td>
         </tr>
         </c:forEach>
+        </tbody>
     </table>
     <div id="dialogBg"></div>
     <div id="dialog" class="animated">
@@ -91,10 +92,6 @@
             </c:if>
         </c:forEach>
     </div>
-
-
-
-
 </div>
 <div class="clear">
 </div>

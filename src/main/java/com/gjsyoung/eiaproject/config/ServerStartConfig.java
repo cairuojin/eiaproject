@@ -18,7 +18,7 @@ import java.util.*;
 public class ServerStartConfig implements CommandLineRunner {
 
     private static Map roleMap = new HashMap(); //身份导航内容<id, role>
-    private static List<Role> roleList = null;
+    private static List<Role> roleList = null;  //身份列表
 
     @Autowired
     CategoryService categoryService;

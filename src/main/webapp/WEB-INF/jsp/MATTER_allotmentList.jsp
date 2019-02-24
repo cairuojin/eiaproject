@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/maincss.css">
-    <script src="/js/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="grid_100">
@@ -83,6 +82,7 @@
 </div>
 </body>
 
+<script src="/js/jquery.min.js" type="text/javascript"></script>
 <!-- 数据回显与赋值 -->
 <script type="text/javascript">
     var pageNow = "${projectListVo.pageNow}";

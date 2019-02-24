@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>报审资质申请</title>
     <link rel="stylesheet" href="/css/maincss.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
@@ -78,7 +78,7 @@
             <ul class="editInfos">
                 <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>项目名称：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;" id="projectName">绑定数据</div></li>
                 <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>审批/备案部门：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;" id="projectfilingdepartment">绑定数据</div></li>
-                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>资质版本：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;">报批版</div></li>
+                <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>资质版本：</div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;">报审版</div></li>
                 <li ><div style="width:30%; float:left; text-align:right;margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>资质份数：</div ><div style="width:70%; float:left; text-align:left; margin-top: 10px;"><input style="width: 99%; height: 20px; border: 1px solid rgba(144,144,144,.8); " id="qualificationNumber" name="qualificationNumber"/></div></li>
                 <%--<li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"></div ><div style="width:60%; float:left; text-align:left; margin-top: 10px;"><font color="#ff0000">份数可选范围为1到30</font></div></li>--%>
                 <li><div style="width:30%; float:left; text-align:right; margin-top: 10px; font-weight: bold;"><font color="#ff0000">* </font>申请说明：</div ><div style="width:70%; float:left; text-align:left; margin-top: 10px;"><textarea style="width: 99%; height: 50px; border: 1px solid rgba(144,144,144,.8); " id="qualificationRemarks" name="qualificationRemarks"></textarea></div></li>
@@ -190,7 +190,7 @@
             },
             "success": function (data) {
                 if (data == "OK") {
-                    alert("该工作计划已执行");
+                    alert("您已申请报审资质");
                     window.location.href = "/api/admin/iframe/approvalTrialQualificationsList?pageNow="+'${projectListVo.pageNow}';
                 }
             },
