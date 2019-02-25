@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 //启动入口
 @SpringBootApplication
-@EnableScheduling
+@EnableScheduling	//允许定时器
 public class EiaprojectApplication extends SpringBootServletInitializer {
 
 	@Override

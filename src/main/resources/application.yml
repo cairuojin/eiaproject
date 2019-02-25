@@ -10,7 +10,7 @@ server:
 
 
 logging:
-        com.example.WChatMonkey: DEBUG
+        com.gjsyoung.eiaproject: DEBUG
 #    tomcat:
 #      redirect-context-root:
 

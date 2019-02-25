@@ -1,5 +1,8 @@
 package com.gjsyoung.eiaproject.vo;
 
+/**
+ * 缓存KEY
+ */
 public interface CacheKey {
 
 

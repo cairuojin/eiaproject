@@ -28,10 +28,10 @@ public class ProjectOperationRecordServiceImpl implements ProjectOperationRecord
     ProjectOperationRecordMapper projectOperationRecordMapper;
 
     /**
-     * 添加记录
-     * @param session
-     * @param projectId
-     * @param status
+     * 添加操作记录
+     * @param session 获得用户
+     * @param projectId 项目id
+     * @param status 操作的状态
      */
     @Override
     public void addRecord(HttpSession session, Integer projectId, Integer status) throws BaseException{

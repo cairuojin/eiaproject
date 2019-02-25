@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>合同财务审核</title>
+    <title>合同盖章</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/maincss.css">

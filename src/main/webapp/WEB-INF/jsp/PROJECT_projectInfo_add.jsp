@@ -4,10 +4,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>添加项目</title>
     <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
-    <script src="/js/jquery.min.js" type="text/javascript"></script>
     <script src="/js/dateFormat.js" type="text/javascript"></script>
 </head>
 <body>

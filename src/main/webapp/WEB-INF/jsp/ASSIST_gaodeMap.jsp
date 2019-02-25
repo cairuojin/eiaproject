@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!-- 在高德地图中查看标点 -->
 <html>
 <head>
     <title>环评管理系统</title>

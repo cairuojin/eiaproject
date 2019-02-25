@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.ApprovalTrialQualificationsMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="approvalUserId" jdbcType="INTEGER" property="approvaluserid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="qualificationNumber" jdbcType="INTEGER" property="qualificationnumber" />
+    <result column="qualificationRemarks" jdbcType="VARCHAR" property="qualificationremarks" />
+    <result column="qualificationSerialNumber" jdbcType="VARCHAR" property="qualificationserialnumber" />
+    <result column="qualificationSerialUserId" jdbcType="INTEGER" property="qualificationserialuserid" />
+    <result column="qualificationSerialTime" jdbcType="TIMESTAMP" property="qualificationserialtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    approvaltrialqualifications.id, approvalUserId, approvaltrialqualifications.createTime, qualificationNumber, qualificationRemarks, qualificationSerialNumber,
+    qualificationSerialUserId, qualificationSerialTime
+  </sql>
+
+  <sql id="user">
+    user.id as 'user.id',
+    user.username as 'user.username',
+    user.password as 'user.password',
+    user.name as 'user.name',
+    user.sex as 'user.sex',
+    user.department as 'user.department',
+    user.role as 'user.role',
+    user.hiredate as 'user.hiredate',
+    user.contactway as 'user.contactway',
+    user.weChat as 'user.weChat',
+    user.email as 'user.email',
+    user.officelocation as 'user.officelocation',
+    user.imgUrl as 'user.imgUrl',
+    user.status as 'user.status',
+    user.createTime as 'user.createTime',
+    user.updateTime as 'user.updateTime'
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="user"/>
+    from approvaltrialqualifications
+    LEFT JOIN user on approvaltrialqualifications.approvalUserId = user.id
+    where approvaltrialqualifications.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from approvaltrialqualifications
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
+    insert into approvaltrialqualifications (id, approvalUserId, createTime, 
+      qualificationNumber, qualificationRemarks, 
+      qualificationSerialNumber, qualificationSerialUserId, 
+      qualificationSerialTime)
+    values (#{id,jdbcType=INTEGER}, #{approvaluserid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{qualificationnumber,jdbcType=INTEGER}, #{qualificationremarks,jdbcType=VARCHAR}, 
+      #{qualificationserialnumber,jdbcType=VARCHAR}, #{qualificationserialuserid,jdbcType=INTEGER}, 
+      #{qualificationserialtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
+    insert into approvaltrialqualifications
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="approvaluserid != null">
+        approvalUserId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="qualificationnumber != null">
+        qualificationNumber,
+      </if>
+      <if test="qualificationremarks != null">
+        qualificationRemarks,
+      </if>
+      <if test="qualificationserialnumber != null">
+        qualificationSerialNumber,
+      </if>
+      <if test="qualificationserialuserid != null">
+        qualificationSerialUserId,
+      </if>
+      <if test="qualificationserialtime != null">
+        qualificationSerialTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="approvaluserid != null">
+        #{approvaluserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualificationnumber != null">
+        #{qualificationnumber,jdbcType=INTEGER},
+      </if>
+      <if test="qualificationremarks != null">
+        #{qualificationremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="qualificationserialnumber != null">
+        #{qualificationserialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="qualificationserialuserid != null">
+        #{qualificationserialuserid,jdbcType=INTEGER},
+      </if>
+      <if test="qualificationserialtime != null">
+        #{qualificationserialtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
+    update approvaltrialqualifications
+    <set>
+      <if test="approvaluserid != null">
+        approvalUserId = #{approvaluserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualificationnumber != null">
+        qualificationNumber = #{qualificationnumber,jdbcType=INTEGER},
+      </if>
+      <if test="qualificationremarks != null">
+        qualificationRemarks = #{qualificationremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="qualificationserialnumber != null">
+        qualificationSerialNumber = #{qualificationserialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="qualificationserialuserid != null">
+        qualificationSerialUserId = #{qualificationserialuserid,jdbcType=INTEGER},
+      </if>
+      <if test="qualificationserialtime != null">
+        qualificationSerialTime = #{qualificationserialtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ApprovalTrialQualifications">
+    update approvaltrialqualifications
+    set approvalUserId = #{approvaluserid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      qualificationNumber = #{qualificationnumber,jdbcType=INTEGER},
+      qualificationRemarks = #{qualificationremarks,jdbcType=VARCHAR},
+      qualificationSerialNumber = #{qualificationserialnumber,jdbcType=VARCHAR},
+      qualificationSerialUserId = #{qualificationserialuserid,jdbcType=INTEGER},
+      qualificationSerialTime = #{qualificationserialtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="countByQualificationserialNumber" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(id) from approvaltrialqualifications
+    where qualificationSerialNumber = #{qualificationserialnumber,jdbcType=INTEGER}
+  </select>
+</mapper>

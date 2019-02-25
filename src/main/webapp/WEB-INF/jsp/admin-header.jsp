@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<!-- 顶端导航 -->
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/css/nav.css" media="screen"/><!--与横向菜单有关-->

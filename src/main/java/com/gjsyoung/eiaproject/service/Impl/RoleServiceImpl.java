@@ -32,11 +32,9 @@ public class RoleServiceImpl implements RoleService {
         long l1 = System.currentTimeMillis();
         logger.info("开始加载角色");
         List<Role> roleList = roleMapper.selectAll();
-        ServerStartConfig.setRoleList(roleList);
+        ServerStartConfig.setRoleList(roleList);    //存于配置中
         Map roleMap = ServerStartConfig.getRoleMap();
-        roleList.forEach(role ->{
-            roleMap.put(role.getId(),role);
-        });
+        roleList.forEach(role ->roleMap.put(role.getId(),role));
         logger.info("加载角色完毕  ms : " + (System.currentTimeMillis() - l1));
     }
 

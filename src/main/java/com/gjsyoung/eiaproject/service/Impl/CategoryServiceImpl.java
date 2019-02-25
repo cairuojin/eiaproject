@@ -15,6 +15,7 @@ import java.util.*;
 
 /**
  * create by cairuojin on 2019/01/23
+ * 获得导航
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -44,10 +45,10 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categoryList = categoryMapper.selectAllByStatus(0);  //查询启用的全部导航
 
-        Map<String, Object> roleMap = new HashMap<>();
-        List roleCategory = null;
-        int maxIsParent = -1;
+        Map<String, Object> roleMap = new HashMap<>();  //封装<身份，对应的List<Category>>
+        List roleCategory;  //临时变量  导航List
 
+        //根据该category所属的身份，放到身份对应的list中
         for(Category category : categoryList){
             String[] split = category.getRole().split("、");     //划分身份，依据每一个身份添加到相应的List中
             for(String s : split){
@@ -61,17 +62,15 @@ public class CategoryServiceImpl implements CategoryService {
                     roleCategory.add(category);
                 }
             }
-
-            maxIsParent = maxIsParent > category.getIsParent() ? maxIsParent : category.getIsParent();
         }
 
-        List roleAll = (List) roleMap.get(role + "ALL");    //将所有权限List加上所有权限的
+        List roleAll = (List) roleMap.get(role + "ALL");    //将ALL权限List加上
         roleMap.remove(role + "ALL");
         List<Category> singleList = null;
         for (Map.Entry entry : roleMap.entrySet()){
             singleList = (List) entry.getValue();
             singleList.addAll(roleAll);
-            Collections.sort(singleList);
+            Collections.sort(singleList);   //复写了排序方法，根据层级，排序号排列
         }
 
         //区分身份完毕，进行横导航分页
@@ -84,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
                 if(category.getIsParent() == 0){
                     newSingleList = new ArrayList();
                     newSingleList.add(category);
-                    finalCategory.put(category.getId() + "" + entry.getKey(),newSingleList);
+                    finalCategory.put(category.getId() + "" + entry.getKey(), newSingleList);
                 } else {
                     newSingleList = tempMap.get(category.getParentId() + "" + entry.getKey());  //找到有无爸爸
                     if(newSingleList != null){  //底层找到爸爸
@@ -98,15 +97,23 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
 
-        //todo 递归删除无儿子的节点 现在前端删除
+        //todo 递归删除无儿子的父节点 现在前端删除
 
         logger.info("加载导航完毕  ms : " + (System.currentTimeMillis() - l1));
-
         this.roleCategory = finalCategory;
-
-
     }
 
+
+    /**
+     * 根据角色英语名获得相应导航
+     * @param headerPage   头部是第几个
+     * @param engRoleName  身份英语名
+     * @return
+     */
+    @Override
+    public List<Category> getCategoryByRoleEngName(String headerPage , String engRoleName) {
+        return (List<Category>) roleCategory.get(headerPage + role + engRoleName);
+    }
 
     /**
      * 根据用户获得导航
@@ -120,15 +127,4 @@ public class CategoryServiceImpl implements CategoryService {
         Role role = roleService.selectByRoleID(roleId);
         return this.getCategoryByRoleEngName(headerPage , role.getEngname());
     }
-    /**
-     * 根据角色英语名获得相应导航
-     * @param engRoleName
-     * @return
-     */
-    @Override
-    public List<Category> getCategoryByRoleEngName(String headerPage , String engRoleName) {
-        return (List<Category>) roleCategory.get(headerPage + role + engRoleName);
-    }
-
-
 }

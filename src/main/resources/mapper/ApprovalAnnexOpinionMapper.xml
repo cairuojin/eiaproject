@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.ApprovalAnnexOpinionMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.ApprovalAnnexOpinion">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="mettingSummaryAnnex" jdbcType="VARCHAR" property="mettingsummaryannex" />
+    <result column="mettingUserId" jdbcType="INTEGER" property="mettinguserid" />
+    <result column="mettingTime" jdbcType="TIMESTAMP" property="mettingtime" />
+    <result column="approvalReportAnnex" jdbcType="VARCHAR" property="approvalreportannex" />
+    <result column="approvalExpertOpinionsAnnex" jdbcType="VARCHAR" property="approvalexpertopinionsannex" />
+    <result column="approvalUserId" jdbcType="INTEGER" property="approvaluserid" />
+    <result column="approvalTime" jdbcType="TIMESTAMP" property="approvaltime" />
+    <result column="implementStatus" jdbcType="INTEGER" property="implementstatus" />
+    <result column="implementRemarks" jdbcType="VARCHAR" property="implementremarks" />
+    <result column="implementUserId" jdbcType="INTEGER" property="implementuserid" />
+    <result column="implementTime" jdbcType="TIMESTAMP" property="implementtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mettingSummaryAnnex, mettingUserId, mettingTime, approvalReportAnnex, approvalExpertOpinionsAnnex, 
+    approvalUserId, approvalTime, implementStatus, implementRemarks, implementUserId, 
+    implementTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from approvalannexopinion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from approvalannexopinion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.ApprovalAnnexOpinion">
+    insert into approvalannexopinion (id, mettingSummaryAnnex, mettingUserId, 
+      mettingTime, approvalReportAnnex, approvalExpertOpinionsAnnex, 
+      approvalUserId, approvalTime, implementStatus, 
+      implementRemarks, implementUserId, implementTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{mettingsummaryannex,jdbcType=VARCHAR}, #{mettinguserid,jdbcType=INTEGER}, 
+      #{mettingtime,jdbcType=TIMESTAMP}, #{approvalreportannex,jdbcType=VARCHAR}, #{approvalexpertopinionsannex,jdbcType=VARCHAR}, 
+      #{approvaluserid,jdbcType=INTEGER}, #{approvaltime,jdbcType=TIMESTAMP}, #{implementstatus,jdbcType=INTEGER}, 
+      #{implementremarks,jdbcType=VARCHAR}, #{implementuserid,jdbcType=INTEGER}, #{implementtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalAnnexOpinion">
+    insert into approvalannexopinion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mettingsummaryannex != null">
+        mettingSummaryAnnex,
+      </if>
+      <if test="mettinguserid != null">
+        mettingUserId,
+      </if>
+      <if test="mettingtime != null">
+        mettingTime,
+      </if>
+      <if test="approvalreportannex != null">
+        approvalReportAnnex,
+      </if>
+      <if test="approvalexpertopinionsannex != null">
+        approvalExpertOpinionsAnnex,
+      </if>
+      <if test="approvaluserid != null">
+        approvalUserId,
+      </if>
+      <if test="approvaltime != null">
+        approvalTime,
+      </if>
+      <if test="implementstatus != null">
+        implementStatus,
+      </if>
+      <if test="implementremarks != null">
+        implementRemarks,
+      </if>
+      <if test="implementuserid != null">
+        implementUserId,
+      </if>
+      <if test="implementtime != null">
+        implementTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mettingsummaryannex != null">
+        #{mettingsummaryannex,jdbcType=VARCHAR},
+      </if>
+      <if test="mettinguserid != null">
+        #{mettinguserid,jdbcType=INTEGER},
+      </if>
+      <if test="mettingtime != null">
+        #{mettingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalreportannex != null">
+        #{approvalreportannex,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalexpertopinionsannex != null">
+        #{approvalexpertopinionsannex,jdbcType=VARCHAR},
+      </if>
+      <if test="approvaluserid != null">
+        #{approvaluserid,jdbcType=INTEGER},
+      </if>
+      <if test="approvaltime != null">
+        #{approvaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="implementstatus != null">
+        #{implementstatus,jdbcType=INTEGER},
+      </if>
+      <if test="implementremarks != null">
+        #{implementremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="implementuserid != null">
+        #{implementuserid,jdbcType=INTEGER},
+      </if>
+      <if test="implementtime != null">
+        #{implementtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.ApprovalAnnexOpinion">
+    update approvalannexopinion
+    <set>
+      <if test="mettingsummaryannex != null">
+        mettingSummaryAnnex = #{mettingsummaryannex,jdbcType=VARCHAR},
+      </if>
+      <if test="mettinguserid != null">
+        mettingUserId = #{mettinguserid,jdbcType=INTEGER},
+      </if>
+      <if test="mettingtime != null">
+        mettingTime = #{mettingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalreportannex != null">
+        approvalReportAnnex = #{approvalreportannex,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalexpertopinionsannex != null">
+        approvalExpertOpinionsAnnex = #{approvalexpertopinionsannex,jdbcType=VARCHAR},
+      </if>
+      <if test="approvaluserid != null">
+        approvalUserId = #{approvaluserid,jdbcType=INTEGER},
+      </if>
+      <if test="approvaltime != null">
+        approvalTime = #{approvaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="implementstatus != null">
+        implementStatus = #{implementstatus,jdbcType=INTEGER},
+      </if>
+      <if test="implementremarks != null">
+        implementRemarks = #{implementremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="implementuserid != null">
+        implementUserId = #{implementuserid,jdbcType=INTEGER},
+      </if>
+      <if test="implementtime != null">
+        implementTime = #{implementtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.ApprovalAnnexOpinion">
+    update approvalannexopinion
+    set mettingSummaryAnnex = #{mettingsummaryannex,jdbcType=VARCHAR},
+      mettingUserId = #{mettinguserid,jdbcType=INTEGER},
+      mettingTime = #{mettingtime,jdbcType=TIMESTAMP},
+      approvalReportAnnex = #{approvalreportannex,jdbcType=VARCHAR},
+      approvalExpertOpinionsAnnex = #{approvalexpertopinionsannex,jdbcType=VARCHAR},
+      approvalUserId = #{approvaluserid,jdbcType=INTEGER},
+      approvalTime = #{approvaltime,jdbcType=TIMESTAMP},
+      implementStatus = #{implementstatus,jdbcType=INTEGER},
+      implementRemarks = #{implementremarks,jdbcType=VARCHAR},
+      implementUserId = #{implementuserid,jdbcType=INTEGER},
+      implementTime = #{implementtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

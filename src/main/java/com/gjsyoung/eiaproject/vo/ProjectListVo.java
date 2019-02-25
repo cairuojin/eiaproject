@@ -4,6 +4,9 @@ import com.gjsyoung.eiaproject.domain.ProjectInfo;
 
 import java.util.List;
 
+/**
+ * 项目列表查询VO
+ */
 public class ProjectListVo {
 
 

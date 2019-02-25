@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * @author cairuojin
  * @create 2019-01-28 21:59
+ * 用户列表查询VO
  */
 public class UserListVo {
     //排序字段

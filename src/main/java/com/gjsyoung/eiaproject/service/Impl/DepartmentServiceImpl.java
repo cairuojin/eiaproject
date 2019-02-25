@@ -15,6 +15,7 @@ import static com.gjsyoung.eiaproject.vo.CacheKey.departments;
 
 /**
  * create by cairuojin on 2019/01/28
+ * 获得部门
  */
 @Service
 public class DepartmentServiceImpl implements DepartmentService{

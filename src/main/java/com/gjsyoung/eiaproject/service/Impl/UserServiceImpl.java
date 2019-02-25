@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 传入UserList 遍历查询其身份名字
+     * 传入UserList 遍历查询其身份名字roleName和部门名字departmentName
      * @param users
      */
     @Override
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 从缓存中获得用户
+     * 从session中获得用户
      * @param session
      * @return
      */

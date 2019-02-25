@@ -1,6 +1,8 @@
 package com.gjsyoung.eiaproject.controller;
 
 import com.gjsyoung.eiaproject.domain.User;
+import com.gjsyoung.eiaproject.mapper.ApprovalAgreelQualificationsMapper;
+import com.gjsyoung.eiaproject.mapper.ApprovalTrialQualificationsMapper;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.service.assist.AreasService;
 import com.gjsyoung.eiaproject.service.assist.ProjectInfoAssistService;
@@ -30,6 +32,12 @@ public class assistController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ApprovalTrialQualificationsMapper approvalTrialQualificationsMapper;
+
+    @Autowired
+    ApprovalAgreelQualificationsMapper approvalAgreelQualificationsMapper;
 
     /**
      * 根据省份获得城市
@@ -89,4 +97,20 @@ public class assistController {
     public List getUserListByDepartmentIdAndRole(String departmentId, @RequestParam("roleList[]") Integer[] roleList){
         return userService.getUserListByDepartmentAndRole(departmentId,roleList);
     }
+
+    /**
+     * 判断资质号是否存在
+     * @return
+     */
+    @RequestMapping("/qualificationserialnumberExist")
+    @ResponseBody
+    public Boolean qualificationserialnumberExist(String qualificationserialnumber){
+        int approvalAgreel = approvalAgreelQualificationsMapper.countByQualificationserialNumber(qualificationserialnumber);
+        int approvalTrial = approvalTrialQualificationsMapper.countByQualificationserialNumber(qualificationserialnumber);
+        if(approvalAgreel == 0 && approvalTrial == 0)
+            return true;
+        else
+            return false;
+    }
+
 }
