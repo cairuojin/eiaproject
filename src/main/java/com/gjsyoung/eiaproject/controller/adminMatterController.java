@@ -2,12 +2,14 @@ package com.gjsyoung.eiaproject.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.gjsyoung.eiaproject.domain.*;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument;
 import com.gjsyoung.eiaproject.mapper.*;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
 import com.gjsyoung.eiaproject.service.ProjectOperationRecordService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.service.assist.AreasService;
+import com.gjsyoung.eiaproject.service.assist.ProjectInfoAssistService;
 import com.gjsyoung.eiaproject.utils.UploadUtil;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,6 +122,9 @@ public class adminMatterController {
 
     @Autowired
     ApprovalReplyMapper approvalReplyMapper;
+
+    @Autowired
+    ProjectInfoAssistService projectInfoAssistService;
 
     /* 1、人员分配 */
 
@@ -1735,6 +1740,31 @@ public class adminMatterController {
             //插入操作记录表
             projectOperationRecordService.addRecord(session,projectInfo.getId(),29);
         }
+        return "OK";
+    }
+
+
+    /* 30、申请存档 */
+    /**
+     * 进入申请存档页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/documentApplicationInput")
+    public ModelAndView documentApplicationInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "documentApplicationInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        List<ProjectInfoFileTypeDocument> fileTypeDocuments = projectInfoAssistService.getFileTypeDocumentsById(projectInfo.getFiletype());
+        mav.addObject("fileTypeDocuments",fileTypeDocuments);
+        mav.addObject("projectInfo",projectInfo );
+        return mav;
+    }
+
+    @RequestMapping("/documentApplication")
+    public String documentApplication(@RequestBody DocumentApplication[] documentApplications) throws BaseException {
+
         return "OK";
     }
 

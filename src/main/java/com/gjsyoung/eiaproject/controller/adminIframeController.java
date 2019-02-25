@@ -126,6 +126,7 @@ public class adminIframeController {
                     "/approvalAgreelQualificationsList",
                     "/approvalReplyList",
                     "/projectQualificationsList",
+                    "/documentApplicationList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -198,6 +199,7 @@ public class adminIframeController {
             case "approvalAgreelQualificationsList":projectListVo.setStatus(27);break;
             case "approvalReplyList":projectListVo.setStatus(28);break;
             case "projectQualificationsList":projectListVo.setStatus(29);break;
+            case "documentApplicationList":projectListVo.setStatus(30);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
@@ -346,7 +348,7 @@ public class adminIframeController {
             case "myUndertakeProjectList"  :projectListVo.setProjectUndertakerUserId(fromSession.getId());break;    //我承接的项目
             case "myHostProjectList"  :projectListVo.setHostUserId(fromSession.getId());break;    //我主持的项目
             case "myFirstTrialProjectList"  :projectListVo.setFirstTrialUserId(fromSession.getId());break;    //我初审的项目
-            case "myFinalTrialProjectList"  :projectListVo.setFirstTrialUserId(fromSession.getId());break;    //我定审的项目
+            case "myFinalTrialProjectList"  :projectListVo.setFinalTrialUserId(fromSession.getId());break;    //我定审的项目
 
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表

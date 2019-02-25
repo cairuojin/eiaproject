@@ -39,6 +39,14 @@ public class ProjectListVo {
     private Integer initialReportUserId = -1;   //项目执行  提交报告人id
     private Integer finalTrialUserId = -1;      //复审人id
 
+
+    //分页字段
+    private Integer pageSize = 10;   //单页显示多个
+    private Integer pageNow = 1;    //当前第几页
+    private Integer pageTotal = 0;  //总页码
+    private Long sizeTotal = 0L;  //总个数
+    private List<ProjectInfo> projectInfos = null;  //结果
+
     public Integer getProjectUndertakerUserId() {
         return projectUndertakerUserId;
     }
@@ -54,13 +62,6 @@ public class ProjectListVo {
     public void setHostUserId(Integer hostUserId) {
         this.hostUserId = hostUserId;
     }
-
-    //分页字段
-    private Integer pageSize = 10;   //单页显示多个
-    private Integer pageNow = 1;    //当前第几页
-    private Integer pageTotal = 0;  //总页码
-    private Long sizeTotal = 0L;  //总个数
-    private List<ProjectInfo> projectInfos = null;  //结果
 
     public Integer getFinalTrialUserId() {
         return finalTrialUserId;

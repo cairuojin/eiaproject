@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.DocumentRepertoireMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.DocumentRepertoire">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="applicantUserId" jdbcType="INTEGER" property="applicantuserid" />
+    <result column="applicantTime" jdbcType="TIMESTAMP" property="applicanttime" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="archiveDescription" jdbcType="VARCHAR" property="archivedescription" />
+    <result column="finalReportAnnex" jdbcType="VARCHAR" property="finalreportannex" />
+    <result column="leaderUserId" jdbcType="INTEGER" property="leaderuserid" />
+    <result column="leaderTime" jdbcType="TIMESTAMP" property="leadertime" />
+    <result column="leadershipOpinion" jdbcType="VARCHAR" property="leadershipopinion" />
+    <result column="documentUserId" jdbcType="INTEGER" property="documentuserid" />
+    <result column="documentTime" jdbcType="TIMESTAMP" property="documenttime" />
+    <result column="fileNumber" jdbcType="VARCHAR" property="filenumber" />
+    <result column="fileLocation" jdbcType="VARCHAR" property="filelocation" />
+    <result column="archivistOpinion" jdbcType="VARCHAR" property="archivistopinion" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, applicantUserId, applicantTime, keyword, summary, archiveDescription, finalReportAnnex, 
+    leaderUserId, leaderTime, leadershipOpinion, documentUserId, documentTime, fileNumber, 
+    fileLocation, archivistOpinion
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from documentrepertoire
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from documentrepertoire
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.DocumentRepertoire">
+    insert into documentrepertoire (id, applicantUserId, applicantTime, 
+      keyword, summary, archiveDescription, 
+      finalReportAnnex, leaderUserId, leaderTime, 
+      leadershipOpinion, documentUserId, documentTime, 
+      fileNumber, fileLocation, archivistOpinion
+      )
+    values (#{id,jdbcType=INTEGER}, #{applicantuserid,jdbcType=INTEGER}, #{applicanttime,jdbcType=TIMESTAMP}, 
+      #{keyword,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{archivedescription,jdbcType=VARCHAR}, 
+      #{finalreportannex,jdbcType=VARCHAR}, #{leaderuserid,jdbcType=INTEGER}, #{leadertime,jdbcType=TIMESTAMP}, 
+      #{leadershipopinion,jdbcType=VARCHAR}, #{documentuserid,jdbcType=INTEGER}, #{documenttime,jdbcType=TIMESTAMP}, 
+      #{filenumber,jdbcType=VARCHAR}, #{filelocation,jdbcType=VARCHAR}, #{archivistopinion,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.DocumentRepertoire">
+    insert into documentrepertoire
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="applicantuserid != null">
+        applicantUserId,
+      </if>
+      <if test="applicanttime != null">
+        applicantTime,
+      </if>
+      <if test="keyword != null">
+        keyword,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="archivedescription != null">
+        archiveDescription,
+      </if>
+      <if test="finalreportannex != null">
+        finalReportAnnex,
+      </if>
+      <if test="leaderuserid != null">
+        leaderUserId,
+      </if>
+      <if test="leadertime != null">
+        leaderTime,
+      </if>
+      <if test="leadershipopinion != null">
+        leadershipOpinion,
+      </if>
+      <if test="documentuserid != null">
+        documentUserId,
+      </if>
+      <if test="documenttime != null">
+        documentTime,
+      </if>
+      <if test="filenumber != null">
+        fileNumber,
+      </if>
+      <if test="filelocation != null">
+        fileLocation,
+      </if>
+      <if test="archivistopinion != null">
+        archivistOpinion,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="applicantuserid != null">
+        #{applicantuserid,jdbcType=INTEGER},
+      </if>
+      <if test="applicanttime != null">
+        #{applicanttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyword != null">
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="archivedescription != null">
+        #{archivedescription,jdbcType=VARCHAR},
+      </if>
+      <if test="finalreportannex != null">
+        #{finalreportannex,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderuserid != null">
+        #{leaderuserid,jdbcType=INTEGER},
+      </if>
+      <if test="leadertime != null">
+        #{leadertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leadershipopinion != null">
+        #{leadershipopinion,jdbcType=VARCHAR},
+      </if>
+      <if test="documentuserid != null">
+        #{documentuserid,jdbcType=INTEGER},
+      </if>
+      <if test="documenttime != null">
+        #{documenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filenumber != null">
+        #{filenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="filelocation != null">
+        #{filelocation,jdbcType=VARCHAR},
+      </if>
+      <if test="archivistopinion != null">
+        #{archivistopinion,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.DocumentRepertoire">
+    update documentrepertoire
+    <set>
+      <if test="applicantuserid != null">
+        applicantUserId = #{applicantuserid,jdbcType=INTEGER},
+      </if>
+      <if test="applicanttime != null">
+        applicantTime = #{applicanttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyword != null">
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="archivedescription != null">
+        archiveDescription = #{archivedescription,jdbcType=VARCHAR},
+      </if>
+      <if test="finalreportannex != null">
+        finalReportAnnex = #{finalreportannex,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderuserid != null">
+        leaderUserId = #{leaderuserid,jdbcType=INTEGER},
+      </if>
+      <if test="leadertime != null">
+        leaderTime = #{leadertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leadershipopinion != null">
+        leadershipOpinion = #{leadershipopinion,jdbcType=VARCHAR},
+      </if>
+      <if test="documentuserid != null">
+        documentUserId = #{documentuserid,jdbcType=INTEGER},
+      </if>
+      <if test="documenttime != null">
+        documentTime = #{documenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filenumber != null">
+        fileNumber = #{filenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="filelocation != null">
+        fileLocation = #{filelocation,jdbcType=VARCHAR},
+      </if>
+      <if test="archivistopinion != null">
+        archivistOpinion = #{archivistopinion,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.DocumentRepertoire">
+    update documentrepertoire
+    set applicantUserId = #{applicantuserid,jdbcType=INTEGER},
+      applicantTime = #{applicanttime,jdbcType=TIMESTAMP},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      archiveDescription = #{archivedescription,jdbcType=VARCHAR},
+      finalReportAnnex = #{finalreportannex,jdbcType=VARCHAR},
+      leaderUserId = #{leaderuserid,jdbcType=INTEGER},
+      leaderTime = #{leadertime,jdbcType=TIMESTAMP},
+      leadershipOpinion = #{leadershipopinion,jdbcType=VARCHAR},
+      documentUserId = #{documentuserid,jdbcType=INTEGER},
+      documentTime = #{documenttime,jdbcType=TIMESTAMP},
+      fileNumber = #{filenumber,jdbcType=VARCHAR},
+      fileLocation = #{filelocation,jdbcType=VARCHAR},
+      archivistOpinion = #{archivistopinion,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
