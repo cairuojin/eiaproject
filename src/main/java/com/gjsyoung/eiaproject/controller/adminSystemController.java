@@ -3,10 +3,16 @@ package com.gjsyoung.eiaproject.controller;
 import com.gjsyoung.eiaproject.domain.Department;
 import com.gjsyoung.eiaproject.domain.Role;
 import com.gjsyoung.eiaproject.domain.User;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument;
 import com.gjsyoung.eiaproject.mapper.DepartmentMapper;
 import com.gjsyoung.eiaproject.mapper.UserMapper;
+import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoFileTypeDocumentMapper;
+import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoFileTypeMapper;
 import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.RoleService;
+import com.gjsyoung.eiaproject.service.UserService;
+import com.gjsyoung.eiaproject.service.assist.ProjectInfoAssistService;
 import com.gjsyoung.eiaproject.utils.RedisCache;
 import com.gjsyoung.eiaproject.utils.UploadUtil;
 import com.gjsyoung.eiaproject.vo.BaseException;
@@ -26,6 +32,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import static com.gjsyoung.eiaproject.vo.CacheKey.fileTypeDocument;
 
 /** 系统管理controller
  * @author cairuojin
@@ -54,6 +62,16 @@ public class adminSystemController {
 
     @Autowired
     UploadUtil uploadUtil;
+
+    @Autowired
+    ProjectInfoAssistService projectInfoAssistService;
+
+    @Autowired
+    ProjectInfoFileTypeDocumentMapper projectInfoFileTypeDocumentMapper;
+
+    @Autowired
+    UserService userService;
+
 
     /**
      * 跳转到添加用户页面
@@ -181,4 +199,59 @@ public class adminSystemController {
         return "OK";
     }
 
+
+
+    /**
+     * 添加存档要求
+     * @param projectInfoFileTypeDocument
+     * @return
+     */
+    @RequestMapping("/addRequirement")
+    @ResponseBody
+    public String addDepartment(ProjectInfoFileTypeDocument projectInfoFileTypeDocument, HttpSession session) throws BaseException {
+
+        ProjectInfoFileType fileType = projectInfoAssistService.getFileType(projectInfoFileTypeDocument.getFiletypeid());
+        if(fileType == null){
+            throw BaseException.FAILED(404,"找不到该文件类型");
+        }
+        User fromSession = userService.getFromSession(session);
+        projectInfoFileTypeDocument.setCreatetime(new Date());
+        projectInfoFileTypeDocument.setCreateuserid(fromSession.getId());
+        projectInfoFileTypeDocumentMapper.insert(projectInfoFileTypeDocument);
+        redisCache.removeObject(fileTypeDocument + projectInfoFileTypeDocument.getFiletypeid());  //添加后清空缓存
+        return "OK";
+    }
+
+    /**
+     * 添加存档要求
+     * @param projectInfoFileTypeDocument
+     * @return
+     */
+    @RequestMapping("/updateRequirement")
+    @ResponseBody
+    public String updateRequirement(ProjectInfoFileTypeDocument projectInfoFileTypeDocument, HttpSession session) throws BaseException {
+        if(projectInfoFileTypeDocumentMapper.selectByPrimaryKey(projectInfoFileTypeDocument.getId()) == null){
+            throw BaseException.FAILED(404,"找不到该文件类型要求");
+        }
+        
+        projectInfoFileTypeDocumentMapper.updateByPrimaryKeySelective(projectInfoFileTypeDocument);
+        projectInfoFileTypeDocument = projectInfoFileTypeDocumentMapper.selectByPrimaryKey(projectInfoFileTypeDocument.getId());
+        redisCache.removeObject(fileTypeDocument + projectInfoFileTypeDocument.getFiletypeid());  //添加后清空缓存
+        return "OK";
+    }
+
+
+    /**
+     * 删除存档要求
+     * @param id
+     * @return
+     */
+    @RequestMapping("/deleteRequirement")
+    @ResponseBody
+    public String deleteRequirement(Integer id){
+        ProjectInfoFileTypeDocument projectInfoFileTypeDocument = projectInfoFileTypeDocumentMapper.selectByPrimaryKey(id);
+        int i = projectInfoFileTypeDocumentMapper.deleteByPrimaryKey(id);
+        redisCache.removeObject(fileTypeDocument + projectInfoFileTypeDocument.getFiletypeid());  //添加后清空缓存
+        return "OK";
+    }
 }

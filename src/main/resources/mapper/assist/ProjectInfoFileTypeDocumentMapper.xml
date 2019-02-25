@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjsyoung.eiaproject.mapper.assist.ProjectInfoFileTypeDocumentMapper">
+  <resultMap id="BaseResultMap" type="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="filetypeId" jdbcType="INTEGER" property="filetypeid" />
+    <result column="requirements" jdbcType="VARCHAR" property="requirements" />
+    <result column="archiveList" jdbcType="VARCHAR" property="archivelist" />
+    <result column="archiveNumber" jdbcType="INTEGER" property="archivenumber" />
+    <result column="createUserId" jdbcType="INTEGER" property="createuserid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, filetypeId, requirements, archiveList, archiveNumber, createUserId, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from projectinfofiletypedocument
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from projectinfofiletypedocument
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument">
+    insert into projectinfofiletypedocument (id, filetypeId, requirements, 
+      archiveList, archiveNumber, createUserId, 
+      createTime)
+    values (#{id,jdbcType=INTEGER}, #{filetypeid,jdbcType=INTEGER}, #{requirements,jdbcType=VARCHAR}, 
+      #{archivelist,jdbcType=VARCHAR}, #{archivenumber,jdbcType=INTEGER}, #{createuserid,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument">
+    insert into projectinfofiletypedocument
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="filetypeid != null">
+        filetypeId,
+      </if>
+      <if test="requirements != null">
+        requirements,
+      </if>
+      <if test="archivelist != null">
+        archiveList,
+      </if>
+      <if test="archivenumber != null">
+        archiveNumber,
+      </if>
+      <if test="createuserid != null">
+        createUserId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="filetypeid != null">
+        #{filetypeid,jdbcType=INTEGER},
+      </if>
+      <if test="requirements != null">
+        #{requirements,jdbcType=VARCHAR},
+      </if>
+      <if test="archivelist != null">
+        #{archivelist,jdbcType=VARCHAR},
+      </if>
+      <if test="archivenumber != null">
+        #{archivenumber,jdbcType=INTEGER},
+      </if>
+      <if test="createuserid != null">
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument">
+    update projectinfofiletypedocument
+    <set>
+      <if test="filetypeid != null">
+        filetypeId = #{filetypeid,jdbcType=INTEGER},
+      </if>
+      <if test="requirements != null">
+        requirements = #{requirements,jdbcType=VARCHAR},
+      </if>
+      <if test="archivelist != null">
+        archiveList = #{archivelist,jdbcType=VARCHAR},
+      </if>
+      <if test="archivenumber != null">
+        archiveNumber = #{archivenumber,jdbcType=INTEGER},
+      </if>
+      <if test="createuserid != null">
+        createUserId = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument">
+    update projectinfofiletypedocument
+    set filetypeId = #{filetypeid,jdbcType=INTEGER},
+      requirements = #{requirements,jdbcType=VARCHAR},
+      archiveList = #{archivelist,jdbcType=VARCHAR},
+      archiveNumber = #{archivenumber,jdbcType=INTEGER},
+      createUserId = #{createuserid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByFileTypeId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from projectinfofiletypedocument
+    where filetypeId = #{filetypeid,jdbcType=INTEGER}
+  </select>
+</mapper>

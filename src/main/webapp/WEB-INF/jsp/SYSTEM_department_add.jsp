@@ -202,21 +202,5 @@
         }
     }
 </script>
-<!-- 表单校验 -->
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#departmentForm').validate({
-            rules:{
-                name:{
-                    required:true
-                }
-            },
-            messages:{
-                name:{
-                    required:"部门名称不能为空"
-                }
-            }
-        });
-    });
-</script>
+
 </html>

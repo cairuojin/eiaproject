@@ -4,9 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gjsyoung.eiaproject.domain.*;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
 import com.gjsyoung.eiaproject.domain.assist.Provinces;
 import com.gjsyoung.eiaproject.mapper.*;
+import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoFileTypeDocumentMapper;
 import com.gjsyoung.eiaproject.service.DepartmentService;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
 import com.gjsyoung.eiaproject.service.RoleService;
@@ -83,6 +85,9 @@ public class adminIframeController {
     @Autowired
     ApprovalTrialQualificationsMapper approvalTrialQualificationsMapper;
 
+    @Autowired
+    ProjectInfoFileTypeDocumentMapper projectInfoFileTypeDocumentMapper;
+
     /* 1、待办事项 */
 
     //项目列表
@@ -120,7 +125,7 @@ public class adminIframeController {
                     "/approvalOpinionList",
                     "/approvalAgreelQualificationsList",
                     "/approvalReplyList",
-                    "/projectQualificationsList"
+                    "/projectQualificationsList",
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -318,6 +323,38 @@ public class adminIframeController {
 
 
 
+    /**
+     * 我的项目列表
+     * @param projectListVo 筛选字段
+     * @return
+     */
+    @RequestMapping(
+            {
+                    "/myUndertakeProjectList",
+                    "/myHostProjectList",
+                    "/myFirstTrialProjectList",
+                    "/myFinalTrialProjectList"
+            }
+    )
+    public ModelAndView myProjectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
+        String requestURI = request.getRequestURI();    //获得请求地址
+        requestURI = requestURI.substring(requestURI.lastIndexOf('/') + 1, requestURI.length());    //截取到方法地址
+
+        User fromSession = userService.getFromSession(session);
+        ModelAndView mav = new ModelAndView(SYSTEM + requestURI);
+        switch (requestURI){
+            case "myUndertakeProjectList"  :projectListVo.setProjectUndertakerUserId(fromSession.getId());break;    //我承接的项目
+            case "myHostProjectList"  :projectListVo.setHostUserId(fromSession.getId());break;    //我主持的项目
+            case "myFirstTrialProjectList"  :projectListVo.setFirstTrialUserId(fromSession.getId());break;    //我初审的项目
+            case "myFinalTrialProjectList"  :projectListVo.setFirstTrialUserId(fromSession.getId());break;    //我定审的项目
+
+        }
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
+
+        mav.addObject("projectListVo",projectListVo);
+        return mav;
+    }
+
 
     /* 3、系统管理 */
 
@@ -368,6 +405,63 @@ public class adminIframeController {
     @RequestMapping("/department/add")
     public ModelAndView departmentAdd(){
         ModelAndView mav = new ModelAndView(SYSTEM + "department_add");
+        return mav;
+    }
+
+
+
+    /**
+     * 存档要求清单
+     * @return
+     */
+    @RequestMapping("/documentRequirementsList")
+    public ModelAndView documentRequirementsList(){
+        ModelAndView mav = new ModelAndView(SYSTEM + "documentRequirementsList");
+        List<ProjectInfoFileType> projectInfoFileTypes = projectInfoAssistService.loadFileTypeList();   //获得问卷类型列表
+        mav.addObject("projectInfoFileTypes", projectInfoFileTypes);
+        return mav;
+    }
+
+    /**
+     * 根据id获得该文件类型详细信息
+     * @param id 文件类型
+     * @return
+     */
+    @RequestMapping("/documentDetail")
+    public ModelAndView documentDetail(@RequestParam(defaultValue = "1") Integer id){
+        ModelAndView mav = new ModelAndView(SYSTEM + "documentDetail");
+        ProjectInfoFileType fileType = projectInfoAssistService.getFileType(id);    //获得文件类型
+        List<ProjectInfoFileTypeDocument> fileTypeDocuments = projectInfoAssistService.getFileTypeDocumentsById(id);
+        mav.addObject("fileType", fileType);
+        mav.addObject("fileTypeDocuments",fileTypeDocuments);
+        return mav;
+    }
+
+    /**
+     * 进入新增存档要求页面
+     * @param id    文件类型id
+     * @return
+     */
+    @RequestMapping("/documentDetail/add")
+    public ModelAndView documentDetailAdd(@RequestParam(defaultValue = "1") Integer id){
+        ModelAndView mav = new ModelAndView(SYSTEM + "documentDetailadd");
+        ProjectInfoFileType fileType = projectInfoAssistService.getFileType(id);
+        mav.addObject("fileType", fileType);
+        return mav;
+    }
+
+    /**
+     * 进入修改存档要求
+     * @param id 存档要求id
+     * @return
+     */
+    @RequestMapping("/documentDetail/update")
+    public ModelAndView documentDetailUpdate(@RequestParam(defaultValue = "1") Integer id){
+        ModelAndView mav = new ModelAndView(SYSTEM + "documentDetailupdate");
+        ProjectInfoFileTypeDocument projectInfoFileTypeDocument = projectInfoFileTypeDocumentMapper.selectByPrimaryKey(id);
+        ProjectInfoFileType fileType = projectInfoAssistService.getFileType(id);
+        mav.addObject("fileType", fileType);
+        mav.addObject("projectInfoFileTypeDocument", projectInfoFileTypeDocument);
         return mav;
     }
 

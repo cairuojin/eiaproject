@@ -31,9 +31,29 @@ public class ProjectListVo {
 
     //todo 合同编号  档案编号 承接时间
 
+    private Integer projectUndertakerUserId = -1;   //承接人
+    private Integer hostUserId = -1;    //主持人
+
+
     private Integer firstTrialUserId = -1; //初审人
     private Integer initialReportUserId = -1;   //项目执行  提交报告人id
     private Integer finalTrialUserId = -1;      //复审人id
+
+    public Integer getProjectUndertakerUserId() {
+        return projectUndertakerUserId;
+    }
+
+    public void setProjectUndertakerUserId(Integer projectUndertakerUserId) {
+        this.projectUndertakerUserId = projectUndertakerUserId;
+    }
+
+    public Integer getHostUserId() {
+        return hostUserId;
+    }
+
+    public void setHostUserId(Integer hostUserId) {
+        this.hostUserId = hostUserId;
+    }
 
     //分页字段
     private Integer pageSize = 10;   //单页显示多个
