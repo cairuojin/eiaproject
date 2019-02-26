@@ -5,12 +5,16 @@ import com.gjsyoung.eiaproject.domain.User;
 import com.gjsyoung.eiaproject.mapper.ProjectOperationRecordMapper;
 import com.gjsyoung.eiaproject.service.ProjectOperationRecordService;
 import com.gjsyoung.eiaproject.service.UserService;
+import com.gjsyoung.eiaproject.utils.RedisCache;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
+
+import static com.gjsyoung.eiaproject.vo.CacheKey.projectRecord;
 
 /**
  * @Classname ProjectOperationRecordServiceImpl
@@ -26,6 +30,9 @@ public class ProjectOperationRecordServiceImpl implements ProjectOperationRecord
 
     @Autowired
     ProjectOperationRecordMapper projectOperationRecordMapper;
+
+    @Autowired
+    RedisCache redisCache;
 
     /**
      * 添加操作记录
@@ -44,5 +51,19 @@ public class ProjectOperationRecordServiceImpl implements ProjectOperationRecord
         projectOperationRecord.setProjectinfostatus(status);
         projectOperationRecord.setTime(new Date());
         projectOperationRecordMapper.insert(projectOperationRecord);
+
+        redisCache.removeObject(projectRecord + projectId);
+    }
+
+    @Override
+    public List<ProjectOperationRecord> getRecordByProjectId(Integer projectId) {
+        Object object = redisCache.getObject(projectRecord + projectId);
+        if(object != null){
+            return (List<ProjectOperationRecord>) object;
+        } else {
+            List<ProjectOperationRecord> projectOperationRecords = projectOperationRecordMapper.selectByProjectId(projectId);
+            redisCache.putObject(projectRecord + projectId, projectOperationRecords);
+            return projectOperationRecords;
+        }
     }
 }

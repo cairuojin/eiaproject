@@ -52,14 +52,14 @@
 </div>
 <div style="width: 80%; margin: 10px auto;">
     <form id="editForm">
-    <table class="form tab1" style="font-size: 14px;">
+    <table  class="form tab1" style="font-size: 14px;">
         <tr>
             <td class="col1 tdcss1" >
                 <label class="labelsize" >
                     关键字：</label>
             </td>
 
-            <td class="col2 tdcss2" style="padding-left: 30px; " >
+            <td class="col2 tdcss2" style="padding-left: 30px;  " >
                 ${documentRepertoire.keyword}
             </td>
         </tr>
@@ -86,55 +86,115 @@
                 <label class="labelsize" >
                     存档人：</label>
             </td>
-            <td  style="padding-left: 30px; " >
-                ${documentRepertoire.applicantuser.name}(<fmt:formatDate value='${documentRepertoire.applicanttime}' pattern='yyyy年MM月dd日'></fmt:formatDate>)
+            <td  style="padding-left: 30px;  " >
+                ${documentRepertoire.applicantuser.name}(<fmt:formatDate value='${documentRepertoire.applicanttime}' pattern='yyyy年MM月dd日HH点mm分ss秒'></fmt:formatDate>)
             </td>
         </tr>
         <tr>
             <td class="col1 tdcss1" style="vertical-align: middle;" >
                 <label class="labelsize" >
-                    最终版报告:</label>
-            </td>
-            <td  style="padding-left: 30px; " >
-                <a href="/${documentRepertoire.finalreportannex}" download="/${documentRepertoire.finalreportannex}" style="cursor: pointer;">下载最终版报告</a>
-            </td>
-        </tr>
-        <tr>
-            <td class="col1 tdcss1" style="vertical-align: middle;" >
-                <label class="labelsize" >
-                    <font color="#ff0000">* </font>领导意见:</label>
+                    领导意见：</label>
             </td>
             <td  style="padding-left: 30px;" >
-                <input type="text" style="width:95%;" id="leadershipOpinion" name="leadershipOpinion"/>
+                ${documentRepertoire.leadershipopinion}<br>
+                签字：${documentRepertoire.leaderuser.name}(<fmt:formatDate value='${documentRepertoire.leadertime}' pattern='yyyy年MM月dd日HH点mm分ss秒'></fmt:formatDate>)
+            </td>
+        </tr>
+        <tr>
+            <td class="col1 tdcss1" style="vertical-align: middle;" >
+                <label class="labelsize" >
+                    审批/备案部门:</label>
+            </td>
+            <td  style="padding-left: 30px; " >
+                ${projectInfo.filingdepartment}
+            </td>
+        </tr>
+        <tr>
+            <td class="col1 tdcss1" style="vertical-align: middle;" >
+                <label class="labelsize" >
+                    档案编号:</label>
+            </td>
+            <td  style="padding-left: 30px; " >
+                <input type="text" style="width:95%;" id="fileNumber" name="fileNumber"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="col1 tdcss1" style="vertical-align: middle;" >
+                <label class="labelsize"  >
+                    档案存放位置:</label>
+            </td>
+            <td  style="padding-left: 30px;" >
+                <input type="text" style="width:95%;" id="fileLocation" name="fileLocation"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="col1 tdcss1" style="vertical-align: middle;" >
+                <label class="labelsize" >
+                    档案管理员意见:</label>
+            </td>
+            <td  style="padding-left: 30px;" >
+                <input type="text" style="width:95%;" id="archivistOpinion" name="archivistOpinion"/>
             </td>
         </tr>
     </table>
     </form>
     <div class="btnnew" >
-        <input type="button" class="btn btn-primary" value="签字"  onclick="documentLeaderSign()"/>
+        <input type="button" class="btn btn-primary" value="存档"  onclick="documentSave()">
+        </input>
         &nbsp; &nbsp;
-        <input type="button" class="btn btn-primary" value="退回"  onclick="documentLeaderSignBack()"/>
+        <input type="button" class="btn btn-primary" value="退回"  onclick="documentBack()">
+        </input>
     </div>
 </div>
+<h1>退回历史</h1>
+<table class="data display datatable table1">
+    <thead>
+    <tr>
+        <th class="sorting" style="width: 50%;">退回原因</th>
+        <th class="sorting" style="width: 40%;">退回时间</th>
+        <th class="sorting" style="width: 10%;">操作人</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${records}" var="record">
+        <tr class="odd gradeX">
+            <c:if test="${record.projectinfostatus == 31}">
+                <td>存档清单领导签字退回</td>
+            </c:if>
+            <c:if test="${record.projectinfostatus == 32}">
+                <td>存档管理员退回</td>
+            </c:if>
+            <td><fmt:formatDate value="${record.time}" pattern="yyyy年MM月dd日HH点mm分ss秒" /></td>
+            <td class="center">  ${record.user.name} </td>
+        </tr>
+    </c:forEach>
+</table>
 </body>
 
-
-
-<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery.validate.min.js"></script>
-
-<!-- 表单校验 -->
 <script>
     $(document).ready(function() {
-        //添加表单校验
         $('#editForm').validate({
             rules:{
-                leadershipOpinion:{
+                fileNumber:{
+                    required:true,
+                },
+                fileLocation:{
+                    required:true,
+                },
+                archivistOpinion:{
                     required:true,
                 }
             },
             messages:{
-                leadershipOpinion:{
+                fileNumber:{
+                    required:"该项为必填",
+                },
+                fileLocation:{
+                    required:"该项为必填",
+                },
+                archivistOpinion:{
                     required:"该项为必填",
                 }
             }
@@ -143,25 +203,27 @@
 </script>
 
 <script type="text/javascript">
-    function documentLeaderSign() {
+    function documentSave() {
         if (!$("#editForm").valid()) {
             return;
         }
-        if (!confirm("您确定签字吗?")) {
+        if (!confirm("您确定进行存档吗?")) {
             return;
         }
 
         $.ajax({
             "type": "POST",
-            "url": "/api/admin/matter/documentLeaderSign",	//传输路径
+            "url": "/api/admin/matter/documentEnter",	//传输路径
             "data": {
                 "id":${projectInfo.id},
-                "leadershipopinion":$('#leadershipOpinion').val()
+                "filenumber":$('#fileNumber').val(),
+                "filelocation":$('#fileLocation').val(),
+                "archivistopinion":$('#archivistOpinion').val(),
             },
             "success": function (data) {
                 if (data == "OK") {
-                    alert("您已签字成功");
-                    window.location.href = "/api/admin/iframe/documentLeaderSignList";
+                    alert("您已存档成功");
+                    window.location.href = "/api/admin/iframe/documentEnterList";
                 }
             },
             "error": function (data) {
@@ -170,21 +232,21 @@
         })
     }
 
-    function documentLeaderSignBack() {
+    function documentBack() {
         if (!confirm("您确定退回该存档吗?")) {
             return;
         }
 
         $.ajax({
             "type": "POST",
-            "url": "/api/admin/matter/documentLeaderSignBack",	//传输路径
+            "url": "/api/admin/matter/documentEnterBack",	//传输路径
             "data": {
                 "projectId":${projectInfo.id}
             },
             "success": function (data) {
                 if (data == "OK") {
                     alert("您已退回该存档");
-                    window.location.href = "/api/admin/iframe/documentLeaderSignList";
+                    window.location.href = "/api/admin/iframe/documentEnterList";
                 }
             },
             "error": function (data) {

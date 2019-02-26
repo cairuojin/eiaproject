@@ -1,8 +1,10 @@
 package com.gjsyoung.eiaproject.service;
 
+import com.gjsyoung.eiaproject.domain.ProjectOperationRecord;
 import com.gjsyoung.eiaproject.vo.BaseException;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Classname ProjectOperationRecordService
@@ -13,4 +15,6 @@ import javax.servlet.http.HttpSession;
 public interface ProjectOperationRecordService {
 
     public void addRecord(HttpSession session, Integer projectId, Integer status)  throws BaseException;
+
+    public List<ProjectOperationRecord> getRecordByProjectId(Integer projectId);
 }

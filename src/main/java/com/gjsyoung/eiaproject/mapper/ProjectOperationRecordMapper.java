@@ -4,6 +4,8 @@ import com.gjsyoung.eiaproject.domain.ProjectOperationRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface ProjectOperationRecordMapper {
@@ -18,4 +20,6 @@ public interface ProjectOperationRecordMapper {
     int updateByPrimaryKeySelective(ProjectOperationRecord record);
 
     int updateByPrimaryKey(ProjectOperationRecord record);
+
+    List<ProjectOperationRecord> selectByProjectId(Integer projectId);
 }

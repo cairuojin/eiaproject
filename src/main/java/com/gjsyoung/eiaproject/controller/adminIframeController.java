@@ -127,7 +127,8 @@ public class adminIframeController {
                     "/approvalReplyList",
                     "/projectQualificationsList",
                     "/documentApplicationList",
-                    "/documentLeaderSignList"
+                    "/documentLeaderSignList",
+                    "/documentEnterList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -202,6 +203,7 @@ public class adminIframeController {
             case "projectQualificationsList":projectListVo.setStatus(29);break;
             case "documentApplicationList":projectListVo.setStatus(30);break;
             case "documentLeaderSignList":projectListVo.setStatus(31);break;
+            case "documentEnterList":projectListVo.setStatus(32);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
