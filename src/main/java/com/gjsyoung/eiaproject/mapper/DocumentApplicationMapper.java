@@ -4,6 +4,8 @@ import com.gjsyoung.eiaproject.domain.DocumentApplication;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface DocumentApplicationMapper {
@@ -18,4 +20,8 @@ public interface DocumentApplicationMapper {
     int updateByPrimaryKeySelective(DocumentApplication record);
 
     int updateByPrimaryKey(DocumentApplication record);
+
+    List<DocumentApplication> selectByProjectid(Integer projectid);
+
+    int deleteByProjectid(Integer projectid);
 }

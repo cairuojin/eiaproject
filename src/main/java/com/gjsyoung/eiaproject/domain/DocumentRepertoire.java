@@ -33,6 +33,16 @@ public class DocumentRepertoire {
 
     private String archivistopinion;
 
+    private User applicantuser;
+
+    public User getApplicantuser() {
+        return applicantuser;
+    }
+
+    public void setApplicantuser(User applicantuser) {
+        this.applicantuser = applicantuser;
+    }
+
     public Integer getId() {
         return id;
     }

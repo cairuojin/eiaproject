@@ -142,7 +142,7 @@
 <!-- 保存合同信息 -->
 <script type="text/javascript">
     function saveDocumentApplication() {
-        //if ($("#documentForm").valid()) {
+        if ($("#documentForm").valid()) {
             if (!confirm("您确定申请存档吗?")) {
                 return
             }
@@ -153,47 +153,35 @@
                 map['archivelist'] = $('#archivelist' + i).text();
                 map['archivenumber'] = $('#archivenumber' + i).val();
                 map['documentid'] = $('#documentid' + i).val();
+                map['projectid'] = ${projectInfo.id};
                 arr.push(map);
             }
-            <%--$('#specialtable tr').each(function (i) {// 遍历 tr--%>
-                <%--var map = {};--%>
-                <%--$(this).children('td').each(function (j) {  // 遍历 tr 的各个 td--%>
-                    <%--if ($(this).attr('id') != undefined) {--%>
-                        <%--map[$(this).attr('id')] = $(this).text()--%>
-                    <%--}--%>
-                <%--});--%>
-                <%--map['projectid'] = ${projectInfo.id}--%>
-                    <%--arr.push(map);--%>
-            <%--});--%>
-            <%--var formFile = new FormData();--%>
-            <%--formFile.append("id", '${projectInfo.id}');--%>
-            <%--formFile.append("action", "UploadVMKImagePath");    //必须--%>
-            <%--formFile.append("contractnumber", $('#contractnumber').val());--%>
-            <%--formFile.append("contractsigntime", $('#contractsigntime').val());--%>
-            <%--formFile.append("contractamount", $('#contractamount').val());--%>
-            <%--formFile.append("contractmoney", $('#contractmoney').val() * 10000);--%>
-            <%--formFile.append("contractsummary", $('#contractsummary').val());--%>
-            <%--formFile.append("annexFile", $('#contractannexurl')[0].files[0]); //附件对象--%>
+            var formFile = new FormData();
+            formFile.append("id", '${projectInfo.id}');
+            formFile.append("action", "UploadVMKImagePath");    //必须
+            formFile.append("keyword", $('#keyword').val());
+            formFile.append("summary", $('#summary').val());
+            formFile.append("archivedescription", $('#archivedescription').val());
+            formFile.append("finalreportannexFile", $('#finalreportannex')[0].files[0]); //附件对象
+            formFile.append("documentApplications",JSON.stringify(arr));
 
-            //var data = formFile;
             $.ajax({
                 "type": "POST",
                 "url": "/api/admin/matter/documentApplication",	//传输路径
-                // processData: false,//用于对data参数进行序列化处理 这里必须false
-                // contentType: false, //必须
-                contentType:"application/json",
-                "data": JSON.stringify(arr),
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                "data": formFile,
                 "success": function (data) {
                     if (data == "OK") {
-                        alert("录入合同信息成功");
-                        window.location.href = "/api/admin/iframe/contractEntryList";
+                        alert("申请存档成功");
+                        window.location.href = "/api/admin/iframe/documentApplicationList";
                     }
                 },
                 "error": function (data) {
                     alert(data);
                 }
             })
-        //}
+        }
     }
 </script>
 <!-- 返回 -->

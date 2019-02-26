@@ -18,16 +18,43 @@
     <result column="fileLocation" jdbcType="VARCHAR" property="filelocation" />
     <result column="archivistOpinion" jdbcType="VARCHAR" property="archivistopinion" />
   </resultMap>
+
   <sql id="Base_Column_List">
-    id, applicantUserId, applicantTime, keyword, summary, archiveDescription, finalReportAnnex, 
+    documentrepertoire.id, applicantUserId, applicantTime, keyword, summary, archiveDescription, finalReportAnnex,
     leaderUserId, leaderTime, leadershipOpinion, documentUserId, documentTime, fileNumber, 
     fileLocation, archivistOpinion
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+  <sql id="user">
+    applicantuser.id as 'applicantuser.id',
+    applicantuser.username as 'applicantuser.username',
+    applicantuser.password as 'applicantuser.password',
+    applicantuser.name as 'applicantuser.name',
+    applicantuser.sex as 'applicantuser.sex',
+    applicantuser.department as 'applicantuser.department',
+    applicantuser.role as 'applicantuser.role',
+    applicantuser.hiredate as 'applicantuser.hiredate',
+    applicantuser.contactway as 'applicantuser.contactway',
+    applicantuser.weChat as 'applicantuser.weChat',
+    applicantuser.email as 'applicantuser.email',
+    applicantuser.officelocation as 'applicantuser.officelocation',
+    applicantuser.imgUrl as 'applicantuser.imgUrl',
+    applicantuser.status as 'applicantuser.status',
+    applicantuser.createTime as 'applicantuser.createTime',
+    applicantuser.updateTime as 'applicantuser.updateTime'
+  </sql>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.DocumentRepertoire">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="user"/>
     from documentrepertoire
-    where id = #{id,jdbcType=INTEGER}
+    LEFT JOIN
+    user applicantuser
+    ON documentrepertoire.applicantUserId = applicantuser.id
+    where documentrepertoire.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from documentrepertoire

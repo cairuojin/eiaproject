@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.domain;
 
+import org.springframework.data.annotation.Transient;
+
 import java.util.Date;
 
 public class DocumentApplication {
@@ -16,6 +18,17 @@ public class DocumentApplication {
     private Date createtime;
 
     private Integer createuserid;
+
+    @Transient
+    private String requirements;
+
+    public String getRequirements() {
+        return requirements;
+    }
+
+    public void setRequirements(String requirements) {
+        this.requirements = requirements;
+    }
 
     public Integer getId() {
         return id;

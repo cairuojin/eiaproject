@@ -11,7 +11,7 @@
     <result column="createUserId" jdbcType="INTEGER" property="createuserid" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, projectId, documentId, archiveList, archiveNumber, createTime, createUserId
+    documentapplication.id, documentapplication.projectId, documentapplication.documentId, documentapplication.archiveList, documentapplication.archiveNumber, documentapplication.createTime, documentapplication.createUserId
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -114,4 +114,22 @@
       createUserId = #{createuserid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByProjectid" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.DocumentApplication">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    requirements
+    from documentapplication
+    LEFT JOIN
+    projectinfofiletypedocument
+    ON
+    documentapplication.documentId = projectinfofiletypedocument.id
+    where documentapplication.projectId = #{projectid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByProjectid" parameterType="java.lang.Integer">
+    delete from documentapplication
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </delete>
 </mapper>
