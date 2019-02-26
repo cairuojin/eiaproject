@@ -621,6 +621,13 @@
       <if test="finalTrialUserId != -1">
         AND projectinfo.finalTrialUserId = #{finalTrialUserId,jdbcType=INTEGER}
       </if>
+
+      <if test="projectUndertakerUserId != -1">
+        AND projectinfo.projectUndertakerUserId = #{projectUndertakerUserId,jdbcType=INTEGER}
+      </if>
+      <if test="hostUserId != -1">
+        AND projectinfo.hostUserId = #{hostUserId,jdbcType=INTEGER}
+      </if>
     </where>
   </select>
 </mapper>

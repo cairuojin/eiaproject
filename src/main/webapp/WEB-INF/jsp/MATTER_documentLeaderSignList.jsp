@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>收款管理录入</title>
+    <title>存档审核</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/maincss.css">
@@ -22,15 +22,15 @@
         <tbody>
         <tr class="gradeX odd1">
             <td><label class="labelsize" >
-                项目编号</label> <input type="text" id="number" name="number" />
+                项目编号</label> <input type="text" id="number" name="number"/>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize" >
-                    项目名称</label> <input type="text" id="name" name="name" />  &nbsp;&nbsp;&nbsp;
+                    项目名称</label> <input type="text" id="name" name="name"/>
             </td>
         </tr>
         <tr class=" gradeX odd2">
             <td style="text-align: right;">
-                <input type="submit" class="btn btn-primary" value="查询" onclick="queryProjects()" />&nbsp;&nbsp;&nbsp;
+                <input type="submit" class="btn btn-primary" value="查询"  onclick="queryProjects()"/>&nbsp;&nbsp;&nbsp;
             </td>
         </tr>
         <tr class="tr1"></tr>
@@ -41,38 +41,31 @@
         <tr>
 
             <th class="sorting" style="width: 5%;">序号</th>
-            <th class="sorting" style="width: 18%;">项目名称</th>
-            <th class="sorting" style="width: 18%;">计划收款日期</th>
-            <th class="sorting" style="width: 9%;">承接人</th>
-            <th class="sorting" style="width:10%;">计划收款金额 </th>
-            <th class="sorting" style="width:10%;">已收款金额 </th>
-            <th class="sorting" style="width:10%;">未收款金额 </th>
-            <th class="sorting" style="width: 10%;">收款状态</th>
+            <th class="sorting" style="width: 15%;">项目名称</th>
+            <th class="sorting" style="width: 10%;">所在区域</th>
+            <th class="sorting" style="width: 15%;">文件类型</th>
+            <th class="sorting" style="width:15%;">评价范围类别 </th>
+            <th class="sorting" style="width:10%;">承接人 </th>
+            <th class="sorting" style="width:10%;">主持人 </th>
+            <th class="sorting" style="width: 10%;">组织人</th>
             <th class="sorting" style="width:10%;">操作</th>
         </tr>
         </thead>
         <tbody>
             <c:forEach items="${projectListVo.projectInfos}" var="projectInfo">
-                <tr class="odd gradeX">
-
-                    <td>${projectInfo.id}</td>
-                    <td>[${projectInfo.number}]${projectInfo.name}</td>
-                    <td><fmt:formatDate value="${projectInfo.subObject['collectionPlan'].collectiontime}" pattern="yyyy年MM月dd日" /></td>
-                    <td class="center">${projectInfo.projectundertakeruser.name}</td>
-                    <td class="center">${projectInfo.subObject['collectionPlan'].collectionmoney}</td>
-                    <td class="center">${projectInfo.subObject['collectionPlan'].collectionmoney - projectInfo.subObject['collectionPlan'].collectionbepaidmoney}</td>
-                    <td class="center"><fmt:formatNumber value="${projectInfo.subObject['collectionPlan'].collectionbepaidmoney}" pattern="#.##" minFractionDigits="2" > </fmt:formatNumber> </td>
-                    <c:if test="${projectInfo.subObject['collectionPlan'].collectionmoney == projectInfo.subObject['collectionPlan'].collectionbepaidmoney}">
-                        <td class="center">未收款</td>
-                    </c:if>
-                    <c:if test="${projectInfo.subObject['collectionPlan'].collectionmoney != projectInfo.subObject['collectionPlan'].collectionbepaidmoney}">
-                        <td class="center">部分收款</td>
-                    </c:if>
-                    <td class="center">
-                        <a href="/api/admin/matter/collectionManageInput?projectInfoId=${projectInfo.id}">收款</a>&nbsp;&nbsp;
-
-                    </td>
-                </tr>
+            <tr class="odd gradeX">
+                <td>${projectInfo.id}</td>
+                <td>[${projectInfo.number}]${projectInfo.name}</td>
+                <td>${projectInfo.provinceName}-${projectInfo.cityName}-${projectInfo.areaName}</td>
+                <td class="center">${projectInfo.filetypeName}</td>
+                <td class="center">${projectInfo.evaluationscopeName}</td>
+                <td class="center">${projectInfo.projectundertakeruser.name}</td>
+                <td class="center">${projectInfo.hostuser.name}</td>
+                <td class="center">${projectInfo.organizinguser.name}</td>
+                <td class="center">
+                    <a href="/api/admin/matter/documentLeaderSignInput?projectInfoId=${projectInfo.id}">存档审核</a>&nbsp;&nbsp;
+                </td>
+            </tr>
             </c:forEach>
         </tbody>
     </table>
@@ -86,6 +79,7 @@
             </c:if>
         </c:forEach>
     </div>
+
 
 
 </div>
@@ -111,7 +105,7 @@
         queryname = $('#name').val();
         queryNumber = $('#number').val();
 
-        window.location.href = '/api/admin/iframe/collectionManageList?' +
+        window.location.href = '/api/admin/iframe/documentLeaderSignList?' +
             'name=' + queryname +
             '&number=' + queryNumber
     }
@@ -122,10 +116,11 @@
     function page(pageNow) {
         queryname = $('#name').val();
         queryNumber = $('#number').val();
-        window.location.href = '/api/admin/iframe/collectionManageList?' +
+        window.location.href = '/api/admin/iframe/documentLeaderSignList?' +
             'name=' + queryname +
             '&number=' + queryNumber +
             '&pageNow=' + pageNow
     }
 </script>
+
 </html>

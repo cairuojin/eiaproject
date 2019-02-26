@@ -1,6 +1,7 @@
 package com.gjsyoung.eiaproject.service.assist;
 
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
 
 import java.util.List;
@@ -40,4 +41,11 @@ public interface ProjectInfoAssistService {
      * @return
      */
     public ProjectInfoStatus getStatus(Integer id);
+
+    /**
+     * 根据id获得文件类型存档要求
+     * @param id
+     * @return
+     */
+    List<ProjectInfoFileTypeDocument> getFileTypeDocumentsById(Integer id);
 }

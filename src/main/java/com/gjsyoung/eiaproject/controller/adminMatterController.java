@@ -2,12 +2,14 @@ package com.gjsyoung.eiaproject.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.gjsyoung.eiaproject.domain.*;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument;
 import com.gjsyoung.eiaproject.mapper.*;
 import com.gjsyoung.eiaproject.service.ProjectInfoService;
 import com.gjsyoung.eiaproject.service.ProjectOperationRecordService;
 import com.gjsyoung.eiaproject.service.RoleService;
 import com.gjsyoung.eiaproject.service.UserService;
 import com.gjsyoung.eiaproject.service.assist.AreasService;
+import com.gjsyoung.eiaproject.service.assist.ProjectInfoAssistService;
 import com.gjsyoung.eiaproject.utils.UploadUtil;
 import com.gjsyoung.eiaproject.vo.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,6 +122,15 @@ public class adminMatterController {
 
     @Autowired
     ApprovalReplyMapper approvalReplyMapper;
+
+    @Autowired
+    ProjectInfoAssistService projectInfoAssistService;
+
+    @Autowired
+    DocumentApplicationMapper documentApplicationMapper;
+
+    @Autowired
+    DocumentRepertoireMapper documentRepertoireMapper;
 
     /* 1、人员分配 */
 
@@ -811,6 +822,7 @@ public class adminMatterController {
         //插入收款计划表
         User fromSession = userService.getFromSession(session);
         collectionPlan.setCollectionuserid(fromSession.getId());
+        collectionPlan.setCollectionmoney(collectionPlan.getCollectionmoney() * 10000); // 乘1W
         collectionPlan.setCollectionbepaidmoney(collectionPlan.getCollectionmoney());   //待收金额=收款金额
         collectionPlan.setCreatetime(new Date());
         collectionPlanMapper.insert(collectionPlan);
@@ -1735,6 +1747,152 @@ public class adminMatterController {
             //插入操作记录表
             projectOperationRecordService.addRecord(session,projectInfo.getId(),29);
         }
+        return "OK";
+    }
+
+
+    /* 30、申请存档 */
+    /**
+     * 进入申请存档页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/documentApplicationInput")
+    public ModelAndView documentApplicationInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "documentApplicationInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        List<ProjectInfoFileTypeDocument> fileTypeDocuments = projectInfoAssistService.getFileTypeDocumentsById(projectInfo.getFiletype());
+        mav.addObject("fileTypeDocuments",fileTypeDocuments);
+        mav.addObject("projectInfo",projectInfo );
+        return mav;
+    }
+
+    /**
+     * 申请存档
+     * @param documentJson   存档申请对象数组
+     * @param documentRepertoire 存档资讯
+     * @param finalreportannexFile  最终版报告
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/documentApplication")
+    @ResponseBody
+    public String documentApplication(@RequestParam("documentApplications") String documentJson ,DocumentRepertoire documentRepertoire, MultipartFile finalreportannexFile, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(documentRepertoire.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 30)
+            throw BaseException.FAILED(400,"该项目状态有误");
+        //存档申请列表
+        DocumentApplication[] documentApplications = JSON.parseObject(documentJson, DocumentApplication[].class);
+        User fromSession = userService.getFromSession(session);
+        for(DocumentApplication documentApplication : documentApplications){
+            documentApplication.setCreatetime(new Date());
+            documentApplication.setCreateuserid(fromSession.getId());
+            documentApplicationMapper.insert(documentApplication);
+        }
+        //存档资讯表
+        documentRepertoire.setFinalreportannex(uploadUtil.upload(finalreportannexFile,"finalreportannex/"));
+        documentRepertoire.setApplicanttime(new Date());
+        documentRepertoire.setApplicantuserid(fromSession.getId());
+        documentRepertoireMapper.insert(documentRepertoire);
+
+        projectInfo.setStatus(31);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),30);
+        return "OK";
+    }
+
+    /* 31、申请存档 */
+    /**
+     * 进入申请存档页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/documentLeaderSignInput")
+    public ModelAndView documentLeaderSignInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "documentLeaderSignInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        List<DocumentApplication> documentApplications = documentApplicationMapper.selectByProjectid(projectInfoId);
+        DocumentRepertoire documentRepertoire = documentRepertoireMapper.selectByPrimaryKey(projectInfoId);
+        mav.addObject("documentApplications",documentApplications);
+        mav.addObject("documentRepertoire",documentRepertoire);
+        mav.addObject("projectInfo",projectInfo);
+        return mav;
+    }
+
+    /**
+     * 领导签名
+     * @param documentRepertoire
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/documentLeaderSign")
+    @ResponseBody
+    public String documentLeaderSign(DocumentRepertoire documentRepertoire, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(documentRepertoire.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 31)
+            throw BaseException.FAILED(400,"该项目状态有误");
+        if(documentRepertoireMapper.selectByPrimaryKey(documentRepertoire.getId()) == null)
+            throw BaseException.FAILED(404,"找不到该存档资讯表");
+
+        User fromSession = userService.getFromSession(session);
+        documentRepertoire.setLeaderuserid(fromSession.getId());
+        documentRepertoire.setLeadertime(new Date());
+        documentRepertoireMapper.updateByPrimaryKeySelective(documentRepertoire);
+
+        //更新项目状态
+        if(projectInfo.getName().contains("(退回)")){
+            projectInfo.setName(projectInfo.getName().replace("(退回)","" ));
+        }
+        projectInfo.setStatus(32);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),31);
+        return "OK";
+    }
+
+    /**
+     * 领导退回
+     * @param projectId
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/documentLeaderSignBack")
+    @ResponseBody
+    public String documentLeaderSignBack(Integer projectId, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 31)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //删除存档申请列表和存档资讯表
+        documentApplicationMapper.deleteByProjectid(projectId);
+        documentRepertoireMapper.deleteByPrimaryKey(projectId);
+
+        //退回申请存档
+        projectInfo.setName(projectInfo.getName() + "(退回)");
+        projectInfo.setStatus(30);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),31);
         return "OK";
     }
 

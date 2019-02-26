@@ -3,6 +3,7 @@ package com.gjsyoung.eiaproject;
 import com.gjsyoung.eiaproject.domain.ProjectInfo;
 import com.gjsyoung.eiaproject.mapper.ProjectInfoMapper;
 import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoStatusMapper;
+import com.gjsyoung.eiaproject.utils.RedisCache;
 import com.gjsyoung.eiaproject.vo.ProjectListVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,15 +18,12 @@ import java.util.List;
 public class EiaprojectApplicationTests {
 
     @Autowired
-    ProjectInfoMapper projectInfoMapper;
+    RedisCache redisCache;
 
 
     @Test
     public void contextLoads() {
-        ProjectListVo projectListVo = new ProjectListVo();
-        projectListVo.setSubordinateDepartmentId(1);
-        List<ProjectInfo> projectInfos = projectInfoMapper.selectAndQuery(projectListVo);
-        System.out.print("");
+        redisCache.clear();
     }
 
 }

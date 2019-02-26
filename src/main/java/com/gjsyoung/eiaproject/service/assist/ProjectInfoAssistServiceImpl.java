@@ -1,8 +1,10 @@
 package com.gjsyoung.eiaproject.service.assist;
 
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileType;
+import com.gjsyoung.eiaproject.domain.assist.ProjectInfoFileTypeDocument;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoScope;
 import com.gjsyoung.eiaproject.domain.assist.ProjectInfoStatus;
+import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoFileTypeDocumentMapper;
 import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoFileTypeMapper;
 import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoScopeMapper;
 import com.gjsyoung.eiaproject.mapper.assist.ProjectInfoStatusMapper;
@@ -16,9 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static com.gjsyoung.eiaproject.vo.CacheKey.projectInfoFileType;
-import static com.gjsyoung.eiaproject.vo.CacheKey.projectInfoScope;
-import static com.gjsyoung.eiaproject.vo.CacheKey.projectInfoStatus;
+import static com.gjsyoung.eiaproject.vo.CacheKey.*;
 
 /**
  * create by cairuojin on 2019/02/01
@@ -37,6 +37,9 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
 
     @Autowired
     ProjectInfoStatusMapper projectInfoStatusMapper;
+
+    @Autowired
+    ProjectInfoFileTypeDocumentMapper projectInfoFileTypeDocumentMapper;
 
     /**
      * 延迟加载项目文件类型
@@ -137,5 +140,23 @@ public class ProjectInfoAssistServiceImpl implements ProjectInfoAssistService {
             }
         }
         return null;
+    }
+
+
+    /**
+     * 从缓存中根据文件类型id获得存档要求
+     * @param id
+     * @return
+     */
+    @Override
+    public List<ProjectInfoFileTypeDocument> getFileTypeDocumentsById(Integer id) {
+        Object ProjectInfoFileTypeDocument = redisCache.getObject(fileTypeDocument + id);
+        if(ProjectInfoFileTypeDocument != null)
+            return (List<ProjectInfoFileTypeDocument>) ProjectInfoFileTypeDocument;
+        else{
+            List<ProjectInfoFileTypeDocument> projectInfoFileTypeDocuments = projectInfoFileTypeDocumentMapper.selectByFileTypeId(id);
+            redisCache.putObject(fileTypeDocument + id, projectInfoFileTypeDocuments);
+            return projectInfoFileTypeDocuments;
+        }
     }
 }
