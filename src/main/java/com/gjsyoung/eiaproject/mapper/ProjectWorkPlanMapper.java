@@ -23,5 +23,7 @@ public interface ProjectWorkPlanMapper {
 
     List<ProjectWorkPlan> selectAllByStatus(Integer status);
 
+    List<ProjectWorkPlan> selectAllByProjectId(Integer projectid);
+
     int countBeImplementByProjectid(Integer projectid);
 }

@@ -23,6 +23,25 @@
     implementsRemarks, projectworkplan.updateTime
   </sql>
 
+  <sql id="implementsplanuser">
+    implementsplanuser.id as 'implementsplanuser.id',
+    implementsplanuser.username as 'implementsplanuser.username',
+    implementsplanuser.password as 'implementsplanuser.password',
+    implementsplanuser.name as 'implementsplanuser.name',
+    implementsplanuser.sex as 'implementsplanuser.sex',
+    implementsplanuser.department as 'implementsplanuser.department',
+    implementsplanuser.role as 'implementsplanuser.role',
+    implementsplanuser.hiredate as 'implementsplanuser.hiredate',
+    implementsplanuser.contactway as 'implementsplanuser.contactway',
+    implementsplanuser.weChat as 'implementsplanuser.weChat',
+    implementsplanuser.email as 'implementsplanuser.email',
+    implementsplanuser.officelocation as 'implementsplanuser.officelocation',
+    implementsplanuser.imgUrl as 'implementsplanuser.imgUrl',
+    implementsplanuser.status as 'implementsplanuser.status',
+    implementsplanuser.createTime as 'implementsplanuser.createTime',
+    implementsplanuser.updateTime as 'implementsplanuser.updateTime'
+  </sql>
+
   <sql id="projectInfo">
     projectinfo.id AS 'projectinfo.id',
     projectinfo.number AS 'projectinfo.number',
@@ -239,5 +258,19 @@
 
   <select id="countBeImplementByProjectid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     select count(id) from projectworkplan where projectId = #{projectid,jdbcType=INTEGER} and status = 0
+  </select>
+
+  <select id="selectAllByProjectId" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.ProjectWorkPlan">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="projectInfo" />
+    ,
+    <include refid="implementsplanuser"/>
+    from projectworkplan
+    LEFT JOIN projectInfo ON projectworkplan.projectId = projectInfo.id
+    LEFT JOIN user implementsplanuser on projectworkplan.implementsPlanUserId = implementsplanuser.id
+    where projectworkplan.projectId = #{projectid,jdbcType=INTEGER}
+    ORDER BY workPlanTime
   </select>
 </mapper>

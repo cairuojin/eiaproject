@@ -27,6 +27,17 @@ public class ApprovalAgreelQualifications {
     @Transient
     private User user;
 
+    @Transient
+    private Integer isQualifications = 0;   //是否出资质  0未出 1已出
+
+    public Integer getIsQualifications() {
+        return isQualifications;
+    }
+
+    public void setIsQualifications(Integer isQualifications) {
+        this.isQualifications = isQualifications;
+    }
+
     public Integer getStatus() {
         return status;
     }

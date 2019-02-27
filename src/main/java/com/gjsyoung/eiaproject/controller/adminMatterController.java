@@ -1972,7 +1972,7 @@ public class adminMatterController {
         User fromSession = userService.getFromSession(session);
         documentRepertoire.setDocumentuserid(fromSession.getId());
         documentRepertoire.setDocumenttime(new Date());
-        //documentRepertoireMapper.updateByPrimaryKeySelective(documentRepertoire);
+        documentRepertoireMapper.updateByPrimaryKeySelective(documentRepertoire);
 
         //更新项目状态
         projectInfo.setStatus(33);

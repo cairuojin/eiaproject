@@ -41,6 +41,17 @@ public class DocumentRepertoire {
     @Transient
     private User leaderuser;
 
+    @Transient
+    private User documentuser;
+
+    public User getDocumentuser() {
+        return documentuser;
+    }
+
+    public void setDocumentuser(User documentuser) {
+        this.documentuser = documentuser;
+    }
+
     public User getLeaderuser() {
         return leaderuser;
     }
