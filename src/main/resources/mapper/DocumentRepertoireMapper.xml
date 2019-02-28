@@ -25,7 +25,7 @@
     fileLocation, archivistOpinion
   </sql>
 
-  <sql id="user">
+  <sql id="applicantuser">
     applicantuser.id as 'applicantuser.id',
     applicantuser.username as 'applicantuser.username',
     applicantuser.password as 'applicantuser.password',
@@ -43,17 +43,56 @@
     applicantuser.createTime as 'applicantuser.createTime',
     applicantuser.updateTime as 'applicantuser.updateTime'
   </sql>
-
+  <sql id="documentuser">
+    documentuser.id as 'documentuser.id',
+    documentuser.username as 'documentuser.username',
+    documentuser.password as 'documentuser.password',
+    documentuser.name as 'documentuser.name',
+    documentuser.sex as 'documentuser.sex',
+    documentuser.department as 'documentuser.department',
+    documentuser.role as 'documentuser.role',
+    documentuser.hiredate as 'documentuser.hiredate',
+    documentuser.contactway as 'documentuser.contactway',
+    documentuser.weChat as 'documentuser.weChat',
+    documentuser.email as 'documentuser.email',
+    documentuser.officelocation as 'documentuser.officelocation',
+    documentuser.imgUrl as 'documentuser.imgUrl',
+    documentuser.status as 'documentuser.status',
+    documentuser.createTime as 'documentuser.createTime',
+    documentuser.updateTime as 'documentuser.updateTime'
+  </sql>
+  <sql id="leaderuser">
+    leaderuser.id as 'leaderuser.id',
+    leaderuser.username as 'leaderuser.username',
+    leaderuser.password as 'leaderuser.password',
+    leaderuser.name as 'leaderuser.name',
+    leaderuser.sex as 'leaderuser.sex',
+    leaderuser.department as 'leaderuser.department',
+    leaderuser.role as 'leaderuser.role',
+    leaderuser.hiredate as 'leaderuser.hiredate',
+    leaderuser.contactway as 'leaderuser.contactway',
+    leaderuser.weChat as 'leaderuser.weChat',
+    leaderuser.email as 'leaderuser.email',
+    leaderuser.officelocation as 'leaderuser.officelocation',
+    leaderuser.imgUrl as 'leaderuser.imgUrl',
+    leaderuser.status as 'leaderuser.status',
+    leaderuser.createTime as 'leaderuser.createTime',
+    leaderuser.updateTime as 'leaderuser.updateTime'
+  </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.gjsyoung.eiaproject.domain.DocumentRepertoire">
     select 
     <include refid="Base_Column_List" />
     ,
-    <include refid="user"/>
+    <include refid="applicantuser"/>
+    ,
+    <include refid="leaderuser"/>
+    ,
+    <include refid="documentuser"/>
     from documentrepertoire
-    LEFT JOIN
-    user applicantuser
-    ON documentrepertoire.applicantUserId = applicantuser.id
+    LEFT JOIN user applicantuser ON documentrepertoire.applicantUserId = applicantuser.id
+    LEFT JOIN user leaderuser on documentrepertoire.leaderUserId = leaderuser.id
+    LEFT JOIN user documentuser on documentrepertoire.documentUserId = documentuser.id
     where documentrepertoire.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

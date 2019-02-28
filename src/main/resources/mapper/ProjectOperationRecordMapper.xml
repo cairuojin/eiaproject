@@ -9,7 +9,25 @@
     <result column="projectInfoStatus" property="projectinfostatus" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, time, userId, projectInfoId, projectInfoStatus
+    projectoperationrecord.id, projectoperationrecord.time, projectoperationrecord.userId, projectoperationrecord.projectInfoId, projectoperationrecord.projectInfoStatus
+  </sql>
+  <sql id="user">
+    user.id as 'user.id',
+    user.username as 'user.username',
+    user.password as 'user.password',
+    user.name as 'user.name',
+    user.sex as 'user.sex',
+    user.department as 'user.department',
+    user.role as 'user.role',
+    user.hiredate as 'user.hiredate',
+    user.contactway as 'user.contactway',
+    user.weChat as 'user.weChat',
+    user.email as 'user.email',
+    user.officelocation as 'user.officelocation',
+    user.imgUrl as 'user.imgUrl',
+    user.status as 'user.status',
+    user.createTime as 'user.createTime',
+    user.updateTime as 'user.updateTime'
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -90,4 +108,14 @@
       projectInfoStatus = #{projectinfostatus,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="user"/>
+    from projectoperationrecord
+    LEFT JOIN user on projectoperationrecord.userId = user.id
+    where projectInfoId = #{projectId,jdbcType=INTEGER}
+  </select>
 </mapper>

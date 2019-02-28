@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -1896,4 +1897,120 @@ public class adminMatterController {
         return "OK";
     }
 
+
+
+    /* 32、存档 */
+    /**
+     * 进入存档页面
+     * @param projectInfoId
+     * @return
+     */
+    @RequestMapping("/documentEnterInput")
+    public ModelAndView documentEnterInput(Integer projectInfoId) throws BaseException {
+        ModelAndView mav = new ModelAndView(MATTER + "documentEnterInput");
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectInfoId); //搜索该项目
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        List<DocumentApplication> documentApplications = documentApplicationMapper.selectByProjectid(projectInfoId);
+        DocumentRepertoire documentRepertoire = documentRepertoireMapper.selectByPrimaryKey(projectInfoId);
+
+        //退回历史
+        List<ProjectOperationRecord> recordByProjectId = projectOperationRecordService.getRecordByProjectId(projectInfoId);
+        List<ProjectOperationRecord> backRecords = new ArrayList<>();
+        for(ProjectOperationRecord projectOperationRecord : recordByProjectId){
+            if(projectOperationRecord.getProjectinfostatus() == 31 || projectOperationRecord.getProjectinfostatus() == 32){
+                backRecords.add(projectOperationRecord);
+            }
+        }
+
+        int back1 = 0;
+        int back2 = 0;
+        List<ProjectOperationRecord> records = new ArrayList<>();
+        for(ProjectOperationRecord projectOperationRecord : backRecords){
+            if(projectOperationRecord.getProjectinfostatus() == 31 && back1 != 0){
+                records.add(projectOperationRecord);
+            }
+            else if(projectOperationRecord.getProjectinfostatus() == 32 && back2 != 0){
+                records.add(projectOperationRecord);
+            } else {
+                if(projectOperationRecord.getProjectinfostatus() == 31)
+                    back1 = 1;
+                else
+                    back2 = 1;
+            }
+        }
+
+
+
+        mav.addObject("documentApplications",documentApplications);
+        mav.addObject("documentRepertoire",documentRepertoire);
+        mav.addObject("projectInfo",projectInfo);
+        mav.addObject("records", records);
+        return mav;
+    }
+
+
+    /**
+     * 存档
+     * @param documentRepertoire
+     * @param session
+     * @return
+     * @throws BaseException
+     * @throws IOException
+     */
+    @RequestMapping("/documentEnter")
+    @ResponseBody
+    public String documentEnter(DocumentRepertoire documentRepertoire, HttpSession session) throws BaseException, IOException {
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(documentRepertoire.getId());
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 32)
+            throw BaseException.FAILED(400,"该项目状态有误");
+        if(documentRepertoireMapper.selectByPrimaryKey(documentRepertoire.getId()) == null)
+            throw BaseException.FAILED(404,"找不到该存档资讯表");
+
+        User fromSession = userService.getFromSession(session);
+        documentRepertoire.setDocumentuserid(fromSession.getId());
+        documentRepertoire.setDocumenttime(new Date());
+        documentRepertoireMapper.updateByPrimaryKeySelective(documentRepertoire);
+
+        //更新项目状态
+        projectInfo.setStatus(33);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),32);
+        return "OK";
+    }
+
+    /**
+     * 退回
+     * @param projectId
+     * @param session
+     * @return
+     * @throws BaseException
+     */
+    @RequestMapping("/documentEnterBack")
+    @ResponseBody
+    public String documentEnterBack(Integer projectId, HttpSession session) throws BaseException{
+        ProjectInfo projectInfo = projectInfoMapper.selectByPrimaryKey(projectId);
+        if (projectInfo == null)
+            throw BaseException.FAILED(404,"找不到该项目");
+        if(projectInfo.getStatus() != 32)
+            throw BaseException.FAILED(400,"该项目状态有误");
+
+        //删除存档申请列表和存档资讯表
+        documentApplicationMapper.deleteByProjectid(projectId);
+        documentRepertoireMapper.deleteByPrimaryKey(projectId);
+
+        //退回申请存档
+        projectInfo.setName(projectInfo.getName() + "(退回)");
+        projectInfo.setStatus(30);
+        projectInfo.setUpdatetime(new Date());
+        projectInfoMapper.updateByPrimaryKeySelective(projectInfo);
+
+        //插入操作记录表
+        projectOperationRecordService.addRecord(session,projectInfo.getId(),32);
+        return "OK";
+    }
 }

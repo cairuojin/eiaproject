@@ -34,7 +34,18 @@ public class ProjectWorkPlan {
     private Date updatetime;
 
     @Transient
-    ProjectInfo projectinfo;
+    private ProjectInfo projectinfo;
+
+    @Transient
+    private User implementsplanuser;
+
+    public User getImplementsplanuser() {
+        return implementsplanuser;
+    }
+
+    public void setImplementsplanuser(User implementsplanuser) {
+        this.implementsplanuser = implementsplanuser;
+    }
 
     public ProjectInfo getProjectinfo() {
         return projectinfo;

@@ -1,5 +1,7 @@
 package com.gjsyoung.eiaproject.domain;
 
+import org.springframework.data.annotation.Transient;
+
 import java.util.Date;
 
 public class DocumentRepertoire {
@@ -33,7 +35,30 @@ public class DocumentRepertoire {
 
     private String archivistopinion;
 
+    @Transient
     private User applicantuser;
+
+    @Transient
+    private User leaderuser;
+
+    @Transient
+    private User documentuser;
+
+    public User getDocumentuser() {
+        return documentuser;
+    }
+
+    public void setDocumentuser(User documentuser) {
+        this.documentuser = documentuser;
+    }
+
+    public User getLeaderuser() {
+        return leaderuser;
+    }
+
+    public void setLeaderuser(User leaderuser) {
+        this.leaderuser = leaderuser;
+    }
 
     public User getApplicantuser() {
         return applicantuser;

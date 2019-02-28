@@ -5,34 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <title>项目列表</title>
-
-    <script src="/js/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".span_search").bind("click", function () {
-                $(".k").slideToggle();
-                var con = $(".span_search").html();
-                if (con.toString() == "+高级搜索")
-                    $(".span_search").html("-高级搜索");
-                else
-                    $(".span_search").html("+高级搜索");
-            });
-        });
-    </script>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/maincss.css">
     <link rel="stylesheet" href="/css/ie.css">
     <link rel="stylesheet" href="/css/ie6.css">
     <link href="/css/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/js/jquery-ui/jquery.ui.core.min.js"></script>
-    <script src="/js/jquery-ui/jquery.ui.widget.min.js"></script>
-    <script src="/js/jquery-ui/jquery.ui.datepicker.min.js" type="text/javascript"></script>
-    <script src="/js/jquery-ui/jquery.ui.accordion.min.js"></script>
-    <script src="/js/jquery-ui/jquery.ui.progressbar.min.js" type="text/javascript"></script>
 
-    <script src="/js/setup.js"></script>
-    <script src="/js/tiny-mce/jquery.tinymce.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -42,7 +21,6 @@
         <thead>
         <tr>
             <th class="sorting searchbar" style="width: 100%;"> 搜索</th>
-
         </tr>
         </thead>
         <tbody>
@@ -60,14 +38,14 @@
         </tr>
 
         <tr class="gradeX odd1 k">
-            <td><label class="labelsize">
-                文件类型</label> <select id="filetype" name="filetype">
-                <option value="-1">==== 全部 ====</option>
-                <c:forEach items="${projectInfoFileTypes}" var="fileType">
-                    <option value="${fileType.id}" shortname="${fileType.shortname}">${fileType.name}</option>
-                </c:forEach>
-
-            </select>
+            <td>
+                <label class="labelsize">文件类型</label>
+                <select id="filetype" name="filetype">
+                    <option value="-1">==== 全部 ====</option>
+                    <c:forEach items="${projectInfoFileTypes}" var="fileType">
+                        <option value="${fileType.id}" shortname="${fileType.shortname}">${fileType.name}</option>
+                    </c:forEach>
+                </select>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize">
                     项目状态</label>
@@ -76,29 +54,16 @@
                     <c:forEach items="${projectInfoStatuses}" var="status">
                         <option value="${status.id}">${status.name}</option>
                     </c:forEach>
-
                 </select>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize">
-                    角色姓名</label> <select id="roleType" name="roleType">    <!-- todo -->
+                    角色姓名</label> <select id="roleType" name="roleType" onchange="roleTypeChange()">    <!-- todo -->
                     <option value="0">全部</option>
                     <option value="1">组织人</option>
                     <option value="2">承接人</option>
                     <option value="3">主持人</option>
                 </select>
                 <input type="text" class="nputname" id="roleName" disabled="disabled">
-                <script>
-                    $(document).ready(function () {
-                        $("#roleType").bind("change", function () {
-                            if ($("#roleType option:selected").index() == 0)
-
-                                $("#roleName").attr("disabled", "disabled");
-
-                            else
-                                $("#roleName").removeAttr("disabled");
-                        })
-                    });
-                </script>
                 &nbsp;&nbsp;&nbsp;
                 <label class="labelsize">
                     所属部门</label> <select id="subordinateDepartmentId" name="subordinateDepartmentId">
@@ -156,11 +121,11 @@
         </tr>
         <tr class=" gradeX odd2">
             <td style="text-align: right;">
-                <input type="submit" class="btn btn-primary" value="查询">&nbsp;&nbsp;&nbsp;
+                <input type="button" onclick="queryProjects()" class="btn btn-primary" value="查询" >&nbsp;&nbsp;&nbsp;
                 <a href="/api/admin/iframe/projectInfo_add" class="btn btn-primary"
                    style="margin-top:2px; height: 30px; line-height: 30px; ">新建项目</a>
                 &nbsp;
-                <input type="submit" class="btn btn-primary" value="导出excel">&nbsp;&nbsp;&nbsp;
+                <input type="button" onclick="exportExcel()" class="btn btn-primary" value="导出excel">&nbsp;&nbsp;&nbsp;
                 </input>
             </td>
         </tr>
@@ -224,6 +189,55 @@
 </div>
 </body>
 
+<script src="/js/jquery.min.js"></script>
+<!-- 数据回显与赋值 -->
+<script type="text/javascript">
+    var pageNow = "${projectListVo.pageNow}";
+    $(function () {
+        $('#name').val("${projectListVo.name}");
+        $('#number').val("${projectListVo.number}");
+    });
+</script>
+
+<!-- 点击查询按钮 -->
+<script type="text/javascript">
+    function queryProjects() {
+        queryname = $('#name').val();
+        queryNumber = $('#number').val();
+        alert('高级搜索暂时还在开发中，当前只能根据项目名称和项目编号搜索');
+        window.location.href = '/api/admin/iframe/projectInfo?' +
+            'name=' + queryname +
+            '&number=' + queryNumber
+    }
+</script>
+
+<!-- 分页 -->
+<script type="text/javascript">
+    function page(pageNow) {
+        queryname = $('#name').val();
+        queryNumber = $('#number').val();
+        window.location.href = '/api/admin/iframe/projectInfo?' +
+            'name=' + queryname +
+            '&number=' + queryNumber +
+            '&pageNow=' + pageNow
+    }
+</script>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".span_search").bind("click", function () {
+            $(".k").slideToggle();
+            var con = $(".span_search").html();
+            if (con.toString() == "+高级搜索")
+                $(".span_search").html("-高级搜索");
+            else
+                $(".span_search").html("+高级搜索");
+        });
+    });
+</script>
 <!-- 省份change修改 -->
 <script type="text/javascript">
     $('#province').change(function () {
@@ -279,6 +293,21 @@
             '&roleId=' + roleId +
             '&orderString=' + orderString +
             '&pageNow=' + pageNow       //修改排序字段
+    }
+</script>
+
+
+<script>
+
+    function roleTypeChange() {
+            if ($("#roleType option:selected").index() == 0)
+                $("#roleName").attr("disabled", "disabled");
+            else
+                $("#roleName").removeAttr("disabled");
+    }
+
+    function exportExcel() {
+        alert('仍在开发中');
     }
 </script>
 </html>

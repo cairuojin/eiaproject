@@ -20,4 +20,6 @@ public interface CacheKey {
     String departments = "departments";                 //获得部门s
 
     String fileTypeDocument = "fileTypeDocument_";      //+fileTypeId 获得存档要求
+
+    String projectRecord = "projectRecord_";    //项目记录
 }

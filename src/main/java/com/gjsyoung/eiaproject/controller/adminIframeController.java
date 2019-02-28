@@ -88,6 +88,9 @@ public class adminIframeController {
     @Autowired
     ProjectInfoFileTypeDocumentMapper projectInfoFileTypeDocumentMapper;
 
+    @Autowired
+    DocumentRepertoireMapper documentRepertoireMapper;
+
     /* 1、待办事项 */
 
     //项目列表
@@ -127,7 +130,8 @@ public class adminIframeController {
                     "/approvalReplyList",
                     "/projectQualificationsList",
                     "/documentApplicationList",
-                    "/documentLeaderSignList"
+                    "/documentLeaderSignList",
+                    "/documentEnterList"
                 }
             )
     public ModelAndView projectList(ProjectListVo projectListVo, HttpSession session, HttpServletRequest request) throws BaseException {
@@ -202,6 +206,7 @@ public class adminIframeController {
             case "projectQualificationsList":projectListVo.setStatus(29);break;
             case "documentApplicationList":projectListVo.setStatus(30);break;
             case "documentLeaderSignList":projectListVo.setStatus(31);break;
+            case "documentEnterList":projectListVo.setStatus(32);break;
         }
         projectListVo = projectInfoService.selectAndQuery(projectListVo);   //搜索项目列表
 
@@ -270,6 +275,7 @@ public class adminIframeController {
 
 
     /* 2、项目管理 */
+
 
     /**
      * 项目列表
@@ -359,6 +365,77 @@ public class adminIframeController {
         return mav;
     }
 
+
+
+    /**
+     * 工作进度列表
+     * @return
+     */
+    @RequestMapping("/processOfWorkList")
+    public ModelAndView processOfWorkList(ProjectListVo projectListVo, HttpSession session) throws BaseException {
+        ModelAndView mav = new ModelAndView(PROJECT + "processOfWorkList");
+
+        //非管理员只加载自己部门项目
+        User fromSession = userService.getFromSession(session);
+        if (fromSession.getRole() != 0)          //非管理员只能看见他自己的部门
+            projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);
+
+        //查询已录入工作进度的
+        List<ProjectInfo> projectInfos = new ArrayList<>();
+        for(ProjectInfo projectInfo : projectListVo.getProjectInfos()){
+            if(projectInfo.getStatus() >= 14){
+                projectInfos.add(projectInfo);
+            }
+        }
+        projectListVo.setProjectInfos(projectInfos);
+        mav.addObject("projectListVo",projectListVo);
+        return mav;
+    }
+
+
+    /**
+     * 资质补办列表
+     * @return
+     */
+    @RequestMapping("/qualificationsReissueList")
+    public ModelAndView qualificationsReissueList(ProjectListVo projectListVo, HttpSession session) throws BaseException {
+        ModelAndView mav = new ModelAndView(PROJECT + "qualificationsReissueList");
+
+        //非管理员只加载自己部门项目
+        User fromSession = userService.getFromSession(session);
+        if (fromSession.getRole() != 0)          //非管理员只能看见他自己的部门
+            projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
+        projectListVo.setStatus(33);    //必须是已存档的项目
+
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);
+        mav.addObject("projectListVo",projectListVo);
+        return mav;
+    }
+
+
+    /**
+     * 档案查询列表
+     * @return
+     */
+    @RequestMapping("/documentQueryList")
+    public ModelAndView documentQueryList(ProjectListVo projectListVo, HttpSession session) throws BaseException {
+        ModelAndView mav = new ModelAndView(PROJECT + "documentQueryList");
+
+        //非管理员只加载自己部门项目
+        User fromSession = userService.getFromSession(session);
+        if (fromSession.getRole() != 0)          //非管理员只能看见他自己的部门
+            projectListVo.setSubordinateDepartmentId(fromSession.getDepartment());
+        projectListVo.setStatus(33);    //必须是已存档的项目
+
+        projectListVo = projectInfoService.selectAndQuery(projectListVo);
+        for (ProjectInfo projectInfo : projectListVo.getProjectInfos()){
+            DocumentRepertoire documentRepertoire = documentRepertoireMapper.selectByPrimaryKey(projectInfo.getId());
+            projectInfo.getSubObject().put("documentRepertoire",documentRepertoire);
+        }
+        mav.addObject("projectListVo",projectListVo);
+        return mav;
+    }
 
     /* 3、系统管理 */
 
