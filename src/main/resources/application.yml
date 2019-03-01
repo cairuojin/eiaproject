@@ -16,8 +16,8 @@ logging:
 
 
 spring:
-    profiles:
-       active: dev
+#    profiles:
+#       active: dev
 
     datasource:     # 数据库地址
         url: jdbc:mysql://111.230.196.33:3306/eiaproject?useSSL=false
