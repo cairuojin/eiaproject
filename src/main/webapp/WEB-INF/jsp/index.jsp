@@ -62,8 +62,8 @@
                     <div class="carousel-inner">
                         <div class="item active">
                             <div class="intro-caption">
-                                <div class="subtitle">we are creative agency</div>
-                                <h1>Grow your business with us</h1>
+                                <div class="subtitle" style="font-size: 35px;">环评单位管理问题一站式解决</div>
+                                <h1>提升人工管理效率</h1>
                                 <div class="btn-container wow fadeInUp">
                                     <a href="#section-contact" class="btn btn-white ">登录</a>
                                     <a href="#" class="btn btn-black">联系我们</a>
@@ -72,8 +72,8 @@
                         </div>
                         <div class="item">
                             <div class="intro-caption">
-                                <div class="subtitle">we are committed</div>
-                                <h1>User friendly UI/UX </h1>
+                                <div class="subtitle" style="font-size: 35px;">环评单位管理问题一站式解决</div>
+                                <h1>规范环评项目存档</h1>
                                 <div class="btn-container wow fadeInUp">
                                     <a href="#section-contact" class="btn btn-white ">登录</a>
                                     <a href="#" class="btn btn-black">联系我们</a>
@@ -82,8 +82,8 @@
                         </div>
                         <div class="item">
                             <div class="intro-caption">
-                                <div class="subtitle">punctual and supportive</div>
-                                <h1>24/7 hours premium support</h1>
+                                <div class="subtitle" style="font-size: 35px;">环评单位管理问题一站式解决</div>
+                                <h1>及时掌握经营状况</h1>
                                 <div class="btn-container wow fadeInUp">
                                     <a href="#section-contact" class="btn btn-white ">登录</a>
                                     <a href="#" class="btn btn-black">联系我们</a>
@@ -108,9 +108,8 @@
                             <div class="feature-box">
                                 <div class="feature-icon"><i class="icon icon-mobile"></i></div>
                                 <div class="feature-inner">
-                                    <h4>mobile responsive</h4>
-                                    <p>Laborum aperiam doloremque sit amet molestiae in quaerat provident optio
-                                        impedit.</p>
+                                    <h4>针对环评更专业</h4>
+                                    <p>33个流程节点逻辑结构清晰明了有序，由环评编制中的逻辑关系串接，环环相扣。</p>
                                 </div>
                             </div>
                         </li>
@@ -118,9 +117,8 @@
                             <div class="feature-box">
                                 <div class="feature-icon"><i class="icon icon-wallet"></i></div>
                                 <div class="feature-inner">
-                                    <h4>pixel perfect</h4>
-                                    <p>Laborum aperiam doloremque sit amet molestiae in quaerat provident optio
-                                        impedit.</p>
+                                    <h4>员工角色权限可设定</h4>
+                                    <p>对公司来说，数据安全是第一位。不同的角色分配不同的权限，确定了每个人可处理、查询的事情等，使信息更加保密，从根本上杜绝信息外漏的问题。</p>
                                 </div>
                             </div>
                         </li>
@@ -128,9 +126,8 @@
                             <div class="feature-box">
                                 <div class="feature-icon"><i class="icon icon-flag"></i></div>
                                 <div class="feature-inner">
-                                    <h4>easy interface</h4>
-                                    <p>Laborum aperiam doloremque sit amet molestiae in quaerat provident optio
-                                        impedit.</p>
+                                    <h4>地图显示更直观</h4>
+                                    <p>在系统中，可通过地图查看项目的地理位置，或者通过纬度经度等来查看项目在地图上哪个位置创办。</p>
                                 </div>
                             </div>
                         </li>
@@ -138,9 +135,8 @@
                             <div class="feature-box">
                                 <div class="feature-icon"><i class="icon icon-shield"></i></div>
                                 <div class="feature-inner">
-                                    <h4>Developer friendly</h4>
-                                    <p>Laborum aperiam doloremque sit amet molestiae in quaerat provident optio
-                                        impedit.</p>
+                                    <h4>分类存储更安全</h4>
+                                    <p>系统采用数据分类存储策略，用户的全部数据存储在本部门中，其他部门无法查询到，不易被窃取。</p>
                                 </div>
                             </div>
                         </li>
@@ -160,56 +156,44 @@
 <section id="section-services" class="section-padding">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <div class="section-heading">
-                    <p>professionalism with commitment</p>
-                    <h2>what we do actually</h2>
-                </div>
-            </div>
-        </div>
-        <!--  row end -->
-        <div class="row">
             <div class="col-md-4 col-sm-6">
                 <div class="service-box active"><i class="icon icon-anchor"></i>
-                    <h4>Branding</h4>
-                    <p>Doloremque deserunt maxime non. Labore inventore tenetur laboriosam alias nesciunt eaque sit
-                        libero, placeat nisi minus.</p>
-                    <div class="line"></div>
+                    <h4>环评质量控制功能</h4>
+                    <p style="text-align:left; text-indent: 2em;">该功能通过对环评编制过程中各个环节进行控制，进而保证环评报告质量，是系统的主要功能。</p>
+                    <p style="text-align:left; text-indent: 2em;">    环评编制主要环节包括项目风险判定、项目承接、主持人确定、项目组成员确定、现场调查、监 测方案确定、报告编制、审核、修改、资质管理、报告印刷、审查会、专家意见、报批、存档等。 系统对各环节操作进行记录，做到痕迹化管理，所有事项可追溯。</p>
+
                 </div>
                 <div class="service-box active"><i class="icon icon-mic"></i>
-                    <h4>Marketing</h4>
-                    <p>Doloremque deserunt maxime non. Labore inventore tenetur laboriosam alias nesciunt eaque sit
-                        libero, placeat nisi minus.</p>
+                    <h4>主动申请审批</h4>
+                    <p> 可主动申请上级领导审核批准项目，省去不必要的麻烦。</p>
                     <div class="line"></div>
                 </div>
 
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="service-box"><i class="icon icon-layers"></i>
-                    <h4>Web Design</h4>
-                    <p>Doloremque deserunt maxime non. Labore inventore tenetur laboriosam alias nesciunt eaque sit
-                        libero, placeat nisi minus.</p>
-                    <div class="line"></div>
+                    <h4 >多条件项目查询功能</h4>
+                    <p style="text-align:left; text-indent: 2em;">用户可以根据需要设定查询条件，从而得到满足要求的查询结果。</p>
+                    <p style="text-align:left; text-indent: 2em;">   系统提供的查询条件包括项目名称、文件类型、评价类别、审批级别、合同状态、项目状态、资质状态、批文状态、存档状态、存放位置、所属部门、项目地域、承接时间、批复时间等。</p>
+                    <p style=" text-align:left;text-indent: 2em;"> 可以进行各种组合进行查询，可以将查询结果以EXCEL格式导出。</p>
                 </div>
                 <div class="service-box"><i class="icon icon-chat"></i>
-                    <h4>App Design</h4>
-                    <p>Doloremque deserunt maxime non. Labore inventore tenetur laboriosam alias nesciunt eaque sit
-                        libero, placeat nisi minus.</p>
+                    <h4>添加反馈功能</h4>
+                    <p>可为项目提供反馈，及时通知项目所属部门进行修改、复审。</p>
                     <div class="line"></div>
                 </div>
 
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="service-box"><i class="icon icon-laptop"></i>
-                    <h4>web Development</h4>
-                    <p>Doloremque deserunt maxime non. Labore inventore tenetur laboriosam alias nesciunt eaque sit
-                        libero, placeat nisi minus.</p>
-                    <div class="line"></div>
+                    <h4>多维度信息统计功能</h4>
+                    <p style="text-align:left; text-indent: 2em;">系统提供了多种条件组合对项目数量及合同款进行统计，包括区域、完成部门、时段、文件类型、主持人、定审人等，以满足不同需求。</p>
+                    <p style=" text-align:left;text-indent: 2em;"> 统计时对项目进行分类，可以根据不同的身份或资格，对项目进行分配管理。提供多种数据筛选分类模式，完成对各个地区或者对各个用户的绩效评估。</p>
+                    <p style=" text-align:left;text-indent: 2em;"> 全部信息经过其安全化管理，保障您的项目安全。</p>
                 </div>
                 <div class="service-box"><i class="icon icon-mobile"></i>
-                    <h4>App Development</h4>
-                    <p>Doloremque deserunt maxime non. Labore inventore tenetur laboriosam alias nesciunt eaque sit
-                        libero, placeat nisi minus.</p>
+                    <h4>手机云端工作</h4>
+                    <p>允许用户通过手机检测项目状态，随时随地进行云端工作，远程提交自己的意见。</p>
                     <div class="line"></div>
                 </div>
             </div>
@@ -226,138 +210,25 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="section-heading">
-                    <p>our great experiencce</p>
-                    <h2>works showcase</h2>
+                    <h1>EIA环评管理系统</h1>
+                    <h2>工作流程</h2>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-3">
-                <div class="item-box single-portfolio">
-                    <figure>
-                        <a href="#" data-toggle="modal" data-target="#portfolio1">
-                            <div class="img-box"><img src="images/portfolio/portfolio1.jpg" alt=""/>
-                                <div class="img-overlay"></div>
-                            </div>
-                        </a>
-                    </figure>
-                </div>
-                <div class="item-box single-portfolio">
-                    <figure>
-                        <a href="#" data-toggle="modal" data-target="#portfolio1">
-                            <div class="img-box"><img src="images/portfolio/portfolio5.jpg" alt=""/>
-                                <div class="img-overlay"></div>
-                            </div>
-                        </a>
-                    </figure>
-                </div>
-                <div class="item-box single-portfolio">
-                    <figure>
-                        <a href="#" data-toggle="modal" data-target="#portfolio1">
-                            <div class="img-box"><img src="images/portfolio/portfolio3.jpg" alt=""/>
-                                <div class="img-overlay"></div>
-                            </div>
-                        </a>
-                    </figure>
-                </div>
+            <div class="row" style="width: 1015px; margin: 0 auto;  ">
 
-            </div>
-            <div class="col-md-5">
-                <div class="item-box single-portfolio">
-                    <figure>
-                        <a href="#" data-toggle="modal" data-target="#portfolio1">
-                            <div class="img-box"><img src="images/portfolio/portfolio2.jpg" alt=""/>
-                                <div class="img-overlay"></div>
-                            </div>
-                        </a>
-                    </figure>
-                </div>
-                <div class="item-box single-portfolio">
-                    <figure>
-                        <a href="#" data-toggle="modal" data-target="#portfolio1">
-                            <div class="img-box"><img src="images/portfolio/portfolio7.jpg" alt=""/>
-                                <div class="img-overlay"></div>
-                            </div>
-                        </a>
-                    </figure>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="item-box single-portfolio">
-                    <figure>
-                        <a href="#" data-toggle="modal" data-target="#portfolio1">
-                            <div class="img-box"><img src="images/portfolio/portfolio6.jpg" alt=""/>
-                                <div class="img-overlay"></div>
-                            </div>
-                        </a>
-                    </figure>
-                </div>
-                <div class="item-box single-portfolio">
-                    <figure>
-                        <a href="#" data-toggle="modal" data-target="#portfolio1">
-                            <div class="img-box"><img src="images/portfolio/portfolio3.jpg" alt=""/>
-                                <div class="img-overlay"></div>
-                            </div>
-                        </a>
-                    </figure>
-                </div>
-            </div>
+                <div style="width:500px; height: 320px; float: left; "><img style="width:500px; height: 320px;" src="images/portfolio/portfolio4.png"></div>
+                <div style="width:500px; height: 320px; float: left; margin-left: 15px; "><img style="width:500px; height: 320px;" src="images/portfolio/portfolio2.png"></div>
+                <div style="width:500px; height: 320px; float: left;  margin-top: 15px;"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio3.png"></div>
+                <div style="width:500px; height: 320px; float: left;  margin-top: 15px; margin-left: 15px;"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio7.png"></div>
+                <div style="width:500px; height: 320px; float: left; margin-top: 15px; "><img style="width:500px; height: 320px;" src="images/portfolio/portfolio6.png"></div>
+                <div style="width:500px; height: 320px; float: left; margin-top: 15px; margin-left: 13px;"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio1.png"></div>
 
-
-        </div>
-    </div>
-    <!-- Container Full End -->
-    <div class="tlinks">Collect from <a href="http://www.cssmoban.com/" title="网站模板">网站模板</a></div>
-
-    <!-- Portfolio1 fullscreen modal -->
-    <div id="portfolio1" class="modal fade modal-fullscreen force-fullscreen" tabindex="-1" role="dialog"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <div class="modal-title">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h2>Project Details</h2></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row top-margin">
-                            <div class="col-md-4"><img src="images/portfolio/portfolio6.jpg" alt=""
-                                                       class="img-responsive center-block"></div>
-                            <div class="col-md-8">
-                                <h3>Project Name</h3>
-                                <p>Title of project</p>
-                                <h3>Project Description </h3>
-                                <p>Ipsum partem voluptatibus ex nam, prima virtute electram ius ei, vide error
-                                    intellegat id cum. Duo ut accumsan molestie. Feugait referrentur vel in, te nostro
-                                    convenire per, nullam nostrud placerat cum ne. Ne ancillae expetenda nec, dicam
-                                    oportere te mel, audiam mnesarchum.</p> <a href="#" class="btn btn-black">View
-                                demo</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="button" class="btn custom-btn-2 pull-left" data-dismiss="modal">Close
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-    <!-- END: Portfolio1 fullscreen modal -->
 </section>
 <!-- section portfolio end -->
 
@@ -370,25 +241,19 @@
                 <div class="carousel slide" id="testimonial-carousel">
                     <div class="carousel-inner">
                         <div class="item "><i class="icon icon-quote"></i>
-                            <h4>what people say</h4>
-                            <p>They are commited to work.They play an important role.laborum quaerat facilis totam
-                                consectetur maxime maiores id mollitia enim blanditiis necessitatibus quis animi veniam
-                                hic quidem itaque suscipit.</p>
-                            <h5> - <strong>Mark stone</strong></h5></div>
+                            <h4>总控模块</h4>
+                            <p>总控模块是系统的中枢模块，其作用是协调各模块之间的通讯联系，完成系统整体控制、信息传递、根据用户请求完成相应的处理等任务。</p>
+                        </div>
                         <!-- item end -->
                         <div class="item active"><i class="icon icon-quote"></i>
-                            <h4>what people say</h4>
-                            <p>They are commited to work.They play an important role.laborum quaerat facilis totam
-                                consectetur maxime maiores id mollitia enim blanditiis necessitatibus quis animi veniam
-                                hic quidem itaque suscipit.</p>
-                            <h5> - <strong>dylen woods</strong></h5></div>
+                            <h4>应用模块</h4>
+                            <p>应用模块是系统的主功能模块，负责接收用户输入、完成事务处理、呈现处理结果。环评质量控制功能、多条件项目查询功能、多维度信息统计功能由该模块直接处理，系统的其它功能由该模块协助总控模块或防伪模块一起完成。</p>
+                        </div>
                         <!-- item end -->
                         <div class="item"><i class="icon icon-quote"></i>
-                            <h4>what people say</h4>
-                            <p>They are commited to work.They play an important role.laborum quaerat facilis totam
-                                consectetur maxime maiores id mollitia enim blanditiis necessitatibus quis animi veniam
-                                hic quidem itaque suscipit.</p>
-                            <h5> - <strong>andy river</strong></h5></div>
+                            <h4>信息模块</h4>
+                            <p>信息模块是系统的公共资源模块，主要任务是为用户提供公共信息服务。公共信息的来源为网上公开数据，系统通过数据挖掘与分析技术，循环监视和捕获环评相关信息，如法律法规标准、环评项目信息、环评资讯等，并及时传递给相关用户。</p>
+                        </div>
                         <!-- item end -->
                     </div>
                     <!-- caorusel inner end -->
@@ -487,12 +352,13 @@
 
 
 <!--  Footer start  -->
-<section id="footer" class="section-padding ">
-    <div class="container">
-
+<section id="footer" class="section-padding " style="height: 120px; padding: 0 0;">
+    <div class="container"  style="text-align: center;">
+        <p style="padding-top: 10px;">项目名称：环评管理系统</p>
+        <p>地址：广东省广州市白云区江高镇环镇西路155号</p>
+        <p>版权所有 ：广东技术师范大学</p>
     </div>
 </section>
-
 </body>
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.slideunlock.js"></script>    <!-- 滑动解锁js -->

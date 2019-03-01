@@ -56,9 +56,6 @@
         <div class="box round first" >
             <h2 id="iframeTitle">Buttons</h2><!--绑定标题-->
             <div class="block" style="height:600px;">
-
-
-                <%--src ="/api/admin/iframe/personalInfo"--%>
                 <iframe id="menuIframe" class="menu-iframe" frameborder="0"  width="100%" height="99%"></iframe>   <!-- ifram位置 todo -->
 
 
@@ -105,8 +102,8 @@
         $("#category  li ul").each(function (index, item) {
             if ($(item).find('li').length == 0) {   //没有儿子的删除
                 $(item).parent().remove();
-            } else if(firstPage == false){          //todo 默认展示第一个
-                //$(item).children(':first').click();
+            } else if(firstPage == false){          //默认展示第一个
+                $(item).children(':first').click();
                 firstPage = true;
             }
         });
