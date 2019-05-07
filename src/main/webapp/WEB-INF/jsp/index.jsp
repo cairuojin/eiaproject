@@ -217,14 +217,14 @@
         </div>
 
         <div class="row">
-            <div class="row" style="width: 1015px; margin: 0 auto;  ">
+            <div class="row" style="width: 100%; margin: 0 auto;  ">
 
-                <div style="width:500px; height: 320px; float: left; "><img style="width:500px; height: 320px;" src="images/portfolio/portfolio4.png"></div>
-                <div style="width:500px; height: 320px; float: left; margin-left: 15px; "><img style="width:500px; height: 320px;" src="images/portfolio/portfolio2.png"></div>
-                <div style="width:500px; height: 320px; float: left;  margin-top: 15px;"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio3.png"></div>
-                <div style="width:500px; height: 320px; float: left;  margin-top: 15px; margin-left: 15px;"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio7.png"></div>
-                <div style="width:500px; height: 320px; float: left; margin-top: 15px; "><img style="width:500px; height: 320px;" src="images/portfolio/portfolio6.png"></div>
-                <div style="width:500px; height: 320px; float: left; margin-top: 15px; margin-left: 13px;"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio1.png"></div>
+                <div style="width:500px; height: 320px; float: left;  margin-left: 30px;"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio4.png"></div>
+                <div style="width:500px; height: 320px; float: right; margin-right: 30px; "><img style="width:500px; height: 320px;" src="images/portfolio/portfolio2.png"></div>
+                <div style="width:500px; height: 320px; float: left;  margin-left: 30px; margin-top: 30px"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio3.png"></div>
+                <div style="width:500px; height: 320px; float: right; margin-right: 30px; margin-top: 30px"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio7.png"></div>
+                <div style="width:500px; height: 320px; float: left;  margin-left: 30px; margin-top: 30px"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio6.png"></div>
+                <div style="width:500px; height: 320px; float: right; margin-right: 30px; margin-top: 30px"><img style="width:500px; height: 320px;" src="images/portfolio/portfolio1.png"></div>
 
             </div>
         </div>
