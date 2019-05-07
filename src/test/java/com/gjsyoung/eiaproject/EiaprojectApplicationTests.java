@@ -24,6 +24,7 @@ public class EiaprojectApplicationTests {
     @Test
     public void contextLoads() {
         redisCache.clear();
+        String a
     }
 
 }
