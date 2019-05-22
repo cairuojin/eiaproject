@@ -248,7 +248,7 @@
         formFile.append("action", "UploadVMKImagePath");    //必须
         formFile.append("opinionJson", JSON.stringify(arr)); //初审意见
         formFile.append("finaltrialuserid", $('#finaltrialuserid').val()); //复审人
-        formFile.append("finalopinionannex", $('#finalopinionannex')[0].files[0]); //复审意见
+        formFile.append("finalopinionannex", $('#finalOpinionAnnex')[0].files[0]); //复审意见
         formFile.append("projectId",'${projectInfo.id}');
 
         $.ajax({

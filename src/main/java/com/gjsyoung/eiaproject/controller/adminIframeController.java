@@ -169,32 +169,44 @@ public class adminIframeController {
             case "initialReportsList":projectListVo.setStatus(16);break;
             case "firstTrialList":{
                 projectListVo.setStatus(17);
-                projectListVo.setFirstTrialUserId(fromSession.getId());   //初审 只查初审人是自己的项目
+                if(fromSession.getRole() != 0){
+                    projectListVo.setFirstTrialUserId(fromSession.getId());   //初审 只查初审人是自己的项目
+                }
                 break;
             }
             case "firstTrialEditList":{
                 projectListVo.setStatus(18);
-                projectListVo.setInitialReportUserId(fromSession.getId());//初审修改情况，只查提交报告人是自己的项目
+                if(fromSession.getRole() != 0){
+                    projectListVo.setInitialReportUserId(fromSession.getId());//初审修改情况，只查提交报告人是自己的项目
+                }
                 break;
             }
             case "firstTrialImplementList":{
                 projectListVo.setStatus(19);
-                projectListVo.setFirstTrialUserId(fromSession.getId());   //初审落实 只查初审人是自己的项目
+                if(fromSession.getRole() != 0){
+                    projectListVo.setFirstTrialUserId(fromSession.getId());   //初审落实 只查初审人是自己的项目
+                }
                 break;
             }
             case "finalTrialList":{
                 projectListVo.setStatus(20);
-                projectListVo.setFinalTrialUserId(fromSession.getId());   //复审 只查复审人是自己的项目
+                if(fromSession.getRole() != 0){
+                    projectListVo.setFinalTrialUserId(fromSession.getId());   //复审 只查复审人是自己的项目
+                }
                 break;
             }
             case "finalTrialEditList":{
                 projectListVo.setStatus(21);
-                projectListVo.setInitialReportUserId(fromSession.getId());//复审修改情况，只查提交报告人是自己的项目
+                if(fromSession.getRole() != 0){
+                    projectListVo.setInitialReportUserId(fromSession.getId());//复审修改情况，只查提交报告人是自己的项目
+                }
                 break;
             }
             case "finalTrialImplementList":{
                 projectListVo.setStatus(22);
-                projectListVo.setFinalTrialUserId(fromSession.getId());   //复审落实 只查初审人是自己的项目
+                if(fromSession.getRole() != 0){
+                    projectListVo.setFinalTrialUserId(fromSession.getId());   //复审落实 只查初审人是自己的项目
+                }
                 break;
             }
             case "approvalTrialQualificationsList":projectListVo.setStatus(23);break;
